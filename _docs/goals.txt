@@ -2,6 +2,8 @@ WORLDMAP
 Goals:
 	* Load tiles.
 	* Load textures.
+! check against aspect ratios (progress/window.txt)
+
 
 LEVEL EDITOR
 ! now reference level_editor.txt
@@ -41,21 +43,35 @@ DEMO #2 RELEASE - "Public Level Editor"
 
 
 
------
+WORLDMAP
+Goals:
+	* Load tiles.
+	* Load textures.
+	* Maps are stored in a sharable format.
 
-GOAL: Open and close a window.
+===PLANNING====
+worldmap: every area in the entire game.
+room: an individual 'screen' of the game
+level: a "random" cluster of rooms, which have to be marked
+==============
 
-+ create a window
-+ accept key input
-	+ key input has to be reset in window
+
+. wrote down docs
+. created layout for WorldMap, Room and Tile
 
 
-+ accepts button inputs (w/ clear check)
-	+ closing
-	+ prevent resizing
-	+ prevent input when unfocused
+! grab GameRectangle
+	! replace keep_in_points with a more general function
+	! replace in_points with a more general function
 
-! later...
-	! pause when unfocused
-	! supports different resolutions (16:9, 4:3)
-	! test different resolutions (windowed, full-screened)
+
+! Create tiles in rooms.
+	! be explicit about init, loading, rendering
+	uninit, unload, unrender
+
+! Create a basic Camera class which can move around the map.
+
+! perform stress test (level loading)
+init and load all the rooms in a level, post-transition
+render if it is on-screen
+how many rooms is "too much" in terms of waiting?

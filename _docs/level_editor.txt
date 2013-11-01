@@ -14,3 +14,29 @@ Goals:
 			MENUS may be of any colour.
 			Menus may contain MORE ICONS.
 				MENUS may chain to various MENUS.
+
+
+
+TOOLS
+
+TILE
+* Create
+	* tiles(s) (select multiple tiles from a palette)
+	* rooms(s) (select rooms from pre-existing templates)
+
+* Move
+	move (swap, replace)
+	copy, paste
+
+	@ tile(s), room(s), level(s)
+
+
+* Boundary
+	* enlarge/shrink WorldMap
+		* create/move goes out of bounds
+		* specified in a WorldMap size menu
+
+
+CAMERA
+
+ENTITIES
