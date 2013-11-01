@@ -35,6 +35,27 @@ Goals:
 
 
 ! Public release has access to Level Editor.
-***************************************
-PUBLIC DEMO #2 RELEASE - "Public Level Editor"
 ****************************************
+DEMO #2 RELEASE - "Public Level Editor"
+****************************************
+
+
+
+-----
+
+GOAL: Open and close a window.
+
++ create a window
++ accept key input
+	+ key input has to be reset in window
+
+
++ accepts button inputs (w/ clear check)
+	+ closing
+	+ prevent resizing
+	+ prevent input when unfocused
+
+! later...
+	! pause when unfocused
+	! supports different resolutions (16:9, 4:3)
+	! test different resolutions (windowed, full-screened)
