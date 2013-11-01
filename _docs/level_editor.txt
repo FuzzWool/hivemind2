@@ -1,0 +1,16 @@
+LEVEL EDITOR
+! now reference level_editor.txt
+Goals:
+	/ Plan design for use
+		/ Toolbox (and pop-ups)
+
+	* Embedded inside of the main game. (Activate/Disable)
+	* Saves tiles.
+	
+	* NEW Toolbox.
+		/ Plan toolbox design
+
+		Icons may open MENUS.
+			MENUS may be of any colour.
+			Menus may contain MORE ICONS.
+				MENUS may chain to various MENUS.

@@ -1,0 +1,40 @@
+WORLDMAP
+Goals:
+	* Load tiles.
+	* Load textures.
+
+LEVEL EDITOR
+! now reference level_editor.txt
+Goals:
+	* Embedded inside of the main game. (Activate/Disable)
+	* Saves tiles.
+	* NEW Toolbox.
+		* Place tiles.
+
+DYNAMIC CAMERA (1)
+Goals:
+	* Zooms in and out (in a smooth gradient).
+	* Pans smoothly from one position to another.
+
+ENTITIES
+Goals:
+	* LEVEL EDITOR may pause the "running" of these entities.
+	* Load a player entity. Moves around, jumps.
+		/ Plan a bunch (A BUNCH) of control schemes
+		for Jerky and Jetz to play with
+
+	* Load an NPC entity. Walks side to side, jumps.
+		* Create a script which they may 'read' from.
+		/ Plan commands
+
+DYNAMIC CAMERA (2)
+Goals:
+	* Load & Save Camera Locks.
+	! Camera Lock changes play nice with the Level Editor.
+
+
+
+! Public release has access to Level Editor.
+***************************************
+PUBLIC DEMO #2 RELEASE - "Public Level Editor"
+****************************************
