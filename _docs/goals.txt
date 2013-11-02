@@ -73,8 +73,7 @@ simply fill tiles in each room
 			+ multiple rooms
 
 
-! clean: WorldMap, Room and Tile inherits from _classes
-
+! consistant ROOM_WIDTH and ROOM_HEIGHT
 
 LOADING FILES
 ! load/save textures
