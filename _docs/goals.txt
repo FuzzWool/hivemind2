@@ -59,19 +59,40 @@ level: a "random" cluster of rooms, which have to be marked
 . wrote down docs
 . created layout for WorldMap, Room and Tile
 
+-----
 
-! grab GameRectangle
-	! replace keep_in_points with a more general function
-	! replace in_points with a more general function
+~ grab GameRectangle
+
+BASICS
+simply fill tiles in each room
+	+ init, load and render tiles in one room.
+		+ init
+		+ load
+		+ render
+			+ vertex_array > room.vertices (init_vertices)
+			+ multiple rooms
+
+! clean: WorldMap, Room and Tile inherits from _classes
 
 
-! Create tiles in rooms.
-	! be explicit about init, loading, rendering
-	uninit, unload, unrender
+LOADING FILES
+! load/save textures
 
-! Create a basic Camera class which can move around the map.
+LOADING MAPS
+! try writing a folder in Python
+
+
+LOADING WHEREABOUTS
+! Basic Camera
+	! move around the map
+	! WorldMap rooms only draw within the camera
 
 ! perform stress test (level loading)
 init and load all the rooms in a level, post-transition
 render if it is on-screen
 how many rooms is "too much" in terms of waiting?
+
+
+next up...
+! SAVING FILES
+! SAVING MAPS

@@ -31,7 +31,7 @@ class Window:
 	@property
 	def is_open(self): return self.window.is_open
 	def close(self): self.window.close()
-	
+	def draw(self, *args): self.window.draw(*args)	
 
 
 	#Event Handling
