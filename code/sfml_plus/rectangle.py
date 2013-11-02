@@ -1,5 +1,5 @@
 T = 25
-RX, RY = 300,600
+RX, RY = 600,300
 
 class Rectangle(object):
 

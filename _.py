@@ -2,15 +2,15 @@ from code.sfml_plus import Window
 from code.sfml_plus import key
 
 TILE = 25
-ROOM_HEIGHT, ROOM_WIDTH = w = 600,300
+ROOM_WIDTH, ROOM_HEIGHT = w = 600,300
 window = Window((1200, 600), "Hivemind - Demo 2")
 
 
 ################################################
 
 from code.sfml_plus import Rectangle
-ROOM_WIDTH, ROOM_HEIGHT = ROOM_WIDTH, ROOM_HEIGHT
-TILE = TILE
+ROOM_WIDTH, ROOM_HEIGHT = 600,300
+TILE = 25
 #
 from sfml import VertexArray, PrimitiveType, RenderStates
 from sfml import Texture
@@ -18,7 +18,7 @@ from sfml import Vertex
 from sfml import Color
 
 class WorldMap(Rectangle):
-# * WIP - contains Rooms filled with tiles.
+# * contains Rooms filled with tiles.
 # * WIP - contains Tiles of all the (active) rooms.
 
 	#Start-up Sequence
@@ -75,10 +75,10 @@ class Room(Rectangle): #WorldMap
 
 	def _load(self): #init
 		self.tiles
+		ox, oy = self.tile_position
 		for x, column in enumerate(self.tiles):
 			for y, _tile in enumerate(column):
-				ox, oy = self.tile_position
-				tile = Tile(y+oy,x+ox)
+				tile = Tile(x+ox, y+oy)
 				self.tiles[x][y] = tile
 
 	def _render(self): #init
@@ -146,7 +146,6 @@ class Tile(Rectangle): #Room
 			clip_x = int(data[0:2])
 			clip_y = int(data[2:4])
 
-			TILE = 25
 			x1 = (clip_x+0)*TILE
 			y1 = (clip_y+0)*TILE
 			x2 = (clip_x+1)*TILE
