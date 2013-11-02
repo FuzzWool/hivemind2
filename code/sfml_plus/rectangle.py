@@ -1,5 +1,6 @@
-T = 25
-RX, RY = 600,300
+from code.sfml_plus.constants import TILE as T
+from code.sfml_plus.constants import ROOM_WIDTH as RX
+from code.sfml_plus.constants import ROOM_HEIGHT as RY
 
 class Rectangle(object):
 

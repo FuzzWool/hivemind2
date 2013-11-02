@@ -1,6 +1,7 @@
 from code.sfml_plus import Rectangle
-ROOM_WIDTH, ROOM_HEIGHT = 600,300
-TILE = 25
+from code.sfml_plus.constants import ROOM_WIDTH
+from code.sfml_plus.constants import ROOM_HEIGHT
+from code.sfml_plus.constants import TILE
 #
 from sfml import VertexArray, PrimitiveType, RenderStates
 from sfml import Texture

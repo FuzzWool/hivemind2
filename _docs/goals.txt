@@ -72,9 +72,6 @@ simply fill tiles in each room
 			+ vertex_array > room.vertices (init_vertices)
 			+ multiple rooms
 
-
-! consistant ROOM_WIDTH and ROOM_HEIGHT
-
 LOADING FILES
 ! load/save textures
 

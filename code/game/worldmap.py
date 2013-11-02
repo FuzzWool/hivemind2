@@ -1,6 +1,7 @@
 from _worldmap import _WorldMap, _Room, _Tile
-ROOM_WIDTH, ROOM_HEIGHT = 600,300
-TILE = 25
+from code.sfml_plus.constants import ROOM_WIDTH
+from code.sfml_plus.constants import ROOM_HEIGHT
+from code.sfml_plus.constants import TILE
 
 class WorldMap(_WorldMap):
 # * contains all of the Rooms, which then contain Tiles.
@@ -63,5 +64,5 @@ class Tile(_Tile):
 	def render(self): self.create_vertices()
 
 	#
-	
+
 	def draw(self): pass
