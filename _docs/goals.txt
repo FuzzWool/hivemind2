@@ -72,7 +72,6 @@ simply fill tiles in each room
 			+ vertex_array > room.vertices (init_vertices)
 			+ multiple rooms
 
-~ fixed: rooms are moved to the wrong place
 
 ! clean: WorldMap, Room and Tile inherits from _classes
 
