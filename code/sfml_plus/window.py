@@ -4,7 +4,7 @@ from sfml import Color
 from key import reset_all as reset_keys
 import key
 
-class Window:
+class Window(object):
 # * Resets the key states every loop.
 
 	def __init__(self, size, name):
@@ -27,12 +27,15 @@ class Window:
 
 
 	# Simple Forwarding
-	
+	@property
+	def view(self): return self.window.view
+	@view.setter
+	def view(self, arg): self.window.view = arg
+
 	@property
 	def is_open(self): return self.window.is_open
 	def close(self): self.window.close()
 	def draw(self, *args): self.window.draw(*args)	
-
 
 	#Event Handling
 

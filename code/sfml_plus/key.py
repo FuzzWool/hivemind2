@@ -37,6 +37,8 @@ for i in Keyboard.__dict__:
 		if name == "R_CONTROL": name = "R_CTRL"
 		if name == "ESCAPE": name = "ESC"
 		if name == "RETURN": name = "ENTER"
+		if name == "ADD": name = "PLUS"
+		if name == "SUBTRACT": name = "MINUS"
 		vars()[name] = _key(v)
 
 def reset_all():

@@ -40,3 +40,4 @@ TILE
 CAMERA
 
 ENTITIES
+	! Move and flash an entity when something is wrong with it

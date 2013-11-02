@@ -64,32 +64,38 @@ level: a "random" cluster of rooms, which have to be marked
 ~ grab GameRectangle
 
 BASICS
-simply fill tiles in each room
++ WorldMap (Room, Tile)
 	+ init, load and render tiles in one room.
 		+ init
 		+ load
 		+ render
 			+ vertex_array > room.vertices (init_vertices)
 			+ multiple rooms
+=======
 
-LOADING FILES
-! load/save textures
+DRAWING WHEREABOUTS
+! Camera
+	+ move around the map
+	+ zoom in and out the map
+	
+	! A + W prevents subtract from responding
 
-LOADING MAPS
-! try writing a folder in Python
-
-
-LOADING WHEREABOUTS
-! Basic Camera
-	! move around the map
 	! WorldMap rooms only draw within the camera
+
+	! zoom in and out... smoothly
+		/ Animation
+
+	! move target... smoothly
+		/ Animation
+
+/ Animation
+
+
+next up...
+! LOADING/SAVING MAPS
+! LOADING/SAVING TEXTURES
 
 ! perform stress test (level loading)
 init and load all the rooms in a level, post-transition
 render if it is on-screen
 how many rooms is "too much" in terms of waiting?
-
-
-next up...
-! SAVING FILES
-! SAVING MAPS

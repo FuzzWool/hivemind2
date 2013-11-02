@@ -1,7 +1,6 @@
 from code.sfml_plus import Window
 from code.sfml_plus import key
 
-ROOM_WIDTH, ROOM_HEIGHT = w = 600,300
 window = Window((1200, 600), "Hivemind - Demo 2")
 
 from code.game import WorldMap
