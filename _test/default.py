@@ -1,7 +1,7 @@
 from code.sfml_plus import Window
 from code.sfml_plus import key
 
-window = Window((600,300), "Untitled")
+window = Window((1200,600), "Untitled")
 
 while window.is_open:
 	if window.is_focused:

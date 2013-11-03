@@ -93,6 +93,12 @@ DRAWING WHEREABOUTS
 / Animation
 	// MySprite
 
+	+ cleanly stop at the end of an animation
+	
+	where should these go...
+	! bounce
+	! oscillate
+
 
 // + MySprite
 	+ Rectangle support

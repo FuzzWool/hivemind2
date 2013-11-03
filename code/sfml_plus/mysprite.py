@@ -33,6 +33,7 @@ class clip:
 
 	def set(self, *size):
 		self.w, self.h = size
+		self.use(self.x,self.y)
 
 	def use(self, x,y):
 		self.x, self.y = x,y
