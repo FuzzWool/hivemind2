@@ -78,11 +78,10 @@ DRAWING WHEREABOUTS
 	+ move around the map
 	+ zoom in and out the map
 	
-	=====
-
 	+ WorldMap rooms only draw within the camera
 		+ rectangle: keep in_bounds, in_bounds
 
+	=====
 
 	! zoom in and out... smoothly
 		/ Animation
@@ -90,7 +89,19 @@ DRAWING WHEREABOUTS
 	! move target... smoothly
 		/ Animation
 
+
 / Animation
+	// MySprite
+
+
+// + MySprite
+	+ Rectangle support
+	+ clip
+		+ flip: horizontal, vertical
+		~ test Rectangle size
+			~ wo/flip
+			~ w/flip
+
 
 
 next up...

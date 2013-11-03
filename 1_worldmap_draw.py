@@ -64,7 +64,7 @@ class Camera(View, Rectangle):
 ################################################
 
 from code.game import WorldMap
-WorldMap = WorldMap(2,2)
+WorldMap = WorldMap(10,10)
 
 Camera = Camera(window)
 
