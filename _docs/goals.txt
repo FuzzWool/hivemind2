@@ -90,24 +90,23 @@ DRAWING WHEREABOUTS
 		/ Animation
 
 
-/ Animation
-	// MySprite
+/ + Animation
+	// + test with MySprite
 
 	+ cleanly stop at the end of an animation
 	
-	where should these go...
-	! bounce
-	! oscillate
+	+ different modes are static classes to be used
+		+ stop
+		+ bounce
+		+ oscillate
+
+		+ bounce and oscillate loop forever by default
+		just_passed and *= speed used for slowing down
 
 
 // + MySprite
 	+ Rectangle support
-	+ clip
-		+ flip: horizontal, vertical
-		~ test Rectangle size
-			~ wo/flip
-			~ w/flip
-
+	+ clip + flip: horizontal, vertical
 
 
 next up...
