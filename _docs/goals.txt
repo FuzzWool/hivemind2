@@ -78,9 +78,11 @@ DRAWING WHEREABOUTS
 	+ move around the map
 	+ zoom in and out the map
 	
-	! A + W prevents subtract from responding
+	=====
 
-	! WorldMap rooms only draw within the camera
+	+ WorldMap rooms only draw within the camera
+		+ rectangle: keep in_bounds, in_bounds
+
 
 	! zoom in and out... smoothly
 		/ Animation

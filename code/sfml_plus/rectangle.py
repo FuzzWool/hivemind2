@@ -276,3 +276,18 @@ class Rectangle(object):
 	def room_center(self,a):
 		self.room_x,self.room_y = \
 		a[0]-(self.room_w/2), b[0]-(self.room_h/2)
+
+
+	###############################################
+
+	def keep_in_points(self, pos=(), points=()):
+		x,y = pos
+		x1,y1,x2,y2 = points
+		if x < x1: x = x1
+		if x > x2: x = x2
+		if y < y1: y = y1
+		if y > y2: y = y2
+		return x, y
+
+	def in_points(self, pos=(), points=()):
+		return bool(pos == keep_in_points(pos, points)) 

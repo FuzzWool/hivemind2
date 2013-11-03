@@ -18,9 +18,15 @@ class WorldMap(_WorldMap):
 	#Loop
 	def _render(self): pass
 
-	def draw(self, window):
-		for column in self.rooms:
-			for room in column:
+	def draw(self, window, camera):
+		x1,y1,x2,y2 = camera.room_points
+		x2+=1; y2+=1
+		p = self.room_points
+		x1,y1 = camera.keep_in_points((x1,y1),p)
+		x2,y2 = camera.keep_in_points((x2,y2),p)
+
+		for column in self.rooms[x1:x2]:
+			for room in column[y1:y2]:
 				room.draw(window)
 
 
