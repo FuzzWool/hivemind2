@@ -20,7 +20,7 @@ class WorldMap(_WorldMap):
 
 	def draw(self, window, camera):
 		x1,y1,x2,y2 = camera.room_points
-		x2+=1; y2+=1
+		x2+=2; y2+=2
 		p = self.room_points
 		x1,y1 = camera.keep_in_points((x1,y1),p)
 		x2,y2 = camera.keep_in_points((x2,y2),p)

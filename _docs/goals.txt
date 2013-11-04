@@ -83,7 +83,7 @@ DRAWING WHEREABOUTS
 
 	=====
 
-	! zoom in and out... smoothly
+	+ zoom in and out... smoothly
 		/ Animation
 
 	! move target... smoothly

@@ -9,8 +9,8 @@ from sfml import View
 from code.sfml_plus import Rectangle
 
 class Camera(View, Rectangle):
-# * May move move around the map (directional)
-# WIP - May zoom in and out the map (smoothly)
+# * May move move around
+# * May zoom in and out
 
 	def __init__(self, window, args=None):
 		View.__init__(self, args)
@@ -63,10 +63,47 @@ class Camera(View, Rectangle):
 
 ################################################
 
-from code.game import WorldMap
-WorldMap = WorldMap(10,10)
+from code.sfml_plus import Animation
 
-Camera = Camera(window)
+
+class AnimatedCamera(Camera):
+	
+	def __init__(self, *args):
+		Camera.__init__(self, *args)
+		#
+		self.AZoom = Animation()
+		self.zoom = float(self.zoom)
+		self.smooth_zoom = float(self.zoom)
+
+	@property
+	def smooth_zoom(self): return self.AZoom.end
+	@smooth_zoom.setter
+	def smooth_zoom(self, zoom): self.AZoom.end = zoom
+
+	def play(self):
+		self._change_speed()
+		self.zoom += self.AZoom.play(self.zoom)
+
+
+	def _change_speed(self):
+		# apply speed if the end hasn't been reached
+		if self.zoom != self.smooth_zoom\
+		and self.AZoom.speed != 0.05:
+			self.AZoom.speed = 0.05
+
+		# reverse speed if the end is the wrong direction
+		if self.zoom < self.smooth_zoom:
+			self.AZoom.speed = +abs(self.AZoom.speed)
+		if self.zoom > self.smooth_zoom:
+			self.AZoom.speed = -abs(self.AZoom.speed)
+
+
+################################################
+
+from code.game import WorldMap
+WorldMap = WorldMap(4,4)
+
+Camera = AnimatedCamera(window)
 
 while window.is_open:
 	if window.is_focused:
@@ -81,9 +118,11 @@ while window.is_open:
 		if key.W.held(): Camera.y -= amt
 		if key.S.held(): Camera.y += amt
 
-		if key.PLUS.pressed(): Camera.zoom *= 2
-		if key.MINUS.pressed(): Camera.zoom /= 2
+		if key.Q.pressed(): Camera.smooth_zoom /= 2
+		if key.E.pressed(): Camera.smooth_zoom *= 2
 		##############
+
+	Camera.play()
 
 	window.clear((255,220,0))
 	window.view = Camera
