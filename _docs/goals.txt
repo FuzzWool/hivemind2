@@ -85,12 +85,20 @@ DRAWING WHEREABOUTS
 	+ zoom in and out... smoothly
 		/ Animation
 		+ normal block movements do not animate
-	=====
 		+ added "Magnet" to animation
 		+ fixed zooming block > smooth glitch
 
-	! move target... smoothly
+	=====
+
+	+ moving position... smoothly
 		/ Animation
+
+		+ make snap
+		+ make fast > slow gradient
+
+	! zoom messes up position
+	! clean SmoothCamera class
+	! don't let the camera move too far out of boundaries
 
 
 / + Animation

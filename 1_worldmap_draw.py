@@ -78,13 +78,78 @@ class Smooth(Rectangle):
 # * Smoothly zooms in.
 	def __init__(self, Camera):
 		self._ = Camera
+		self._pos_init()
+		self._zoom_init()
+
+	def play(self):
+		self._pos_play()
+		self._zoom_play()
+
+
+	#### POS
+
+	@property
+	def x(self): return self.XA.end
+	@x.setter
+	def x(self, arg):
+		self.XA.end = arg
+		self.x_snap = False
+
+	@property
+	def y(self): return self.YA.end
+	@y.setter
+	def y(self, arg):
+		self.YA.end = arg
+		self.y_snap = False
+
+	def _pos_init(self): #init
+		#x
+		self.XA = Animation()
+		self.XA.mode = Magnet
+		self.x = self._.x
+		self.XA.end = 0
+		self.x_snap = False
+		#y
+		self.YA = Animation()
+		self.YA.mode = Magnet
+		self.y = self._.y
+		self.YA.end = 0
+		self.y_snap = False
+
+
+	def _pos_play(self): #play
+		d = 5
+
+		#snapping - if not called from inside, snap
+		if self.x_snap:
+			self.x = self._.x
+			self.XA.end = self.x
+			self.x_snap = True
 		#
-		self.ZoomA = Animation()
-		self.ZoomA.mode = Magnet
+		if int(self.XA.end) == int(self._.x):
+			self.x_snap = True
+		#
 
-		self.zoom = self._.zoom
-		self.zoom_snap = True
+		self.XA.speed = int(abs(self._.x - self.XA.end)/d)
+		self._.x += self.XA.play(self._.x)
 
+		#####
+
+		if self.y_snap:
+			self.y = self._.y
+			self.YA.end = self.y
+			self.y_snap = True
+		#
+		if int(self.YA.end) == int(self._.y):
+			self.y_snap = True
+		#
+
+		#y
+		self.YA.speed = int(abs(self._.y - self.YA.end)/d)
+		self._.y += self.YA.play(self._.y)
+
+
+	#### ZOOM
 
 	@property
 	def zoom(self): return self.ZoomA.end
@@ -94,8 +159,13 @@ class Smooth(Rectangle):
 		self.zoom_snap = False
 
 
-	def play(self):
+	def _zoom_init(self): #init
+		self.ZoomA = Animation()
+		self.ZoomA.mode = Magnet
+		self.zoom = self._.zoom
+		self.zoom_snap = True
 
+	def _zoom_play(self): #play
 		#snapping - if not called from inside, snap
 		if self.zoom_snap:
 			self.zoom = self._.zoom
@@ -119,15 +189,16 @@ Camera = SmoothCamera(window)
 while window.is_open:
 	if window.is_focused:
 
-		if key.ENTER.pressed():
-			Camera.tile_x = 10
+		if key.SPACE.pressed():
+			Camera.smooth.room_x += 0
+			Camera.smooth.room_y += 0
 
 		##############
-		amt = 10
-		if key.A.held(): Camera.x -= amt
-		if key.D.held(): Camera.x += amt
-		if key.W.held(): Camera.y -= amt
-		if key.S.held(): Camera.y += amt
+		amt = 25
+		if key.A.held(): Camera.smooth.x -= amt
+		if key.D.held(): Camera.smooth.x += amt
+		if key.W.held(): Camera.smooth.y -= amt
+		if key.S.held(): Camera.smooth.y += amt
 
 		if key.Q.pressed(): Camera.smooth.zoom /= 2
 		if key.E.pressed(): Camera.smooth.zoom *= 2
