@@ -66,36 +66,54 @@ class Camera(View, Rectangle):
 from code.sfml_plus import Animation
 
 
-class AnimatedCamera(Camera):
+class SmoothCamera(Camera):
 	
 	def __init__(self, *args):
 		Camera.__init__(self, *args)
+		self.smooth = Smooth(self)
+
+
+class Smooth(Rectangle):
+# WIP - Smoothly moves around directionally.
+# * Smoothly zooms in.
+	def __init__(self, Camera):
+		self._ = Camera
 		#
-		self.AZoom = Animation()
-		self.zoom = float(self.zoom)
-		self.smooth_zoom = float(self.zoom)
+		self.ZoomA = Animation()
+		self.zoom = self._.zoom
+		self.zoom_snap = True
 
 	@property
-	def smooth_zoom(self): return self.AZoom.end
-	@smooth_zoom.setter
-	def smooth_zoom(self, zoom): self.AZoom.end = zoom
+	def zoom(self): return self.ZoomA.end
+	@zoom.setter
+	def zoom(self, arg):
+		self.ZoomA.end = arg
+		self.zoom_snap = False
+
 
 	def play(self):
+		#snapping - if not called from inside, snap
+		if self.zoom_snap:
+			self.zoom = self._.zoom
+			self.zoom_snap = True
+		#
+
 		self._change_speed()
-		self.zoom += self.AZoom.play(self.zoom)
+		self._.zoom += self.ZoomA.play(self._.zoom)
 
 
 	def _change_speed(self):
+
 		# apply speed if the end hasn't been reached
-		if self.zoom != self.smooth_zoom\
-		and self.AZoom.speed != 0.05:
-			self.AZoom.speed = 0.05
+		if self._.zoom != self.zoom\
+		and self.ZoomA.speed != 0.1:
+			self.ZoomA.speed = 0.1
 
 		# reverse speed if the end is the wrong direction
-		if self.zoom < self.smooth_zoom:
-			self.AZoom.speed = +abs(self.AZoom.speed)
-		if self.zoom > self.smooth_zoom:
-			self.AZoom.speed = -abs(self.AZoom.speed)
+		if self._.zoom < self.zoom:
+			self.ZoomA.speed = +abs(self.ZoomA.speed)
+		if self._.zoom > self.zoom:
+			self.ZoomA.speed = -abs(self.ZoomA.speed)
 
 
 ################################################
@@ -103,13 +121,13 @@ class AnimatedCamera(Camera):
 from code.game import WorldMap
 WorldMap = WorldMap(4,4)
 
-Camera = AnimatedCamera(window)
+Camera = SmoothCamera(window)
 
 while window.is_open:
 	if window.is_focused:
 
 		if key.ENTER.pressed():
-			pass
+			Camera.tile_x = 10
 
 		##############
 		amt = 10
@@ -118,11 +136,11 @@ while window.is_open:
 		if key.W.held(): Camera.y -= amt
 		if key.S.held(): Camera.y += amt
 
-		if key.Q.pressed(): Camera.smooth_zoom /= 2
-		if key.E.pressed(): Camera.smooth_zoom *= 2
+		if key.Q.pressed(): Camera.smooth.zoom /= 2
+		if key.E.pressed(): Camera.smooth.zoom *= 2
 		##############
 
-	Camera.play()
+	Camera.smooth.play()
 
 	window.clear((255,220,0))
 	window.view = Camera

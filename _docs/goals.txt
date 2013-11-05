@@ -83,8 +83,10 @@ DRAWING WHEREABOUTS
 
 	=====
 
-	+ zoom in and out... smoothly
+	! zoom in and out... smoothly
 		/ Animation
+		+ normal block movements do not animate
+		! add "Magnet" to animation
 
 	! move target... smoothly
 		/ Animation
