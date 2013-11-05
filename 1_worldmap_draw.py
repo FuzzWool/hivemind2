@@ -64,7 +64,7 @@ class Camera(View, Rectangle):
 ################################################
 
 from code.sfml_plus import Animation
-
+from code.sfml_plus.animation import Magnet
 
 class SmoothCamera(Camera):
 	
@@ -80,8 +80,11 @@ class Smooth(Rectangle):
 		self._ = Camera
 		#
 		self.ZoomA = Animation()
+		self.ZoomA.mode = Magnet
+
 		self.zoom = self._.zoom
 		self.zoom_snap = True
+
 
 	@property
 	def zoom(self): return self.ZoomA.end
@@ -92,28 +95,18 @@ class Smooth(Rectangle):
 
 
 	def play(self):
+
 		#snapping - if not called from inside, snap
 		if self.zoom_snap:
 			self.zoom = self._.zoom
 			self.zoom_snap = True
 		#
+		if self.ZoomA.end == self._.zoom:
+			self.zoom_snap = True
+		#
 
-		self._change_speed()
+		self.ZoomA.speed = 0.1
 		self._.zoom += self.ZoomA.play(self._.zoom)
-
-
-	def _change_speed(self):
-
-		# apply speed if the end hasn't been reached
-		if self._.zoom != self.zoom\
-		and self.ZoomA.speed != 0.1:
-			self.ZoomA.speed = 0.1
-
-		# reverse speed if the end is the wrong direction
-		if self._.zoom < self.zoom:
-			self.ZoomA.speed = +abs(self.ZoomA.speed)
-		if self._.zoom > self.zoom:
-			self.ZoomA.speed = -abs(self.ZoomA.speed)
 
 
 ################################################

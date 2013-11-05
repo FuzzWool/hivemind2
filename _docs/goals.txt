@@ -81,12 +81,13 @@ DRAWING WHEREABOUTS
 	+ WorldMap rooms only draw within the camera
 		+ rectangle: keep in_bounds, in_bounds
 
-	=====
 
-	! zoom in and out... smoothly
+	+ zoom in and out... smoothly
 		/ Animation
 		+ normal block movements do not animate
-		! add "Magnet" to animation
+	=====
+		+ added "Magnet" to animation
+		+ fixed zooming block > smooth glitch
 
 	! move target... smoothly
 		/ Animation

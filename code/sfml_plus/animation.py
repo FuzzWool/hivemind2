@@ -6,9 +6,13 @@ class Animation(object):
 	just_passed = False
 
 	def play(self, v):
+
+		self.mode.passive(v)
+
 		self.just_passed = self._just_passed_end(v)
 		if self.just_passed:
 			self.mode.pass_event(v)
+
 
 		move = self.speed
 		self.speed += self.vel
@@ -42,8 +46,8 @@ class mode:
 	def __init__(self, Animation):
 		self._ = Animation
 
-	def pass_event(self, v):
-		pass
+	def passive(self, v): pass
+	def pass_event(self, v): pass
 
 class Stop(mode):
 	def pass_event(self, v):
@@ -57,4 +61,22 @@ class Bounce(mode):
 class Oscillate(mode):
 	def pass_event(self, v):
 		self._.vel = -(self._.vel)
-		print self._.speed, self._.vel
+
+class Magnet(Stop):
+	saved_speed = 0
+
+	def passive(self, v):
+		#save the speed when moving
+		if self._.speed != 0:
+			self.saved_speed = self._.speed
+
+		#move when not at the end
+		if v != self._.end:
+			if self.saved_speed != 0:
+				self._.speed = self.saved_speed
+
+		#move towards end, reverse
+		if self._.end < v:
+			self._.speed = -abs(self._.speed)
+		if self._.end > v:
+			self._.speed = +abs(self._.speed)
