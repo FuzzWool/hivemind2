@@ -4,13 +4,18 @@ from sfml import Color
 from key import reset_all as reset_keys
 import key
 
-class Window(object):
+from rectangle import Rectangle
+
+class Window(Rectangle):
 # * Resets the key states every loop.
 
 	def __init__(self, size, name):
 		video_mode = VideoMode(*size)
 		self.window = RenderWindow(video_mode, name, 4)
 		self.window.vertical_synchronization = True
+
+		self.position = self.window.position
+		self.size = self.window.size
 
 
 	# Looping
@@ -31,6 +36,11 @@ class Window(object):
 	def view(self): return self.window.view
 	@view.setter
 	def view(self, arg): self.window.view = arg
+
+	@property
+	def default_view(self): return self.window.default_view
+	@default_view.setter
+	def default_view(self, v): self.window.default_view = v
 
 	@property
 	def is_open(self): return self.window.is_open

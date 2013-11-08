@@ -5,15 +5,11 @@ window = Window((1200, 600), "Hivemind - Demo 2")
 
 ################################################
 
-
-
-
-
-
-
-
-
-
+# class level_editor:
+# # WIP - Contains a background.
+	
+# 	def __init__(self):
+# 		pass
 
 
 ################################################
@@ -23,6 +19,9 @@ WorldMap = WorldMap(4,4)
 
 from code.sfml_plus import SmoothCamera
 Camera = SmoothCamera(window)
+
+from code.level_editor import Background
+background = Background(window)
 
 while window.is_open:
 	if window.is_focused:
@@ -44,7 +43,10 @@ while window.is_open:
 
 	Camera.smooth.play()
 
-	window.clear((255,220,0))
+	window.clear((255,255,255))
 	window.view = Camera
+
+	background.draw(window, Camera)
 	WorldMap.draw(window, Camera)
+	
 	window.display()

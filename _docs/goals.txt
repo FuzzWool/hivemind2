@@ -1,4 +1,4 @@
-WORLDMAP
++ WORLDMAP
 Goals:
 	+ Load tiles.
 	+ Load textures.
@@ -13,11 +13,6 @@ Goals:
 	* Saves tiles.
 	* NEW Toolbox.
 		* Place tiles.
-
-DYNAMIC CAMERA (1)
-Goals:
-	* Zooms in and out (in a smooth gradient).
-	* Pans smoothly from one position to another.
 
 ENTITIES
 Goals:
@@ -47,8 +42,11 @@ DEMO #2 RELEASE - "Public Level Editor"
 
 ===============================================
 
-GOAL: Create animated background.
+GOAL: Create a simple background.
 
-
++ created .png graphic
++ created a vertex_array which fills the screen
 
 =================================================
+
+! Level Editor Camera snaps to Rooms
