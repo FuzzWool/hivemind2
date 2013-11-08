@@ -11,15 +11,13 @@ sprite = MySprite(t)
 sprite.position = 100,100
 
 sprite.clip.set(25,25)
-sprite.clip.use(1,0)
+sprite.clip.use(0,0)
 
 
 while window.is_open:
 	if window.is_focused:
 		if key.ENTER.pressed():
-			print "flipped vertical"
-			sprite.clip.flip_horizontal()
-			print sprite.position
+			pass
 
 	window.clear((255,220,0))
 	window.draw(sprite)

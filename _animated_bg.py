@@ -5,6 +5,19 @@ window = Window((1200, 600), "Hivemind - Demo 2")
 
 ################################################
 
+
+
+
+
+
+
+
+
+
+
+
+################################################
+
 from code.game import WorldMap
 WorldMap = WorldMap(4,4)
 

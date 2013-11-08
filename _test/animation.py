@@ -29,7 +29,7 @@ Animation.mode = Oscillate
 while window.is_open:
 	if window.is_focused:
 		if key.ENTER.pressed():
-			print sprite.x
+			pass
 
 	sprite.x += Animation.play(sprite.x)
 	if Animation.just_passed:
