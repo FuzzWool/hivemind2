@@ -1,0 +1,76 @@
+WORLDMAP
+Goals:
+	+ Load tiles.
+	+ Load textures.
+	+ Maps are stored in a sharable format.
+	+ Smooth moving camera.
+
+===PLANNING====
+worldmap: every area in the entire game.
+room: an individual 'screen' of the game
+level: a "random" cluster of rooms, which have to be marked
+==============
+
+
+. wrote down docs
+. created layout for WorldMap, Room and Tile
+
+-----
+
+~ grab GameRectangle
+
+BASICS
++ WorldMap (Room, Tile)
+	+ init, load and render tiles in one room.
+		+ init
+		+ load
+		+ render
+			+ vertex_array > room.vertices (init_vertices)
+			+ multiple rooms
+=======
+
+DRAWING WHEREABOUTS
+! Camera
+	+ move around the map
+	+ zoom in and out the map
+	
+	+ WorldMap rooms only draw within the camera
+		+ rectangle: keep in_bounds, in_bounds
+
+
+	+ zoom in and out... smoothly
+		/ Animation
+		+ normal block movements do not animate
+		+ added "Magnet" to animation
+		+ fixed zooming block > smooth glitch
+
+
+	+ moving position... smoothly
+		/ Animation
+
+		+ made snap
+		+ made fast > slow gradient
+
+	+ fixed: zoom messes up position
+		+ smooth X uses center instead of x
+	+ clean SmoothCamera class
+
+////
+	/ + Animation
+		// + test with MySprite
+
+		+ cleanly stop at the end of an animation
+		
+		+ different modes are static classes to be used
+			+ stop
+			+ bounce
+			+ oscillate
+
+			+ bounce and oscillate loop forever by default
+			just_passed and *= speed used for slowing down
+
+
+	// + MySprite
+		+ Rectangle support
+		+ clip + flip: horizontal, vertical
+////
