@@ -1,1 +1,1 @@
-from background import Background
+from _leveleditor import LevelEditor

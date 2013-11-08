@@ -38,15 +38,11 @@ DEMO #2 RELEASE - "Public Level Editor"
 ****************************************
 
 
-~ moved Camera and SmoothCamera to code.sfml_plus
 
-===============================================
 
-GOAL: Create a simple background.
+GOAL: (temp) Create a LEVEL EDITOR.
 
-+ created .png graphic
-+ created a vertex_array which fills the screen
-
-=================================================
-
-! Level Editor Camera snaps to Rooms
+~ Cleaned: moved controls to LevelEditor.
+	~ Controls the Camera.
+		+ Level Editor Camera snaps to Rooms
+	~ Contains a background.
