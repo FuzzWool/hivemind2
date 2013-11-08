@@ -43,8 +43,7 @@ DEMO #2 RELEASE - "Public Level Editor"
 ****************************************
 
 
-! move Camera to code.sfml_plus
-! move SmoothCamera to code.game
+~ moved Camera and SmoothCamera to code.sfml_plus
 
 ===============================================
 
