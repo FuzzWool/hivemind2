@@ -89,64 +89,45 @@ class Smooth(Rectangle):
 	#### POS
 
 	@property
-	def x(self): return self.XA.end
+	def x(self): return self.XA.end - (self.w/2)
 	@x.setter
-	def x(self, arg):
-		self.XA.end = arg
-		self.x_snap = False
+	def x(self, arg): self.XA.end = arg + (self.w/2)
 
 	@property
-	def y(self): return self.YA.end
+	def y(self): return self.YA.end - (self.h/2)
 	@y.setter
-	def y(self, arg):
-		self.YA.end = arg
-		self.y_snap = False
+	def y(self, arg): self.YA.end = arg + (self.h/2)
+
+	@property
+	def w(self): return self._.w
+	@property
+	def h(self): return self._.h
+
 
 	def _pos_init(self): #init
 		#x
 		self.XA = Animation()
 		self.XA.mode = Magnet
-		self.x = self._.x
-		self.XA.end = 0
-		self.x_snap = False
+		self.x = 0
 		#y
 		self.YA = Animation()
 		self.YA.mode = Magnet
-		self.y = self._.y
-		self.YA.end = 0
-		self.y_snap = False
-
+		self.y = 0
 
 	def _pos_play(self): #play
 		d = 5
+		current_x, current_y = self._.center
+		end_x, end_y = self.center
 
-		#snapping - if not called from inside, snap
-		if self.x_snap:
-			self.x = self._.x
-			self.XA.end = self.x
-			self.x_snap = True
 		#
-		if int(self.XA.end) == int(self._.x):
-			self.x_snap = True
-		#
+		self.XA.speed=int(abs(current_x - self.XA.end)/d)
+		current_x += self.XA.play(current_x)
 
-		self.XA.speed = int(abs(self._.x - self.XA.end)/d)
-		self._.x += self.XA.play(self._.x)
-
-		#####
-
-		if self.y_snap:
-			self.y = self._.y
-			self.YA.end = self.y
-			self.y_snap = True
-		#
-		if int(self.YA.end) == int(self._.y):
-			self.y_snap = True
+		self.YA.speed=int(abs(current_y - self.YA.end)/d)
+		current_y += self.YA.play(current_y)
 		#
 
-		#y
-		self.YA.speed = int(abs(self._.y - self.YA.end)/d)
-		self._.y += self.YA.play(self._.y)
+		self._.center = current_x, current_y
 
 
 	#### ZOOM
@@ -154,26 +135,15 @@ class Smooth(Rectangle):
 	@property
 	def zoom(self): return self.ZoomA.end
 	@zoom.setter
-	def zoom(self, arg):
-		self.ZoomA.end = arg
-		self.zoom_snap = False
+	def zoom(self, arg): self.ZoomA.end = arg
 
 
 	def _zoom_init(self): #init
 		self.ZoomA = Animation()
 		self.ZoomA.mode = Magnet
 		self.zoom = self._.zoom
-		self.zoom_snap = True
 
 	def _zoom_play(self): #play
-		#snapping - if not called from inside, snap
-		if self.zoom_snap:
-			self.zoom = self._.zoom
-			self.zoom_snap = True
-		#
-		if self.ZoomA.end == self._.zoom:
-			self.zoom_snap = True
-		#
 
 		self.ZoomA.speed = 0.1
 		self._.zoom += self.ZoomA.play(self._.zoom)
@@ -190,8 +160,8 @@ while window.is_open:
 	if window.is_focused:
 
 		if key.SPACE.pressed():
-			Camera.smooth.room_x += 0
-			Camera.smooth.room_y += 0
+			Camera.smooth.room_center =\
+			Camera.smooth.room_center
 
 		##############
 		amt = 25

@@ -294,7 +294,7 @@ class Rectangle(object):
 	@room_center.setter
 	def room_center(self,a):
 		self.room_x,self.room_y = \
-		a[0]-(self.room_w/2), b[0]-(self.room_h/2)
+		a[0]-(self.room_w/2), a[1]-(self.room_h/2)
 
 
 	###############################################
