@@ -42,6 +42,10 @@ Goals:
 DEMO #2 RELEASE - "Public Level Editor"
 ****************************************
 
+
+! move Camera to code.sfml_plus
+! move SmoothCamera to code.game
+
 ===============================================
 
 GOAL: Create animated background.
@@ -49,18 +53,3 @@ GOAL: Create animated background.
 
 
 =================================================
-
-! Camera > WorldMap
-	! don't let the camera move too far out of boundaries
-
-
-next up...
-! LOADING/SAVING MAPS
-! LOADING/SAVING TEXTURES
-
-! perform stress test (level loading)
-init and load all the rooms in a level, post-transition
-render if it is on-screen
-how many rooms is "too much" in terms of waiting?
-
-! animated background

@@ -1,43 +1,31 @@
 LEVEL EDITOR
-! now reference level_editor.txt
+
 Goals:
-	/ Plan design for use
-		/ Toolbox (and pop-ups)
-
-	* Embedded inside of the main game. (Activate/Disable)
-	* Saves tiles.
-	
-	* NEW Toolbox.
-		/ Plan toolbox design
-
-		Icons may open MENUS.
-			MENUS may be of any colour.
-			Menus may contain MORE ICONS.
-				MENUS may chain to various MENUS.
-
-
-
-TOOLS
-
-TILE
-* Create
-	* tiles(s) (select multiple tiles from a palette)
-	* rooms(s) (select rooms from pre-existing templates)
-
-* Move
-	move (swap, replace)
-	copy, paste
-
-	@ tile(s), room(s), level(s)
-
-
-* Boundary
-	* enlarge/shrink WorldMap
-		* create/move goes out of bounds
-		* specified in a WorldMap size menu
+	! Camera can't move too far off-screen.
+	! Load/Save Maps, Textures, 'Level' tags.
+	! Load/Save basic Entities.
 
 
 CAMERA
+! don't let the camera move too far out of boundaries
+
+LOADING/SAVING
+/! Load/Save entire Maps into the Level Editor
+/ Python Windows Forms library for OpenGL (and tests)
+
+! Loading/Saving Maps
+! Loading/Saving Textures
+! Loading/Saving 'Levels'
+	! perform stress test (level loading)
+	init and load all the rooms in a level, post-transition
+	render if it is on-screen
+	how many rooms is "too much" in terms of waiting?
 
 ENTITIES
-	! Move and flash an entity when something is wrong with it
+! Move and flash an entity when something is wrong with it
+
+
+/ UI DESIGN PLANS
+! Make a plan for the design of the Level Editor
+Tile, Camera, Entity model
+	! zoom amt
