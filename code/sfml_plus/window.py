@@ -6,6 +6,11 @@ import key
 
 from rectangle import Rectangle
 
+#typing
+from key import _key
+from sfml import KeyEvent
+
+
 class Window(Rectangle):
 # * Resets the key states every loop.
 
@@ -50,12 +55,22 @@ class Window(Rectangle):
 	#Event Handling
 
 	is_focused = False
+	key_pressed = None
+
 
 	def _events(self): #clear
 		window = self.window
 
+		self.key_pressed = None
+
 		#use the buttons
 		for event in window.events:
+
+			#Key currently being typed.
+			if type(event) is KeyEvent:
+				if event.pressed:
+					self.key_pressed \
+					= _key.__all__[event.code].name
 
 			#close the window
 			if type(event) is CloseEvent: window.close()
