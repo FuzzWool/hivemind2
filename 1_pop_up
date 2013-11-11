@@ -10,7 +10,10 @@ from sfml import KeyEvent
 from sfml import VertexArray, PrimitiveType
 from sfml import Clock
 
-class TextBox:
+from sfml import RectangleShape
+from code.sfml_plus import Rectangle
+
+class TextBox(Rectangle):
 # * May have text inputted with a keyboard.
 # * Box has a flickering cursor.
 # WIP - Box is bounded.
@@ -26,19 +29,42 @@ class TextBox:
 		self._input(window, key)
 
 	def draw(self, window, camera):
+		self._create_rectangle()
+		window.draw(self.rectangle)
+
 		window.draw(self.text)
+
 		self.cursor.create(self.text)
 		window.draw(self.cursor.line)
 
 
-	###
+	#####
+	# RECTANGLE
 
+	padding = 2
+	@property
+	def x(self): return self.text.position[0]-self.padding
+	@property
+	def y(self): return self.text.position[1]-self.padding
+	@property
+	def w(self): return 100 + self.padding
+	@property
+	def h(self):
+		return self.text.character_size + 2 + self.padding
+
+
+	###
+	#GRAPHICS
+
+	font = None
 	def _create_font(self): #init
 		d = "assets/fonts/PIXEARG_.ttf"
 		font = Font.from_file(d)
 		self.font = font
 		self.font.get_texture(8).smooth = False
 
+	text = None
+	string = None
 	def _create_text(self, string=""): #init, input
 		text = Text(string)
 		text.font = self.font
@@ -49,6 +75,8 @@ class TextBox:
 		self.text = text
 		self.string = string
 
+
+	#
 
 	class cursor:
 		line = None
@@ -76,9 +104,22 @@ class TextBox:
 				self.flicker = not self.flicker
 				self.clock.restart()
 
+
+	rectangle = None
+	def _create_rectangle(self): #draw
+		rectangle = RectangleShape((10,10))
+
+		rectangle.position = self.position
+		rectangle.size = self.size
+
+		rectangle.outline_color = Color.BLACK
+		rectangle.outline_thickness = 1
+
+		self.rectangle = rectangle
+
 	###
 
-	def _input(self, window, key):
+	def _input(self, window, key): #controls
 		def add_chr(key_chr):
 			self.string += key_chr
 			self._create_text(self.string)
@@ -108,7 +149,7 @@ textbox1 = TextBox() #
 window = Window((1200,600), "Pop-up Boxes")
 from code.sfml_plus import Camera
 Camera = Camera(window)
-Camera.zoom = 2
+# Camera.zoom = 2
 Camera.position = 0,0
 
 

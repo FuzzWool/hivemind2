@@ -101,6 +101,12 @@ Create pop-up boxes.
 			+ drawn every loop to match text bounds
 
 	! box is bounded
+		+ box is wrapped around the text
+
+		! string can't exceed box length
+		! box adjusts to character size
+
+
 	! only responds when highlighted
 
 ! Make a buttons and a confirmation.
