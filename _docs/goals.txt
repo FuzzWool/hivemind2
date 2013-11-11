@@ -94,8 +94,13 @@ Create pop-up boxes.
 		+ Work out the current key being pressed.
 			~ Order the keys by value
 
+	====
+
+	+ flickering cursor
+		+ added cursor
+			+ drawn every loop to match text bounds
+
 	! box is bounded
-	! box has a flickering cursor
 	! only responds when highlighted
 
 ! Make a buttons and a confirmation.

@@ -7,21 +7,28 @@ from sfml import Text, Font
 from sfml import Color
 from sfml import KeyEvent
 
+from sfml import VertexArray, PrimitiveType
+from sfml import Clock
+
 class TextBox:
 # * May have text inputted with a keyboard.
+# * Box has a flickering cursor.
 # WIP - Box is bounded.
-# WIP - Box has a flickering cursor.
 # WIP - Only responds when highlighted.
+# WIP - A UI element. May be added to a UI box.
 
 	def __init__(self):
 		self._create_font()
 		self._create_text()
+		self.cursor = self.cursor()
 
 	def controls(self, window, key):
 		self._input(window, key)
 
 	def draw(self, window, camera):
 		window.draw(self.text)
+		self.cursor.create(self.text)
+		window.draw(self.cursor.line)
 
 
 	###
@@ -30,6 +37,7 @@ class TextBox:
 		d = "assets/fonts/PIXEARG_.ttf"
 		font = Font.from_file(d)
 		self.font = font
+		self.font.get_texture(8).smooth = False
 
 	def _create_text(self, string=""): #init, input
 		text = Text(string)
@@ -40,6 +48,33 @@ class TextBox:
 		text.position = 100,100
 		self.text = text
 		self.string = string
+
+
+	class cursor:
+		line = None
+		
+		def create(self, text): #draw
+			line = VertexArray(PrimitiveType.LINES, 2)
+
+			self._flicker()
+			if self.flicker:
+				x, y, w, h = text.global_bounds
+
+				line[0].position = (x+w,y)
+				line[1].position = (x+w,y+h)
+
+				line[0].color = Color.BLACK
+				line[1].color = Color.BLACK
+			self.line = line
+
+
+		# Flicker the cursor.
+		clock = Clock()
+		flicker = False
+		def _flicker(self): #create
+			if self.clock.elapsed_time.seconds > 0.5:
+				self.flicker = not self.flicker
+				self.clock.restart()
 
 	###
 
@@ -73,7 +108,7 @@ textbox1 = TextBox() #
 window = Window((1200,600), "Pop-up Boxes")
 from code.sfml_plus import Camera
 Camera = Camera(window)
-Camera.zoom = 1
+Camera.zoom = 2
 Camera.position = 0,0
 
 
