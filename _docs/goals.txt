@@ -94,7 +94,6 @@ Create pop-up boxes.
 		+ Work out the current key being pressed.
 			~ Order the keys by value
 
-	====
 
 	+ flickering cursor
 		+ added cursor
@@ -102,8 +101,8 @@ Create pop-up boxes.
 
 	! box is bounded
 		+ box is wrapped around the text
-
-		! string can't exceed box length
+	====
+		~ string can't exceed box length
 		! box adjusts to character size
 
 

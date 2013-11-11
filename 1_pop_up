@@ -137,6 +137,13 @@ class TextBox(Rectangle):
 					add_chr(key_chr.upper())
 				else:
 					add_chr(key_chr.lower())
+
+				#Can't exceed box length.
+				w = self.text.global_bounds.width
+				if w+2 > self.w:
+					remove_chr()
+				#
+
 			if key_chr == "BACKSPACE":
 				remove_chr()
 			if key_chr == "SPACE":
