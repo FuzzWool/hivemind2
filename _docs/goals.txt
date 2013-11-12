@@ -104,16 +104,14 @@ Create pop-up boxes.
 		~ string can't exceed box length
 
 ========
-~ moved InputBox to code.level_editor.ui
 
-! make a UI box.
-	! contains text box
-	! may move it side to side
-	! text box only responds when highlighted
-	! may pop up and down (opening/closing)
++ made a UI box. (contains UI elements)
+	+ top-level UI handling
+		+ can set inputbox position
+		+ when a child is added, set it's proportional pos 	
+		+ when the UI is moved, move the contents, too
 
-! Make a buttons and a confirmation.
-! Make a pop-up box which contains these.
+! button UI
 
 
 

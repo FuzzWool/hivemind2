@@ -6,6 +6,7 @@ from code.level_editor.ui import InputBox
 #########################################
 
 textbox1 = InputBox() #
+textbox1.position = 100,150
 
 window = Window((1200,600), "Pop-up Boxes")
 from code.sfml_plus import Camera

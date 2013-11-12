@@ -11,7 +11,8 @@ from code.sfml_plus import Rectangle
 class InputBox(Rectangle):
 # * May have text inputted with a keyboard.
 # * Box has a flickering cursor.
-# * Box is bounded.
+
+	string = ""
 
 	def __init__(self):
 		self._create_font()
@@ -43,7 +44,16 @@ class InputBox(Rectangle):
 	def w(self): return 100 + self.padding
 	@property
 	def h(self):
-		return self.text.character_size + 2 + self.padding
+		return self.text.character_size + (self.padding*2)
+
+	@x.setter
+	def x(self, x):
+		self.text.position \
+		= x+self.padding, self.text.position[1]
+	@y.setter
+	def y(self, y):
+		self.text.position \
+		= self.text.position[0], y+self.padding
 
 
 	###
@@ -68,7 +78,11 @@ class InputBox(Rectangle):
 		text.character_size = 8
 		text.style = Text.REGULAR
 		text.color = Color.BLACK
-		text.position = 100,100
+		try:
+			x = self.position[0]+self.padding
+			y = self.position[1]+self.padding
+			text.position = x,y
+		except: text.position = 0,0
 		self.text = text
 		self.string = string
 
@@ -76,8 +90,13 @@ class InputBox(Rectangle):
 	#
 
 	class cursor:
-		line = None
-		
+	#A cursor aligned to text.
+
+		def __init__(self):
+			line = None
+			self.clock = Clock()
+			self.flicker = False
+
 		def create(self, text): #draw
 			line = VertexArray(PrimitiveType.LINES, 2)
 
@@ -92,10 +111,6 @@ class InputBox(Rectangle):
 				line[1].color = Color.BLACK
 			self.line = line
 
-
-		# Flicker the cursor.
-		clock = Clock()
-		flicker = False
 		def _flicker(self): #create
 			if self.clock.elapsed_time.seconds > 0.5:
 				self.flicker = not self.flicker
