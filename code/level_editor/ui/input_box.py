@@ -19,7 +19,7 @@ class InputBox(Rectangle):
 		self._create_text()
 		self.cursor = self.cursor()
 
-	def controls(self, window, key):
+	def controls(self, window, key, mouse=None):
 		self._input(window, key)
 
 	def draw(self, window, camera):

@@ -1,21 +1,16 @@
-from code.sfml_plus import Window
-from code.sfml_plus import key
-
-###################################
-
 from code.sfml_plus import Rectangle
 from sfml import RectangleShape
 from sfml import Color
 
 
-class ui_box(Rectangle):
+class UIBox(Rectangle):
 # * Positions UI objects within itself.
 
 	w,h = 300,100
 
-	def controls(self, window, key):
+	def controls(self, window, key, mouse):
 		for ui in self.contents:
-			ui.controls(window, key)
+			ui.controls(window, key, mouse)
 
 	def draw(self, window, camera):
 		self._create_rect()
@@ -65,29 +60,3 @@ class ui_box(Rectangle):
 		dist = self._y - y
 		self._y = y
 		for ui in self.contents: ui.y -= dist
-
-
-###################################
-
-from code.level_editor.ui import InputBox
-ui_box = ui_box()
-ui_box.position = 100,100
-ui_box.add(InputBox, (10,10))
-ui_box.add(InputBox, (10,25))
-
-###################################
-
-
-window = Window((1200,600), "UI Box")
-from code.sfml_plus import Camera
-Camera = Camera(window)
-
-while window.is_open:
-	if window.is_focused:
-		if key.ENTER.pressed():
-			ui_box.x += 100
-		ui_box.controls(window, key)
-
-	window.clear((255,255,255))
-	ui_box.draw(window, Camera)
-	window.display()

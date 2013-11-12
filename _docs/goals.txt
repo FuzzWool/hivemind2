@@ -103,7 +103,6 @@ Create pop-up boxes.
 		+ box is wrapped around the text
 		~ string can't exceed box length
 
-========
 
 + made a UI box. (contains UI elements)
 	+ top-level UI handling
@@ -111,11 +110,17 @@ Create pop-up boxes.
 		+ when a child is added, set it's proportional pos 	
 		+ when the UI is moved, move the contents, too
 
+========
+
 ! button UI
-
-
+	! MyMouse inherits from GameRectangle
+		! Shares held, pressed, released from keys
+		! reset in Window loop
 
 Plan a UI.
 -
 ! Work on some quick designs for the layout.
 (explore loading/saving, tools and help)
+
+
+
