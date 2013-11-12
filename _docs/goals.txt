@@ -89,7 +89,7 @@ ENTITIES
 
 
 Create pop-up boxes.
-! text input box
++ text input box
 	+ text input
 		+ Work out the current key being pressed.
 			~ Order the keys by value
@@ -99,14 +99,18 @@ Create pop-up boxes.
 		+ added cursor
 			+ drawn every loop to match text bounds
 
-	! box is bounded
+	+ box is bounded
 		+ box is wrapped around the text
-	====
 		~ string can't exceed box length
-		! box adjusts to character size
 
+========
+~ moved InputBox to code.level_editor.ui
 
-	! only responds when highlighted
+! make a UI box.
+	! contains text box
+	! may move it side to side
+	! text box only responds when highlighted
+	! may pop up and down (opening/closing)
 
 ! Make a buttons and a confirmation.
 ! Make a pop-up box which contains these.
