@@ -113,9 +113,16 @@ Create pop-up boxes.
 ========
 
 ! button UI
-	! MyMouse inherits from GameRectangle
-		! Shares held, pressed, released from keys
-		! reset in Window loop
+	! sfml_plus Mouse
+		+ Mouse inherits from GameRectangle
+		+ Mouse has held, pressed, released
+			+ window reset
+
+		! clean
+			! combine with key
+			! handle inside window
+
+
 
 Plan a UI.
 -
