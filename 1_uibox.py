@@ -1,15 +1,15 @@
 from code.sfml_plus import Window
-from code.sfml_plus import key
+from code.sfml_plus import Key
 
 ###################################
 
 from code.sfml_plus import Rectangle
 class Button(Rectangle):
 	
-	def controls(self, window, key, mouse):
+	def controls(self, Window, Key, Mouse):
 		pass
 
-	def draw(self, window, camera):
+	def draw(self, Window, Camera):
 		pass
 
 ###################################
@@ -23,16 +23,16 @@ ui_box.add(InputBox, (10,25))
 
 ###################################
 
-window = Window((1200,600), "UI Box")
+Window = Window((1200,600), "UI Box")
 from code.sfml_plus import Camera
-Camera = Camera(window)
+Camera = Camera(Window)
 
-while window.is_open:
-	if window.is_focused:
-		if key.ENTER.pressed():
+while Window.is_open:
+	if Window.is_focused:
+		if Key.ENTER.pressed():
 			ui_box.center = Camera.center
-		ui_box.controls(window, key, None)
+		ui_box.controls(Window, Key, None)
 
-	window.clear((255,255,255))
-	ui_box.draw(window, Camera)
-	window.display()
+	Window.clear((255,255,255))
+	ui_box.draw(Window, Camera)
+	Window.display(Camera)

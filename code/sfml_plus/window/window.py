@@ -1,13 +1,10 @@
 from sfml import RenderWindow, VideoMode
 from sfml import CloseEvent, FocusEvent
 from sfml import Color
-from key import reset_all as reset_keys
-import key
 
-from rectangle import Rectangle
+from code.sfml_plus.rectangle import Rectangle
 
-#typing
-from key import _key
+from code.sfml_plus.window import Key
 from sfml import KeyEvent
 
 
@@ -30,8 +27,9 @@ class Window(Rectangle):
 		c = Color(*color)
 		self.window.clear(c)
 
-	def display(self):
-		reset_keys()
+	def display(self, Mouse=None):
+		Key.reset()
+		if Mouse: Mouse.reset_buttons()
 		self.window.display()
 
 
@@ -66,15 +64,15 @@ class Window(Rectangle):
 		#use the buttons
 		for event in window.events:
 
-			#Key currently being typed.
+			# Key currently being typed.
 			if type(event) is KeyEvent:
 				if event.pressed:
 					self.key_pressed \
-					= _key.__all__[event.code].name
+					= Key.dict_list[event.code].name
 
 			#close the window
 			if type(event) is CloseEvent: window.close()
-			if key.ESC.pressed(): window.close()
+			if self.key_pressed == "ESC": window.close()
 
 			#toggle focus switch
 			if type(event) is FocusEvent:

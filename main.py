@@ -1,29 +1,29 @@
 from code.sfml_plus import Window
-from code.sfml_plus import key
+from code.sfml_plus import Key
 
-window = Window((1200, 600), "Hivemind - Demo 2")
+Window = Window((1200, 600), "Hivemind - Demo 2")
 
 ################################################
 from code.game import WorldMap
 WorldMap = WorldMap(4,4)
 
 from code.sfml_plus import SmoothCamera
-Camera = SmoothCamera(window)
+Camera = SmoothCamera(Window)
 
 from code.level_editor import LevelEditor
-LevelEditor = LevelEditor(window)
+LevelEditor = LevelEditor(Window)
 ################################################
 
-while window.is_open:
-	if window.is_focused:
-		LevelEditor.controls(key, Camera)
+while Window.is_open:
+	if Window.is_focused:
+		LevelEditor.controls(Key, Camera)
 
 	Camera.smooth.play()
 
-	window.clear((255,255,255))
-	window.view = Camera
+	Window.clear((255,255,255))
+	Window.view = Camera
 
-	LevelEditor.draw(window, Camera)
-	WorldMap.draw(window, Camera)
+	LevelEditor.draw(Window, Camera)
+	WorldMap.draw(Window, Camera)
 	
-	window.display()
+	Window.display()

@@ -113,15 +113,14 @@ Create pop-up boxes.
 ========
 
 ! button UI
-	! sfml_plus Mouse
+	+ sfml_plus Mouse
 		+ Mouse inherits from GameRectangle
 		+ Mouse has held, pressed, released
 			+ window reset
 
-		! clean
-			! combine with key
-			! handle inside window
+	+ sfml_plus.window (Window, Key, Mouse)
 
+	! main: SmoothCamera dislikes moving back on an axis
 
 
 Plan a UI.

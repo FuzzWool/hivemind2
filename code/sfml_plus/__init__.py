@@ -1,7 +1,5 @@
 from rectangle import Rectangle
-
-from key import *
-from window import Window
+from window import Window, Key, Mouse
 
 from mysprite import MySprite
 
