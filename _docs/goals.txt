@@ -120,6 +120,11 @@ Create pop-up boxes.
 
 	+ sfml_plus.window (Window, Key, Mouse)
 
+	! create a Button
+		+ rectangle, text
+		! indents on a press
+		! confirms on a press > release (inside)
+
 	! main: SmoothCamera dislikes moving back on an axis
 
 
