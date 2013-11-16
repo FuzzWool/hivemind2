@@ -4,13 +4,46 @@ from sfml import Color
 
 
 class UIBox(Rectangle):
-# * Positions UI objects within itself.
+# * Positions and processes UI objects within itself.
+# * Handles outer events,
+# 	ID'd based on which UI invokes them.
 
-	w,h = 300,100
+	contents = []
+	def add(self, ui, pos):
 
-	def controls(self, window, key, mouse):
+		x, y = 0,0
+		if pos[0] >= 0: x = self.x1 + pos[0]
+		if pos[0] <  0: x = self.x2 + pos[0]
+		if pos[1] >= 0: y = self.y1 + pos[1]
+		if pos[1] <  0: y = self.y2 + pos[1]
+
+		id = len(self.contents)
+		ui = ui(id)
+		
+		if pos[0] < 0: x -= ui.w
+		if pos[1] < 0: y -= ui.h
+		ui.position = x,y
+		
+		self.contents.append(ui)
+
+
+	#LOGIC
+	events = {"button_pressed":None}
+
+	def controls(self, Window, Key, Mouse):
+		
+		#Wipe the EVENTS.
+		for key in self.events:
+			self.events[key] = None
+
+		#Handle any independant controls.
+		#Process the EVENTS.
 		for ui in self.contents:
-			ui.controls(window, key, mouse)
+			ui.controls(self.events, Window, Key, Mouse)
+
+
+	# GRAPHICS
+	w,h = 300,100
 
 	def draw(self, window, camera):
 		self._create_rect()
@@ -18,6 +51,8 @@ class UIBox(Rectangle):
 		for ui in self.contents:
 			ui.draw(window, camera)
 
+
+	####################################
 
 	# RECTANGLE
 
@@ -32,23 +67,6 @@ class UIBox(Rectangle):
 		
 		self.rectangle = rectangle
 
-
-	# CONTENTS
-
-	contents = []
-	def add(self, ui, pos):
-
-		x, y = 0,0
-		if pos[0] >= 0: x = self.x1 + pos[0]
-		if pos[0] <  0: x = self.x2 + pos[0]
-		if pos[1] >= 0: y = self.y1 + pos[1]
-		if pos[1] <  0: y = self.y2 + pos[1]
-
-		ui = ui()
-		if pos[0] < 0: x -= ui.w
-		if pos[1] < 0: y -= ui.h
-		ui.position = x,y
-		self.contents.append(ui)
 
 	# position
 

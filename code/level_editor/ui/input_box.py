@@ -14,12 +14,13 @@ class InputBox(Rectangle):
 
 	string = ""
 
-	def __init__(self):
+	def __init__(self, id):
+		self.id = id
 		self._create_font()
 		self._create_text()
 		self.cursor = self.cursor()
 
-	def controls(self, window, key, mouse=None):
+	def controls(self, events, window, key, mouse):
 		self._input(window, key)
 
 	def draw(self, window, camera):
