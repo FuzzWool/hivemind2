@@ -6,20 +6,23 @@ from sfml import Color
 class UIBox(Rectangle):
 # * Positions and processes UI objects within itself.
 # * Handles outer events,
-# 	ID'd based on which UI invokes them.
+# 	UI elements forward themselves to their invocation.
 
 	contents = []
 	def add(self, ui, pos):
 
+		#proportionate from the box
 		x, y = 0,0
 		if pos[0] >= 0: x = self.x1 + pos[0]
 		if pos[0] <  0: x = self.x2 + pos[0]
 		if pos[1] >= 0: y = self.y1 + pos[1]
 		if pos[1] <  0: y = self.y2 + pos[1]
 
+		#initialize and ID the UI
 		id = len(self.contents)
 		ui = ui(id)
 		
+		#final positioning
 		if pos[0] < 0: x -= ui.w
 		if pos[1] < 0: y -= ui.h
 		ui.position = x,y

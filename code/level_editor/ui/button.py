@@ -26,7 +26,7 @@ class Button(Rectangle):
 
 
 		#EVENT
-		if self.pressed: events["button_pressed"]= self.id
+		if self.pressed: events["button_pressed"]= self
 
 
 	def draw(self, Window, Camera):

@@ -27,6 +27,7 @@ class InputBox(Rectangle):
 		self._create_rectangle()
 		window.draw(self.rectangle)
 
+		self._create_text(self.string)
 		window.draw(self.text)
 
 		self.cursor.create(self.text)

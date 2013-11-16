@@ -13,6 +13,8 @@ ui_box.add(InputBox, (10,10))
 ui_box.add(InputBox, (10,25))
 ui_box.add(Button, (-5,-5))
 
+ui_box.contents[0].string = "Hello world."
+
 ###################################
 
 Window = Window((1200,600), "UI Box")
@@ -26,10 +28,10 @@ Camera = Camera(Window)
 while Window.is_open:
 	if Window.is_focused:
 		if Key.ENTER.pressed():
-			ui_box.center = Camera.center
+			ui_box.contents[0].string = "Blarg!"
 
 		ui_box.controls(Window, Key, Mouse)
-		if ui_box.events["button_pressed"] != None:
+		if ui_box.events["button_pressed"]:
 			print "Button pressed."
 
 	Window.clear((255,255,255))

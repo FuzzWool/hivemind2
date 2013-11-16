@@ -122,20 +122,14 @@ Create pop-up boxes.
 	! create a Button
 		+ rectangle, text
 		+ held, pressed
-========
+
 		! ui_box can respond to ui objects' events
 			+ events are stored in a dictionary within ui_box
 			+ event specifies the id when invoked
 			+ example: ui_box can pick up button_pressed
-			
-			! messy, consider cleaning
-				! outside checks are awkward, rely on dict
-				! interior code could be cleaner
-
-
-		! ui objects can be set outside the ui_box
-			! example: give input box a string
-
+========
+			+ can change input_box's text via uibox.contents
+			! clean interiors of ui classes
 
 	! main: SmoothCamera dislikes moving back on an axis
 
