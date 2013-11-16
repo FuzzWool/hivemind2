@@ -122,8 +122,9 @@ Create pop-up boxes.
 	! create a Button
 		+ rectangle, text
 ========
-		! indents on a press
-		! confirms on a press > release (inside)
+		+ held, pressed
+
+		! ui_box can pick up button confirmation
 
 	! main: SmoothCamera dislikes moving back on an axis
 

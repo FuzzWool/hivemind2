@@ -309,4 +309,6 @@ class Rectangle(object):
 		return x, y
 
 	def in_points(self, pos=(), points=()):
-		return bool(pos == keep_in_points(pos, points)) 
+		if pos == self.keep_in_points(pos, points):
+			return True
+		return False

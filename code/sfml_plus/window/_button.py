@@ -7,18 +7,18 @@ class _Button: #virtual
 
 	#
 
-	was_pressed = False
+	was_held = False
 	def pressed(self):
-		if self.held() and not self.was_pressed:
+		if self.held() and not self.was_held:
 			return True
 		return False
 
 	def released(self):
-		if not self.held() and self.was_pressed:
+		if not self.held() and self.was_held:
 			return True
 		return False
 
 	#
 
 	def reset(self): #Must be called at the end of a loop.
-		self.was_pressed = self.held()
+		self.was_held = self.held()

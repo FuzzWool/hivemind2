@@ -8,8 +8,27 @@ from code.sfml_plus import Rectangle
 
 class Button(Rectangle):
 	
+	held = False
+	pressed = False
+	was_held = False #
+
 	def controls(self, Window, Key, Mouse):
-		pass
+		a, b = Mouse.position, self.points
+		mouse_over = bool(Rectangle().in_points(a,b))
+
+		self.held = False
+		if Mouse.left.held() and mouse_over:
+			self.held = True
+
+
+		released = bool(self.was_held and not self.held)
+		#
+		self.pressed = False
+		if released and mouse_over:
+			self.pressed = True
+		#
+		self.was_held = self.held
+
 
 	def draw(self, Window, Camera):
 		self._create_rectangle()
@@ -17,7 +36,8 @@ class Button(Rectangle):
 		Window.draw(self.rectangle)
 		Window.draw(self.text)
 
-	#
+
+	####
 
 	def __init__(self):
 		self.size = 60, 30
@@ -36,6 +56,11 @@ class Button(Rectangle):
 
 		rectangle.outline_color = Color.BLACK
 		rectangle.outline_thickness = 1
+
+		#events
+		if self.held: rectangle.outline_thickness = 5
+		if self.pressed: rectangle.outline_thickness = 10
+		#
 
 		self.rectangle = rectangle
 
@@ -80,6 +105,10 @@ ui_box.add(Button, (-5,-5))
 ###################################
 
 Window = Window((1200,600), "UI Box")
+
+from code.sfml_plus import Mouse
+Mouse = Mouse(Window)
+
 from code.sfml_plus import Camera
 Camera = Camera(Window)
 
@@ -88,8 +117,8 @@ while Window.is_open:
 		if Key.ENTER.pressed():
 			ui_box.center = Camera.center
 
-		ui_box.controls(Window, Key, None)
+		ui_box.controls(Window, Key, Mouse)
 
 	Window.clear((255,255,255))
 	ui_box.draw(Window, Camera)
-	Window.display()
+	Window.display(Mouse)
