@@ -75,7 +75,7 @@ ui_box.position = 100,100
 ui_box.add(InputBox, (10,10))
 ui_box.add(InputBox, (10,25))
 
-ui_box.add(Button, (20,20))
+ui_box.add(Button, (-5,-5))
 
 ###################################
 

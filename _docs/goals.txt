@@ -110,7 +110,6 @@ Create pop-up boxes.
 		+ when a child is added, set it's proportional pos 	
 		+ when the UI is moved, move the contents, too
 
-========
 
 ! button UI
 	+ sfml_plus Mouse
@@ -122,6 +121,7 @@ Create pop-up boxes.
 
 	! create a Button
 		+ rectangle, text
+========
 		! indents on a press
 		! confirms on a press > release (inside)
 

@@ -37,8 +37,17 @@ class UIBox(Rectangle):
 
 	contents = []
 	def add(self, ui, pos):
+
+		x, y = 0,0
+		if pos[0] >= 0: x = self.x1 + pos[0]
+		if pos[0] <  0: x = self.x2 + pos[0]
+		if pos[1] >= 0: y = self.y1 + pos[1]
+		if pos[1] <  0: y = self.y2 + pos[1]
+
 		ui = ui()
-		ui.position = self.x+pos[0], self.y+pos[1]
+		if pos[0] < 0: x -= ui.w
+		if pos[1] < 0: y -= ui.h
+		ui.position = x,y
 		self.contents.append(ui)
 
 	# position
