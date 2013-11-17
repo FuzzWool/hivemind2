@@ -49,13 +49,13 @@ class Rectangle(object):
 	@property
 	def x2(self): return self.x + self.w
 	@x2.setter
-	def x2(self, x2): self.x = x2 - self.w
+	def x2(self, x2): self.w = x2 - self.x
 	#
 	#y2
 	@property
 	def y2(self): return self.y + self.h
 	@y2.setter
-	def y2(self, y2): self.y = y2 - self.h
+	def y2(self, y2): self.h = y2 - self.y
 
 
 	#position

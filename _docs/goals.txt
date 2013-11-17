@@ -211,3 +211,18 @@ Plan a UI.
 =======
 WORK
 =======
+
+! open and close a UIBox
+	+ graphical Rectangle changes with logical Rectangle
+		+ size centers, doesn't just extend
+
+	! Smooth
+		+ Smooth Position
+			+ both block and Smooth movements
+
+		! Smooth center
+		! Smooth size
+		! Smooth position AND Smooth size
+
+
+! Dialogue and UIBoxes, side by side
