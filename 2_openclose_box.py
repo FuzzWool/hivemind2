@@ -35,7 +35,7 @@ class UIBox(Rectangle):
 
 	### RECTANGLE
 	# * position: forces smooth position with it
-	# * resize: centers with extension.
+	# * resize: centers with extension
 
 	_x, _y, _w, _h = 0,0,0,0
 
@@ -87,7 +87,7 @@ class UIBox(Rectangle):
 			self.animation_y.mode = Magnet
 
 		def play(self): #_.draw
-			
+
 			self.animation_x.end = self.x
 			self.animation_y.end = self.y
 

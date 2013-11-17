@@ -59,6 +59,8 @@ from code.sfml_plus import Animation
 from code.sfml_plus.animation import Magnet
 
 class SmoothCamera(Camera):
+# * Smoothly moves around directionally.
+# * Smoothly zooms in.
 	
 	def __init__(self, *args):
 		Camera.__init__(self, *args)
@@ -66,8 +68,6 @@ class SmoothCamera(Camera):
 
 
 class Smooth(Rectangle):
-# WIP - Smoothly moves around directionally.
-# * Smoothly zooms in.
 	def __init__(self, Camera):
 		self._ = Camera
 		self._pos_init()

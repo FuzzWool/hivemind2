@@ -1,17 +1,82 @@
-LEVEL EDITOR
+goals > level_editor
+LEVEL 1 NOTES
+============================================
 
-Goals:
-	! Camera can't move too far off-screen.
-	! Load/Save Maps, Textures, 'Level' tags.
-	! Load/Save basic Entities.
+UI / DIALOGUE STANDARD
 
 
-CAMERA
-! don't let the camera move too far out of boundaries
+TOOLBOX W/ TOOLS
+! Tile Tool
+	* see LOADING/SAVING
+	! Mouse.left : place a tile
+	! Mouse.right: remove a tile
+	! Shift + Mouse.left: select a tile
+	! Shift + Mouse.right: select a tileset
+	! Ctrl + Mouse.left: fill a room
+	! Ctrl + Mouse.right: empty a room
 
-LOADING/SAVING
-/! Load/Save entire Maps into the Level Editor
-/ Python Windows Forms library for OpenGL (and tests)
+	! Mouse.right > toolbox: 'help' pop-up for the controls
+
+
+! Camera Tool
+	* All rooms are sealed by default.
+	They only open up when they're connected to something.
+
+	! Mouse.left + drag: connect rooms
+	! Mouse.right: 'snap' rooms (any rooms snapped 'after' are sealed)
+	! Ctrl + Mouse.left: select A, select B: connect them
+	! Ctrl + Mouse.right: select A, select B: disconnect
+
+	! Mouse.right > toolbox: 'help' pop-up for the controls
+
+
+! Level Tool
+	* see LOADING/SAVING
+	* All rooms are tagged 'empty' by default.
+	* On saving, the WorldMap will warn of any empty rooms.
+
+	! Mouse.left: mark rooms
+	! Mouse.right: 'empty' rooms
+	! Shift > Mouse.left: open level tag textbox/dropdown
+	! Shift > Mouse.right: remove level tag entries
+	(empty all the rooms previously tagged)
+
+	! Mouse.right > toolbox: 'help' pop-up for the controls
+
+
+! Entity Tool
+	! Mouse.left : place an entity
+	! Mouse.right: remove an entity
+	! Shift + Mouse.left: open Entity selector
+	! Shift + Mouse.right: (nothing)
+
+	! Mouse.right > toolbox: 'help' pop-up for the controls
+
+	! Move and flash an entity when something is wrong with it
+
+
+! General
+	! Ctrl + N: Wipe the entire Level
+	! Ctrl + Shift + N: Wipe the entire WorldMap
+	! Ctrl + S: Save the entire level
+	! Ctrl + Shift + S: Save the entire WorldMap
+	! Ctrl + O: Open a new WorldMap (offer to save prior)
+
+	! Help Tool
+		! 'help' pop-up
+			! for general controls
+			! prompts right-clicking other tools
+
+	! Zoom Scale (bottom-right)
+		! Q/E: Zoom In, Zoom Out
+		! Mouse.right: 'help' pop-up for the controls
+
+
+	! don't let the camera move too far out of boundaries
+
+
+
+* LOADING/SAVING
 
 ! Loading/Saving Maps
 ! Loading/Saving Textures
@@ -20,12 +85,3 @@ LOADING/SAVING
 	init and load all the rooms in a level, post-transition
 	render if it is on-screen
 	how many rooms is "too much" in terms of waiting?
-
-ENTITIES
-! Move and flash an entity when something is wrong with it
-
-
-/ UI DESIGN PLANS
-! Make a plan for the design of the Level Editor
-Tile, Camera, Entity model
-	! zoom amt

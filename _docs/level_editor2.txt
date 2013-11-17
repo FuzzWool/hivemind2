@@ -1,0 +1,76 @@
+goals > level_editor > level_editor2
+LEVEL 2 NOTES
+============================================
+
++ BASIC LEVEL EDITOR CLASS
+-
+~ Cleaned: moved controls to LevelEditor.
+	~ Controls the Camera.
+		+ Level Editor Camera snaps to Rooms
+	~ Contains a background.
+
+---
+
++ CREATED UI STANDARD
+
++ text input box
+	+ text input
+		+ Work out the current key being pressed.
+			~ Order the keys by value
+
+
+	+ flickering cursor
+		+ added cursor
+			+ drawn every loop to match text bounds
+
+	+ box is bounded
+		+ box is wrapped around the text
+		~ string can't exceed box length
+
+
++ made a UI box. (contains UI elements)
+	+ top-level UI handling
+		+ can set inputbox position
+		+ when a child is added, set it's proportional pos 	
+		+ when the UI is moved, move the contents, too
+
+
++ button UI
+	+ sfml_plus Mouse
+		+ Mouse inherits from GameRectangle
+		+ Mouse has held, pressed, released
+			+ window reset
+
+	+ sfml_plus.window (Window, Key, Mouse)
+
+	+ create a Button
+		+ rectangle, text
+		+ held, pressed
+
+		+ ui_box can respond to ui objects' events
+			+ events are stored in a dictionary within ui_box
+			+ event specifies the id when invoked
+			+ example: ui_box can pick up button_pressed
+			+ can change input_box's text via uibox.contents
+
+>>>>>>
+
+
+DIALOGUE / UIBOX STANDARD
+
+! open and close a UIBox
+a rectangle which opens and closes, like Windows 7
+
+	+ graphical Rectangle changes with logical Rectangle
+		+ size centers, doesn't just extend
+
+	! Smooth
+		+ Smooth Position
+			+ both block and Smooth movements
+
+		! Smooth center
+		! Smooth size
+		! Smooth position AND Smooth size
+
+
+! LEVEL EDITOR TOOLS
