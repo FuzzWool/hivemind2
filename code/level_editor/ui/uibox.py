@@ -31,8 +31,8 @@ class UIBox(Rectangle):
 
 
 	#LOGIC
-	events = {"button_pressed":None}
 
+	events = {"button_pressed":None}
 	def controls(self, Window, Key, Mouse):
 		
 		#Wipe the EVENTS.

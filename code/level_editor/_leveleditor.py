@@ -17,6 +17,7 @@ class LevelEditor:
 			if key.D.pressed(): Camera.smooth.room_x += 1
 			if key.W.pressed(): Camera.smooth.room_y -= 1
 			if key.S.pressed(): Camera.smooth.room_y += 1
+
 		else:
 			amt = 25
 			if key.A.held(): Camera.smooth.x -= amt
