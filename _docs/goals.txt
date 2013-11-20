@@ -12,7 +12,8 @@ LEVEL EDITOR
 ! keep referencing level_editor.txt
 Goals:
 
-	! UI / Dialogue standard
+	! Dialogue standard
+	! UI standard
 
 	! ToolBox w/ Tools
 		! Tiles (place, remove, select (tile/tileset))

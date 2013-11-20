@@ -58,7 +58,39 @@ LEVEL 2 NOTES
 
 DIALOGUE / UIBOX STANDARD
 
-! open and close a UIBox
+
+! Text Class
+Create my own text class.
+	
+	+ basic Bitmap Text class
+		+ basic drawable, loads a texture
+		+ reads characters, translates to clips
+		+ multiline
+		+ caps
+		+ grammar
+
+	! advanced Bitmap text class
+		! kerning
+		! may be moved around
+
+		! color
+
+		! animation
+			! shake individual words
+
+			! make individual letters pop up
+				! fading intervals
+				! movement
+
+	! boxed Bitmap text class
+		! letters exceeding the width are pushed a line down
+
+	! dialogue balloon
+		! contains a boxed text class
+		! tail may move
+
+
+! open and close a UIBox/Dialogue
 a rectangle which opens and closes, like Windows 7
 
 	+ graphical Rectangle changes with logical Rectangle
@@ -71,6 +103,3 @@ a rectangle which opens and closes, like Windows 7
 		! Smooth center
 		! Smooth size
 		! Smooth position AND Smooth size
-
-
-! LEVEL EDITOR TOOLS

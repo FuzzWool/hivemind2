@@ -5,6 +5,21 @@ LEVEL 1 NOTES
 UI / DIALOGUE STANDARD
 
 
+	! Smooth movements
+	for UIs, Dialogue and Camera
+	All follow a smooth rectangle standard
+
+	! Dialogue UI
+		! multiline, kerning, caps
+		
+
+
+	! Level Editor UI
+		! Warning box UI
+		! Tilesheet selection UI
+		! Tile selection UI
+
+
 TOOLBOX W/ TOOLS
 ! Tile Tool
 	* see LOADING/SAVING
