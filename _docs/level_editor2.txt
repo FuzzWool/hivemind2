@@ -70,6 +70,8 @@ Create my own text class.
 		+ grammar
 
 	! advanced Bitmap text class
+		+ each letter is an individual class (stores position/letter)
+
 		! kerning
 		! may be moved around
 
