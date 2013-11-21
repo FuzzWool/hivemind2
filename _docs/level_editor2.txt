@@ -72,7 +72,14 @@ Create my own text class.
 	! advanced Bitmap text class
 		+ each letter is an individual class (stores position/letter)
 
-		! kerning
+==========
+
+		! letter spacing
+			a small tool program for defining bounds of each letter
+			+ draw boxes around each letter to contain them
+			+ each letter has it's own box
+			! highlight the letter currently being edited
+
 		! may be moved around
 
 		! color
