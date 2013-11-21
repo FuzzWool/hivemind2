@@ -5,6 +5,11 @@ from code.sfml_plus import Mouse
 
 ################################# 
 
+class Text_Ref:
+	characters = "abcdefghijklmnopqrstuvwxyz "
+	grammar = ".:,;-!"
+
+
 from sfml import RectangleShape, Color
 from sfml import Texture
 from code.sfml_plus import MySprite
@@ -17,17 +22,18 @@ class Text_Spacing_Tool:
 	def __init__(self, name):
 		self._render_sprite(name)
 		self._create_boxes()
-		self.Select = self.Select()
+		self.Select = self.Select(self.all_boxes)
 
-	def controls(self, Camera, Mouse, Key):
+	def controls(self, Camera, Mouse, Key, Window):
 		px = round(Mouse.x/Camera.zoom)
 		py = round(Mouse.y/Camera.zoom)
 
-		Box = self.box_upper[0]
-		if Mouse.left.pressed():
-			Box.x1, Box.y1 = px,py
-		if Mouse.left.held():
-			Box.x2, Box.y2 = px,py
+		self.Select.controls(Key, Window)
+		Box = self.Select()
+		# if Mouse.left.pressed():
+		# 	Box.x1, Box.y1 = px,py
+		# if Mouse.left.held():
+		# 	Box.x2, Box.y2 = px,py
 		Box.render()
 
 	def draw(self, window):
@@ -53,17 +59,23 @@ class Text_Spacing_Tool:
 		self.box_lower = []
 		self.box_grammar = []
 
-		for character in self.characters:
-			self.box_upper.append(self.Box())
-			self.box_lower.append(self.Box())
-		for character in self.grammar:
-			self.box_grammar.append(self.Box())
+		for character in Text_Ref.characters:
+			self.box_lower.append(self.Box(character))
+			upper_char = character.upper()
+			self.box_upper.append(self.Box(upper_char))
+		for character in Text_Ref.grammar:
+			self.box_grammar.append(self.Box(character))
+
+		self.all_boxes =\
+		[self.box_upper, self.box_lower, self.box_grammar]
 
 
 	class Box(Rectangle):
 	# The box which highlights a letter.
 
-		def __init__(self): self.render()
+		def __init__(self, character):
+			self.render()
+			self.character = character #Select
 
 		def render(self): #draw
 			box = RectangleShape(self.size)
@@ -78,26 +90,76 @@ class Text_Spacing_Tool:
 
 
 	class Select(Rectangle):
-	# WIP - A tool which contains the selected rectangle.
-	# WIP - Contains a box for highlighting the selected letter.
+	# * A tool which contains the selected box.
+	# Works out which box to select based on key input.
+	# * Highlights the selected letter.
 
-		def __init__(self):
+		def __init__(self, all_boxes):
+			self.all_boxes = all_boxes
+			self._selected = self.all_boxes[0][0]
 			self._create_highlight()
 
-		_selected = False
+
+		def controls(self, Key, Window):
+			if not Window.key_pressed: return
+			char = Window.key_pressed
+
+			#grammar
+			if Key.L_SHIFT.held():
+				if char == "SEMI_COLON": char = ":"
+				if char == "NUM1": char = "!"
+			else:
+				if char == "PERIOD": char = "."
+				if char == "COMMA": char = ","
+				if char == "SEMI_COLON": char = ";"
+				if char == "DASH": char = "-"
+
+			#caps
+			if Key.L_SHIFT.held(): char = char.upper()
+			else: char = char.lower()
+			#
+
+			y = 0
+			for boxes in self.all_boxes:
+				x = 0
+				for box in boxes:
+					if char == box.character:
+						self(self.all_boxes[y][x])
+						self._create_highlight()
+					x += 1
+				y += 1
+
+		#
 		def __call__(self, Box=None):
 			if Box: self._selected = Box
 			else: return self._selected 
+
 
 		def draw(self, Window):
 			Window.draw(self.highlight)
 
 		#
 
-		def _create_highlight(self): #init
+		def _create_highlight(self): #init, controls
+			
+			#Find the position of the current box.
+			char = self().character
+
+			x, y = 0,0
+			if char in Text_Ref.characters.upper():
+				x =Text_Ref.characters.upper().index(char)
+				y = 0
+			if char in Text_Ref.characters:
+				x = Text_Ref.characters.index(char)
+				y = 1
+			if char in Text_Ref.grammar:
+				x = Text_Ref.grammar.index(char)
+				y = 2
+
+			#Highlight it
 			w,h = 8,12
 			highlight = RectangleShape((w,h))
-			highlight.position = self.position
+			highlight.position = w*x, h*y
 			highlight.fill_color = Color(100,100,100,100)
 			self.highlight = highlight
 
@@ -115,7 +177,8 @@ while Window.is_open:
 	if Window.is_focused:
 		if Key.ENTER.pressed(): print 1
 
-		Text_Spacing_Tool.controls(Camera, Mouse, Key)
+		Text_Spacing_Tool\
+		.controls(Camera, Mouse, Key, Window)
 
 	Window.view = Camera
 	Window.clear((255,255,255))

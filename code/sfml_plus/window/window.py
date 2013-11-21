@@ -67,6 +67,7 @@ class Window(Rectangle):
 			# Key currently being typed.
 			if type(event) is KeyEvent:
 				if event.pressed:
+					
 					self.key_pressed \
 					= Key.dict_list[event.code].name
 
