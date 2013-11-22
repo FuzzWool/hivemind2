@@ -3,10 +3,59 @@ from code.sfml_plus import Key
 
 #################################
 
+from sfml import Texture
+
+class _Loader:
+# * Loads the texture.
+# * Load the boundary data.
+	
+	def __init__(self, name):
+		d = "assets/fonts/%s" % name
+		self._load_texture(d)
+		self._load_boundaries(d)
+
+	#
+
+	texture = None
+	def _load_texture(self, directory): #init
+		self.texture = Texture.from_file(directory+".png")
+
+	boundaries = None
+	def _load_boundaries(self, directory): #init
+
+		#open
+		f = open(directory+".txt","r")
+		load_data = f.read()
+		f.close()
+
+		#format
+		load_data = load_data.split("\n")
+		new_load_data = []
+		for line in load_data:
+			line = line.translate(None, "(")
+			line = line.split(")")
+			
+			new_line = []
+			for values in line:
+				values = values.split(", ")
+				
+				if values[0] != "":
+					new_values = []
+					for value in values:
+						new_values.append(float(value))
+
+					new_line.append(new_values)
+
+			new_load_data.append(new_line)
+		load_data = new_load_data
+
+		self.boundaries = load_data
+
+
+
 from sfml import Drawable
 from sfml import Vertex, VertexArray
 from sfml import PrimitiveType, RenderStates
-from sfml import Texture
 from code.sfml_plus import Rectangle
 
 class Text(Drawable):
@@ -15,6 +64,7 @@ class Text(Drawable):
 
 	def __init__(self):
 		Drawable.__init__(self)
+		self.Loader = _Loader("speech")
 
 	def draw(self, target, states):
 		target.draw(self.vertex_array, self.render_states)
@@ -47,13 +97,16 @@ class Text(Drawable):
 
 		self.letters = letters
 
+
 	def _create_vertex_array(self): #write
+		letters = self.letters
+
 		s = PrimitiveType.QUADS
 		vertex_array = VertexArray(s)
 		
 		#
 
-		for Letter in self.letters:
+		for Letter in letters:
 			Letter.create_vertex()
 			for vertice in Letter.vertex:
 				vertex_array.append(vertice)
@@ -63,7 +116,7 @@ class Text(Drawable):
 		self.vertex_array = vertex_array
 		self.render_states = RenderStates()
 		t = Texture.from_file("assets/fonts/speech.png")
-		self.render_states.texture = t
+		self.render_states.texture = self.Loader.texture
 
 
 

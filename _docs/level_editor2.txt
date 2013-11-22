@@ -83,7 +83,7 @@ Create my own text class.
 			+ load/save the positioning data
 
 			! Text reads letter spacing data
-
+			+ (wip) seperate loader
 
 		! may be moved around
 
