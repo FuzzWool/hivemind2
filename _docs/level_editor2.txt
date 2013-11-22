@@ -72,9 +72,8 @@ Create my own text class.
 	! advanced Bitmap text class
 		+ each letter is an individual class (stores position/letter)
 
-==========
 
-		! letter spacing
+		+ letter spacing
 			+ Text Spacing Tool
 			+ draw boxes around each letter to contain them
 			+ each letter has it's own box
@@ -82,10 +81,14 @@ Create my own text class.
 			+ draw a box for each individual letter
 			+ load/save the positioning data
 
-			! Text reads letter spacing data
-			+ (wip) seperate loader
+==========
+			+ Text reads letter spacing data
 
-		! may be moved around
+		! positioning
+			! letters may be moved around
+				! oscillate individual letters
+			! text may be moved around
+				! oscillate entire text
 
 		! color
 

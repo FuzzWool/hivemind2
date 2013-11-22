@@ -8,11 +8,35 @@ from sfml import Texture
 class _Loader:
 # * Loads the texture.
 # * Load the boundary data.
-	
+
 	def __init__(self, name):
 		d = "assets/fonts/%s" % name
 		self._load_texture(d)
 		self._load_boundaries(d)
+
+
+	characters = "abcdefghijklmnopqrstuvwxyz "
+	grammar = ".:,;-!"
+	def get_character_points(self, character):
+		x, y = 0,0
+		c = character
+		if c in self.characters:
+			x = self.characters.index(c)
+			y = 1
+		elif c in self.characters.upper():
+			x = self.characters.upper().index(c)
+			y = 0
+		elif c in self.grammar:
+			x = self.grammar.index(c)
+			y = 2
+
+		x1,y1,x2,y2 = self.boundaries[y][x]
+		x1 -= 1; y1 -= 1
+		x2 += 1; y2 += 1
+		#
+		y1 = 12*y; y2 = 12*(y+1)
+		#
+		return x1,y1,x2,y2
 
 	#
 
@@ -81,19 +105,23 @@ class Text(Drawable):
 	def _create_letters(self): #write
 		letters = []
 
-		x,y = 0,0
-		w,h = 8,12
+		total_w, total_h = 0, 0
 		for character in self.string:
 
 
 			if character == "\n":
-				x = 0
-				y += 1
+				total_w = 0
+				total_h += 12
 			else:
-				points = (x*w, y*h, (x+1)*w, (y+1)*h)
-				Letter = self.Letter(points, character)
+				x1, y1 = total_w, total_h
+				Letter = self.Letter((x1,y1),character)
 				letters.append(Letter)
-				x += 1
+
+				_p = self.Loader\
+				.get_character_points(character)
+				w = _p[2]-_p[0]
+				
+				total_w += w+1
 
 		self.letters = letters
 
@@ -107,7 +135,7 @@ class Text(Drawable):
 		#
 
 		for Letter in letters:
-			Letter.create_vertex()
+			Letter.create_vertex(self.Loader)
 			for vertice in Letter.vertex:
 				vertex_array.append(vertice)
 
@@ -124,40 +152,33 @@ class Text(Drawable):
 	# * positioning.
 	# * clipping.
 
-		def __init__(self, points, letter):
-			self.points = points
+		def __init__(self, position, letter):
+			self.position = position
 			self.letter = letter
 
 
 		characters = "abcdefghijklmnopqrstuvwxyz "
 		grammar = ".:,;-!"
 
-		def create_vertex(self):
+		def create_vertex(self, Loader):
 			vertex = []
 			for i in range(4): vertex.append(Vertex())
 
+			l = self.letter
+			
 			#position
-			vertex[0].position = self.x1, self.y1
-			vertex[1].position = self.x2, self.y1
-			vertex[2].position = self.x2, self.y2
-			vertex[3].position = self.x1, self.y2
+			p = Loader.get_character_points(l)
+			w,h = p[2]-p[0], p[3]-p[1]
+			x1,y1 = self.position
+			x2,y2 = x1+w, y1+h
+
+			vertex[0].position = x1,y1
+			vertex[1].position = x2,y1
+			vertex[2].position = x2,y2
+			vertex[3].position = x1,y2
 
 			#clipping
-			x, y = 26,0
-			l = self.letter
-
-			if l in self.characters:
-				x = self.characters.index(l)
-				y = 1
-			elif l in self.characters.upper():
-				x = self.characters.upper().index(l)
-				y = 0
-			elif l in self.grammar:
-				x = self.grammar.index(l)
-				y = 2
-
-			x1, y1 = self.w*x, self.h*y
-			x2, y2 = x1+self.w, y1+self.h
+			x1,y1,x2,y2 = Loader.get_character_points(l)
 			vertex[0].tex_coords = x1, y1
 			vertex[1].tex_coords = x2, y1
 			vertex[2].tex_coords = x2, y2
@@ -171,7 +192,9 @@ class Text(Drawable):
 Window = Window((1200,600), "Text Class")
 
 Text = Text()
-Text.write("Hello there, my name is Sam.\nThis is a test!")
+# Text.write("Hello there, my name is Sam.\nTesting!")
+# Text.write("THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG.")
+Text.write("The quick brown fox jumped over the lazy dog.")
 
 while Window.is_open:
 	if Window.is_focused:
