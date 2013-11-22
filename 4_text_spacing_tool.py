@@ -20,21 +20,37 @@ class Text_Spacing_Tool:
 # WIP - Creates spaced text assets.
 
 	def __init__(self, name):
+		self.name = name
 		self._render_sprite(name)
 		self._create_boxes()
 		self.Select = self.Select(self.all_boxes)
+		self._load()
+
+		#render all boxes
+		for boxes in self.all_boxes:
+			for box in boxes:
+				box.render()
 
 	def controls(self, Camera, Mouse, Key, Window):
+
+		#Save Bounds
+		if Key.L_CTRL.held():
+			if Key.S.pressed():
+				self._save()
+			return
+
+		#Edit Bounds
 		px = round(Mouse.x/Camera.zoom)
 		py = round(Mouse.y/Camera.zoom)
 
 		self.Select.controls(Key, Window)
 		Box = self.Select()
-		# if Mouse.left.pressed():
-		# 	Box.x1, Box.y1 = px,py
-		# if Mouse.left.held():
-		# 	Box.x2, Box.y2 = px,py
+		if Mouse.left.pressed():
+			Box.x1, Box.y1 = px,py
+		if Mouse.left.held():
+			Box.x2, Box.y2 = px,py
 		Box.render()
+
 
 	def draw(self, window):
 		self.Select.draw(window)
@@ -42,6 +58,73 @@ class Text_Spacing_Tool:
 		for box in self.box_lower: window.draw(box())
 		for box in self.box_grammar: window.draw(box())
 		window.draw(self.sprite)
+
+
+
+	#
+
+	def _load(self): #init
+	#Loads clipping data from a file to each box.
+		name = self.name
+
+		#Load
+		d = "assets/fonts/%s.txt" % name
+		try:	f = open(d, "r")
+		except: f = open(d, "w+")
+		load_data = f.read()
+		f.close()
+
+		#Format
+		load_data = load_data.split("\n")
+		new_load_data = []
+		for line in load_data:
+			line = line.translate(None, "(")
+			line = line.split(")")
+			
+			new_line = []
+			for values in line:
+				values = values.split(", ")
+				
+				if values[0] != "":
+					new_values = []
+					for value in values:
+						new_values.append(float(value))
+
+					new_line.append(new_values)
+
+			new_load_data.append(new_line)
+		load_data = new_load_data
+
+		#Apply
+		x = 0
+		for line in load_data:
+			y = 0
+			for values in line:
+				self.all_boxes[x][y].points = values
+				y += 1
+			x += 1
+
+
+		print "Loaded."
+
+
+	def _save(self): #controls
+	#Saves clipping data from each box to a file.
+		name = self.name
+
+		save_data = ""
+		for boxes in self.all_boxes:
+			for box in boxes:
+				save_data = save_data + str(box.points)
+			save_data = save_data + "\n"
+		save_data = save_data[:-1]
+
+		d = "assets/fonts/%s.txt" % name
+		open_file = open(d,"w+")
+		open_file.write(save_data)
+		open_file.close()
+		print "Saved."
+
 
 	#
 

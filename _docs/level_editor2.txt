@@ -75,12 +75,15 @@ Create my own text class.
 ==========
 
 		! letter spacing
-			a small tool program for defining bounds of each letter
+			+ Text Spacing Tool
 			+ draw boxes around each letter to contain them
 			+ each letter has it's own box
 			+ highlight the letter currently being edited
-			! draw a box for each individual letter
-			! save the positioning data
+			+ draw a box for each individual letter
+			+ load/save the positioning data
+
+			! Text reads letter spacing data
+
 
 		! may be moved around
 
