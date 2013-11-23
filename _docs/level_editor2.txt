@@ -84,8 +84,12 @@ Create my own text class.
 			+ Text reads letter spacing data
 ==========
 
-		+ positioning
-			+ text may be moved around
+		~ clean
+			~ Text/Letter is split into events/logic
+
+
+		! positioning
+			! text may be moved around
 			! letters may be moved around
 				! oscillate individual letters
 

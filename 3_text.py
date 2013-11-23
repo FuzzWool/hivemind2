@@ -76,6 +76,8 @@ class _Loader:
 
 		self.boundaries = load_data
 
+Loader = _Loader("speech")
+
 
 
 from sfml import Drawable
@@ -83,18 +85,99 @@ from sfml import Vertex, VertexArray
 from sfml import PrimitiveType, RenderStates
 from code.sfml_plus import Rectangle
 
-class Text(Drawable, Rectangle):
-#A text class which follows the sfml_plus standard.
-# * Writes graphical text based on it's string.
 
-	def __init__(self):
-		Drawable.__init__(self)
-		self.Loader = _Loader("speech")
+class _Text:
 
+	letters = []
+	def _create_letters(self): #write
+		letters = []
+
+		total_w, total_h = self.x, self.y
+		for character in self.string:
+
+			if character == "\n":
+				total_w = 0
+				total_h += 12
+			else:
+				x1, y1 = total_w, total_h
+				Letter = self.Letter((x1,y1),character)
+				letters.append(Letter)
+
+				p = Loader.get_character_points(character)
+				w = p[2]-p[0]
+				
+				total_w += w+1
+
+		self.letters = letters
+
+
+	def _create_vertex_array(self): #write, position
+		letters = self.letters
+
+		s = PrimitiveType.QUADS
+		vertex_array = VertexArray(s)
+		
+		#
+
+		for Letter in letters:
+			Letter.create_vertex()
+			for vertice in Letter.vertex:
+				vertex_array.append(vertice)
+
+		#
+
+		self.vertex_array = vertex_array
+		self.render_states = RenderStates()
+		t = Texture.from_file("assets/fonts/speech.png")
+		self.render_states.texture = Loader.texture
+
+
+class _Letter:
+
+	characters = "abcdefghijklmnopqrstuvwxyz "
+	grammar = ".:,;-!"
+
+	def create_vertex(self):
+		vertex = []
+		for i in range(4): vertex.append(Vertex())
+
+		l = self.letter
+		
+		#position
+		p = Loader.get_character_points(l)
+		w,h = p[2]-p[0], p[3]-p[1]
+		x1,y1 = self.position
+		x2,y2 = x1+w, y1+h
+
+		vertex[0].position = x1,y1
+		vertex[1].position = x2,y1
+		vertex[2].position = x2,y2
+		vertex[3].position = x1,y2
+
+		#clipping
+		x1,y1,x2,y2 = Loader.get_character_points(l)
+		vertex[0].tex_coords = x1, y1
+		vertex[1].tex_coords = x2, y1
+		vertex[2].tex_coords = x2, y2
+		vertex[3].tex_coords = x1, y2
+
+		self.w, self.h = w,h
+		self.vertex = vertex
+
+
+
+
+class Text(_Text, Drawable, Rectangle):
+# * writes graphical text.
+# * positioning.
+
+	#LOOP
 	def draw(self, target, states):
 		target.draw(self.vertex_array, self.render_states)
+	#
 
 
+	#CALL
 	string = ""
 	def write(self, string):
 		self.string = string
@@ -102,7 +185,6 @@ class Text(Drawable, Rectangle):
 		self._create_vertex_array()
 
 	#
-
 	_x, _y = 0,0
 
 	@property
@@ -127,94 +209,15 @@ class Text(Drawable, Rectangle):
 	def h(self):
 		return self.letters[-1].y2 - self.letters[0].y1
 
-	#
 
-	letters = []
-	def _create_letters(self): #write
-		letters = []
-
-		total_w, total_h = self.x, self.y
-		for character in self.string:
-
-
-			if character == "\n":
-				total_w = 0
-				total_h += 12
-			else:
-				x1, y1 = total_w, total_h
-				Letter = self.Letter((x1,y1),character)
-				letters.append(Letter)
-
-				_p = self.Loader\
-				.get_character_points(character)
-				w = _p[2]-_p[0]
-				
-				total_w += w+1
-
-		self.letters = letters
-
-
-	def _create_vertex_array(self): #write, position
-		letters = self.letters
-
-		s = PrimitiveType.QUADS
-		vertex_array = VertexArray(s)
-		
-		#
-
-		for Letter in letters:
-			Letter.create_vertex(self.Loader)
-			for vertice in Letter.vertex:
-				vertex_array.append(vertice)
-
-		#
-
-		self.vertex_array = vertex_array
-		self.render_states = RenderStates()
-		t = Texture.from_file("assets/fonts/speech.png")
-		self.render_states.texture = self.Loader.texture
-
-
-
-	class Letter(Rectangle):
+	class Letter(Rectangle, _Letter):
 	# * positioning.
-	# * clipping. (width/height)
 
 		def __init__(self, position, letter):
 			self.position = position
 			self.size = 0,0
 			self.letter = letter
-
-
-		characters = "abcdefghijklmnopqrstuvwxyz "
-		grammar = ".:,;-!"
-
-		def create_vertex(self, Loader):
-			vertex = []
-			for i in range(4): vertex.append(Vertex())
-
-			l = self.letter
-			
-			#position
-			p = Loader.get_character_points(l)
-			w,h = p[2]-p[0], p[3]-p[1]
-			x1,y1 = self.position
-			x2,y2 = x1+w, y1+h
-
-			vertex[0].position = x1,y1
-			vertex[1].position = x2,y1
-			vertex[2].position = x2,y2
-			vertex[3].position = x1,y2
-
-			#clipping
-			x1,y1,x2,y2 = Loader.get_character_points(l)
-			vertex[0].tex_coords = x1, y1
-			vertex[1].tex_coords = x2, y1
-			vertex[2].tex_coords = x2, y2
-			vertex[3].tex_coords = x1, y2
-
-			self.w, self.h = w,h
-			self.vertex = vertex
+	#
 
 
 #################################
@@ -235,7 +238,7 @@ while Window.is_open:
 	if Window.is_focused:
 		if Key.ENTER.pressed():
 			Text.write("Hello!")
-			Text.center = Camera.center
+			# Text.center = Camera.center
 
 	Window.view = Camera
 	Window.clear((255,255,255))
