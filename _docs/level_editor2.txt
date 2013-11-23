@@ -81,14 +81,13 @@ Create my own text class.
 			+ draw a box for each individual letter
 			+ load/save the positioning data
 
-==========
 			+ Text reads letter spacing data
+==========
 
-		! positioning
+		+ positioning
+			+ text may be moved around
 			! letters may be moved around
 				! oscillate individual letters
-			! text may be moved around
-				! oscillate entire text
 
 		! color
 

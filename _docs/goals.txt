@@ -41,7 +41,6 @@ Goals:
 
 
 
-! copyright for font.
 ! Level Editor is enabled for the public.
 ****************************************
 DEMO #2 RELEASE - "Public Level Editor"

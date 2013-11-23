@@ -1,5 +1,6 @@
 from code.sfml_plus import Window
 from code.sfml_plus import Key
+from code.sfml_plus import Camera
 
 #################################
 
@@ -82,9 +83,9 @@ from sfml import Vertex, VertexArray
 from sfml import PrimitiveType, RenderStates
 from code.sfml_plus import Rectangle
 
-class Text(Drawable):
+class Text(Drawable, Rectangle):
 #A text class which follows the sfml_plus standard.
-# * loads Text characters from image files.
+# * Writes graphical text based on it's string.
 
 	def __init__(self):
 		Drawable.__init__(self)
@@ -102,10 +103,37 @@ class Text(Drawable):
 
 	#
 
+	_x, _y = 0,0
+
+	@property
+	def x(self): return self._x
+	@x.setter
+	def x(self, x):
+		self._x = x
+		self.write(self.string)
+
+	@property
+	def y(self): return self._y
+	@y.setter
+	def y(self, y):
+		self._y = y
+		self.write(self.string)
+
+	@property
+	def w(self):
+		return self.letters[-1].x2 - self.letters[0].x1
+
+	@property
+	def h(self):
+		return self.letters[-1].y2 - self.letters[0].y1
+
+	#
+
+	letters = []
 	def _create_letters(self): #write
 		letters = []
 
-		total_w, total_h = 0, 0
+		total_w, total_h = self.x, self.y
 		for character in self.string:
 
 
@@ -126,7 +154,7 @@ class Text(Drawable):
 		self.letters = letters
 
 
-	def _create_vertex_array(self): #write
+	def _create_vertex_array(self): #write, position
 		letters = self.letters
 
 		s = PrimitiveType.QUADS
@@ -150,10 +178,11 @@ class Text(Drawable):
 
 	class Letter(Rectangle):
 	# * positioning.
-	# * clipping.
+	# * clipping. (width/height)
 
 		def __init__(self, position, letter):
 			self.position = position
+			self.size = 0,0
 			self.letter = letter
 
 
@@ -184,22 +213,31 @@ class Text(Drawable):
 			vertex[2].tex_coords = x2, y2
 			vertex[3].tex_coords = x1, y2
 
+			self.w, self.h = w,h
 			self.vertex = vertex
 
 
 #################################
 
 Window = Window((1200,600), "Text Class")
+Camera = Camera(Window)
+Camera.zoom = 2
+Camera.position = 0,0
 
 Text = Text()
 # Text.write("Hello there, my name is Sam.\nTesting!")
 # Text.write("THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG.")
 Text.write("The quick brown fox jumped over the lazy dog.")
 
+Text.center = Camera.center
+
 while Window.is_open:
 	if Window.is_focused:
-		if Key.ENTER.pressed(): print 1
+		if Key.ENTER.pressed():
+			Text.write("Hello!")
+			Text.center = Camera.center
 
+	Window.view = Camera
 	Window.clear((255,255,255))
 	Window.draw(Text)
 	Window.display()
