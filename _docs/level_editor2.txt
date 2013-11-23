@@ -82,11 +82,15 @@ Create my own text class.
 			+ load/save the positioning data
 
 			+ Text reads letter spacing data
-==========
 
 		~ clean
 			~ Text/Letter is split into events/logic
 
+==========
+
+		! update only the relevant vertexes
+			! Text pos: update vertex array
+			! Letter pos: update vertex
 
 		! positioning
 			! text may be moved around

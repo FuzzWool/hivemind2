@@ -90,17 +90,18 @@ class _Text:
 
 	letters = []
 	def _create_letters(self): #write
+		print 1
 		letters = []
 
 		total_w, total_h = self.x, self.y
 		for character in self.string:
 
 			if character == "\n":
-				total_w = 0
+				total_w = self.x
 				total_h += 12
 			else:
-				x1, y1 = total_w, total_h
-				Letter = self.Letter((x1,y1),character)
+				pos = total_w, total_h
+				Letter = self.Letter(pos, character)
 				letters.append(Letter)
 
 				p = Loader.get_character_points(character)
@@ -111,7 +112,8 @@ class _Text:
 		self.letters = letters
 
 
-	def _create_vertex_array(self): #write, position
+	def _create_vertex_array(self): #write
+		print 2
 		letters = self.letters
 
 		s = PrimitiveType.QUADS
@@ -138,6 +140,7 @@ class _Letter:
 	grammar = ".:,;-!"
 
 	def create_vertex(self):
+		print 2.1
 		vertex = []
 		for i in range(4): vertex.append(Vertex())
 
@@ -185,21 +188,6 @@ class Text(_Text, Drawable, Rectangle):
 		self._create_vertex_array()
 
 	#
-	_x, _y = 0,0
-
-	@property
-	def x(self): return self._x
-	@x.setter
-	def x(self, x):
-		self._x = x
-		self.write(self.string)
-
-	@property
-	def y(self): return self._y
-	@y.setter
-	def y(self, y):
-		self._y = y
-		self.write(self.string)
 
 	@property
 	def w(self):
@@ -210,14 +198,14 @@ class Text(_Text, Drawable, Rectangle):
 		return self.letters[-1].y2 - self.letters[0].y1
 
 
-	class Letter(Rectangle, _Letter):
+
+	class Letter(_Letter, Rectangle):
 	# * positioning.
 
 		def __init__(self, position, letter):
 			self.position = position
 			self.size = 0,0
 			self.letter = letter
-	#
 
 
 #################################
@@ -228,16 +216,20 @@ Camera.zoom = 2
 Camera.position = 0,0
 
 Text = Text()
-# Text.write("Hello there, my name is Sam.\nTesting!")
-# Text.write("THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG.")
-Text.write("The quick brown fox jumped over the lazy dog.")
-
+Text.write("Im the best!")
 Text.center = Camera.center
 
 while Window.is_open:
 	if Window.is_focused:
 		if Key.ENTER.pressed():
-			Text.write("Hello!")
+
+			x = 0
+			for Letter in Text.letters:
+				Letter.x += x
+				x += 1
+
+		if Key.A.pressed():
+			Text.center = Camera.center
 			# Text.center = Camera.center
 
 	Window.view = Camera
