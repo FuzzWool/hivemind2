@@ -85,6 +85,7 @@ from sfml import Vertex, VertexArray
 from sfml import PrimitiveType, RenderStates
 from code.sfml_plus import Rectangle
 
+from sfml import Color
 
 class _Text:
 
@@ -142,6 +143,7 @@ class _Letter:
 		vertex = []
 		for i in range(4): vertex.append(Vertex())
 
+		color = self.color
 		l = self.letter
 		
 		#position
@@ -162,14 +164,19 @@ class _Letter:
 		vertex[2].tex_coords = x2, y2
 		vertex[3].tex_coords = x1, y2
 
+		#color
+		for vertice in vertex: vertice.color = color
+
 		self.w, self.h = w,h
 		self.vertex = vertex
 
 
 
 class Text(_Text, Drawable, Rectangle):
-# * writes graphical text.
-# * positioning.
+# * batches Letters
+# * Position
+# * Color
+
 	def __init__(self, *args): self.write(*args)
 
 
@@ -188,7 +195,6 @@ class Text(_Text, Drawable, Rectangle):
 		self._create_vertex_array()
 
 	#POSITION
-
 	_x, _y = 0,0
 
 	@property
@@ -216,16 +222,32 @@ class Text(_Text, Drawable, Rectangle):
 	@property
 	def h(self):
 		return self.letters[-1].y2 - self.letters[0].y1
+	#
 
+	#COLOR
+	_color = Color(255,255,255,255)
+	@property
+	def color(self): return self._color
+	@color.setter
+	def color(self, Color):
+		for letter in self.letters:
+			letter.color = Color
+		self._color = Color
 	#
 
 
 	class Letter(_Letter, Rectangle):
+	# * Position
+	# * Color
 
 		def __init__(self, position, letter):
 			self.position = position
 			self.size = 0,0
 			self.letter = letter
+
+		#
+
+		color = Color(255,255,255,255)
 
 
 #################################
@@ -235,18 +257,22 @@ Camera = Camera(Window)
 Camera.zoom = 2
 Camera.position = 0,0
 
-Text = Text("Hello everybody. My name is Sonic.")
+Text = Text("Hello everybody. My name is Sam.")
 Text.center = Camera.center
 
 while Window.is_open:
 	if Window.is_focused:
 
-		x = 0
-		for Letter in Text.letters:
-			Letter.x += x
-			Letter.y += x
-			x += 0.01
-		Text.center = Camera.center
+		if Key.ENTER.pressed():
+			# Text.letters[0].color = Color(0,0,0,100)
+			Text.color = Color(0,0,0,100)
+
+		# x = 0
+		# for Letter in Text.letters:
+		# 	Letter.x += x
+		# 	Letter.y += x
+		# 	x += 0.01
+		# Text.center = Camera.center
 
 
 	Window.view = Camera

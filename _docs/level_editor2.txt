@@ -86,7 +86,6 @@ Create my own text class.
 		~ clean
 			~ Text/Letter is split into events/logic
 
-==========
 
 		+ Positioning
 			~ vertex_array is created every loop
@@ -95,7 +94,10 @@ Create my own text class.
 			+ text may be moved around
 			+ letters may be moved around
 
-		! color
+==========
+		+ Color (transparency)
+			* No actual color support
+
 
 		! animation
 			! shake individual words
