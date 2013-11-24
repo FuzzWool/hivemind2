@@ -55,8 +55,8 @@ class Camera(View, Rectangle):
 
 ######
 
-from code.sfml_plus import Animation
-from code.sfml_plus.animation import Magnet
+from code.sfml_plus.graphics.animation import Animation
+from code.sfml_plus.graphics.animation import Magnet
 
 class SmoothCamera(Camera):
 # * Smoothly moves around directionally.

@@ -2,7 +2,7 @@ from sfml import RenderWindow, VideoMode
 from sfml import CloseEvent, FocusEvent
 from sfml import Color
 
-from code.sfml_plus.rectangle import Rectangle
+from code.sfml_plus.graphics import Rectangle
 
 from code.sfml_plus.window import Key
 from sfml import KeyEvent

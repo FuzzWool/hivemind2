@@ -94,10 +94,13 @@ Create my own text class.
 			+ text may be moved around
 			+ letters may be moved around
 
-==========
 		+ Color (transparency)
 			* No actual color support
+==========
 
+		~ moved files
+			~ .window has camera
+			~ .graphics has animation, mysprite, rectangle
 
 		! animation
 			! shake individual words

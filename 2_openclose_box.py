@@ -6,7 +6,7 @@ from code.sfml_plus import Key
 from sfml import RectangleShape
 from sfml import Color
 from code.sfml_plus import Animation
-from code.sfml_plus.animation import Animation, Magnet
+from code.sfml_plus.graphics.animation import Magnet
 from code.sfml_plus import Rectangle
 
 class UIBox(Rectangle):

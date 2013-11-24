@@ -1,7 +1,6 @@
-from rectangle import Rectangle
+from graphics import Rectangle
+from graphics import MySprite
+from graphics import Animation
+
 from window import Window, Key, Mouse
-
-from mysprite import MySprite
-
-from animation import Animation
-from camera import Camera, SmoothCamera
+from window import Camera, SmoothCamera

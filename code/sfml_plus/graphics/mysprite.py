@@ -1,5 +1,5 @@
 from sfml import Sprite
-from code.sfml_plus import Rectangle
+from code.sfml_plus.graphics import Rectangle
 
 class MySprite(Sprite, Rectangle):
 # * Consistent with Rectangle's bindings.
