@@ -96,11 +96,13 @@ Create my own text class.
 
 		+ Color (transparency)
 			* No actual color support
-==========
 
 		~ moved files
 			~ .window has camera
 			~ .graphics has animation, mysprite, rectangle
+==========
+			~ .graphics has text
+				* automatically loads Speech
 
 		! animation
 			! shake individual words
