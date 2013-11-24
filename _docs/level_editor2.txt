@@ -88,14 +88,12 @@ Create my own text class.
 
 ==========
 
-		! update only the relevant vertexes
-			! Text pos: update vertex array
-			! Letter pos: update vertex
-
-		! positioning
-			! text may be moved around
-			! letters may be moved around
-				! oscillate individual letters
+		+ Positioning
+			~ vertex_array is created every loop
+			~ Text x/y moves each Letter
+			~ Letters are only created on Write
+			+ text may be moved around
+			+ letters may be moved around
 
 		! color
 

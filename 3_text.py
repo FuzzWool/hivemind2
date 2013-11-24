@@ -89,8 +89,7 @@ from code.sfml_plus import Rectangle
 class _Text:
 
 	letters = []
-	def _create_letters(self): #write
-		print 1
+	def _create_letters(self): #write, x/y
 		letters = []
 
 		total_w, total_h = self.x, self.y
@@ -112,8 +111,7 @@ class _Text:
 		self.letters = letters
 
 
-	def _create_vertex_array(self): #write
-		print 2
+	def _create_vertex_array(self): #draw
 		letters = self.letters
 
 		s = PrimitiveType.QUADS
@@ -135,12 +133,12 @@ class _Text:
 
 
 class _Letter:
+# * Creates a vertex upon being initialized.
 
 	characters = "abcdefghijklmnopqrstuvwxyz "
 	grammar = ".:,;-!"
 
-	def create_vertex(self):
-		print 2.1
+	def create_vertex(self): #Text.create_vertex_array
 		vertex = []
 		for i in range(4): vertex.append(Vertex())
 
@@ -169,13 +167,15 @@ class _Letter:
 
 
 
-
 class Text(_Text, Drawable, Rectangle):
 # * writes graphical text.
 # * positioning.
+	def __init__(self, *args): self.write(*args)
+
 
 	#LOOP
 	def draw(self, target, states):
+		self._create_vertex_array()
 		target.draw(self.vertex_array, self.render_states)
 	#
 
@@ -187,7 +187,27 @@ class Text(_Text, Drawable, Rectangle):
 		self._create_letters()
 		self._create_vertex_array()
 
-	#
+	#POSITION
+
+	_x, _y = 0,0
+
+	@property
+	def x(self): return self._x
+	@x.setter
+	def x(self, x):
+		amt = x - self._x
+		self._x = x
+		for letter in self.letters:
+			letter.x += amt
+
+	@property
+	def y(self): return self._y
+	@y.setter
+	def y(self, y):
+		amt = y - self._y
+		self._y = y
+		for letter in self.letters:
+			letter.y += amt
 
 	@property
 	def w(self):
@@ -197,10 +217,10 @@ class Text(_Text, Drawable, Rectangle):
 	def h(self):
 		return self.letters[-1].y2 - self.letters[0].y1
 
+	#
 
 
 	class Letter(_Letter, Rectangle):
-	# * positioning.
 
 		def __init__(self, position, letter):
 			self.position = position
@@ -215,22 +235,19 @@ Camera = Camera(Window)
 Camera.zoom = 2
 Camera.position = 0,0
 
-Text = Text()
-Text.write("Im the best!")
+Text = Text("Hello everybody. My name is Sonic.")
 Text.center = Camera.center
 
 while Window.is_open:
 	if Window.is_focused:
-		if Key.ENTER.pressed():
 
-			x = 0
-			for Letter in Text.letters:
-				Letter.x += x
-				x += 1
+		x = 0
+		for Letter in Text.letters:
+			Letter.x += x
+			Letter.y += x
+			x += 0.01
+		Text.center = Camera.center
 
-		if Key.A.pressed():
-			Text.center = Camera.center
-			# Text.center = Camera.center
 
 	Window.view = Camera
 	Window.clear((255,255,255))
