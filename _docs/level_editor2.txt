@@ -100,23 +100,13 @@ Create my own text class.
 		~ moved files
 			~ .window has camera
 			~ .graphics has animation, mysprite, rectangle
+			~ .graphics has Font, Text
 ==========
-			~ .graphics has text
-				* automatically loads Speech
-
-		! animation
-			! shake individual words
-
-			! make individual letters pop up
-				! fading intervals
-				! movement
-
-	! boxed Bitmap text class
-		! letters exceeding the width are pushed a line down
 
 	! dialogue balloon
-		! contains a boxed text class
-		! tail may move
+		! boxes Text
+		! shows Text letter-by-letter
+		! movable tail
 
 
 ! open and close a UIBox/Dialogue

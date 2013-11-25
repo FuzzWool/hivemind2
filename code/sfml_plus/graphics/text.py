@@ -7,7 +7,7 @@ from code.sfml_plus.graphics import Rectangle
 from sfml import Color
 
 
-class _Loader:
+class Font:
 # * Loads the texture.
 # * Load the boundary data.
 
@@ -77,14 +77,12 @@ class _Loader:
 
 		self.boundaries = load_data
 
-Loader = _Loader("speech")
-
-
 
 class _Text:
 
 	letters = []
 	def _create_letters(self): #write, x/y
+		Font = self.Font
 		letters = []
 
 		total_w, total_h = self.x, self.y
@@ -98,7 +96,7 @@ class _Text:
 				Letter = self.Letter(pos, character)
 				letters.append(Letter)
 
-				p = Loader.get_character_points(character)
+				p = Font.get_character_points(character)
 				w = p[2]-p[0]
 				
 				total_w += w+1
@@ -107,6 +105,7 @@ class _Text:
 
 
 	def _create_vertex_array(self): #draw
+		Font = self.Font
 		letters = self.letters
 
 		s = PrimitiveType.QUADS
@@ -115,7 +114,7 @@ class _Text:
 		#
 
 		for Letter in letters:
-			Letter.create_vertex()
+			Letter.create_vertex(Font)
 			for vertice in Letter.vertex:
 				vertex_array.append(vertice)
 
@@ -124,7 +123,7 @@ class _Text:
 		self.vertex_array = vertex_array
 		self.render_states = RenderStates()
 		t = Texture.from_file("assets/fonts/speech.png")
-		self.render_states.texture = Loader.texture
+		self.render_states.texture = Font.texture
 
 
 class _Letter:
@@ -133,7 +132,7 @@ class _Letter:
 	characters = "abcdefghijklmnopqrstuvwxyz "
 	grammar = ".:,;-!"
 
-	def create_vertex(self): #Text.create_vertex_array
+	def create_vertex(self, Font): #Text...vertex_array
 		vertex = []
 		for i in range(4): vertex.append(Vertex())
 
@@ -141,7 +140,7 @@ class _Letter:
 		l = self.letter
 		
 		#position
-		p = Loader.get_character_points(l)
+		p = Font.get_character_points(l)
 		w,h = p[2]-p[0], p[3]-p[1]
 		x1,y1 = self.position
 		x2,y2 = x1+w, y1+h
@@ -152,7 +151,7 @@ class _Letter:
 		vertex[3].position = x1,y2
 
 		#clipping
-		x1,y1,x2,y2 = Loader.get_character_points(l)
+		x1,y1,x2,y2 = Font.get_character_points(l)
 		vertex[0].tex_coords = x1, y1
 		vertex[1].tex_coords = x2, y1
 		vertex[2].tex_coords = x2, y2
@@ -167,11 +166,13 @@ class _Letter:
 
 
 class Text(_Text, Drawable, Rectangle):
+# * loads a Font
 # * batches Letters
 # * Position
 # * Color
 
-	def __init__(self, *args): self.write(*args)
+	def __init__(self, Font):
+		self.Font = Font
 
 
 	#LOOP

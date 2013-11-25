@@ -2,7 +2,7 @@ from code.sfml_plus import Window
 from code.sfml_plus import Key
 from code.sfml_plus import Camera
 
-from code.sfml_plus.graphics import Text
+from code.sfml_plus.graphics import Font, Text
 from sfml import Color
 
 Window = Window((1200,600), "Text Class")
@@ -10,7 +10,9 @@ Camera = Camera(Window)
 Camera.zoom = 2
 Camera.position = 0,0
 
-Text = Text("Hello everybody. My name is Sam.")
+Font = Font("speech")
+Text = Text(Font)
+Text.write("Hello, my name is Sam. I love you!")
 Text.center = Camera.center
 
 while Window.is_open:
