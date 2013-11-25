@@ -103,8 +103,9 @@ Create my own text class.
 			~ .graphics has Font, Text
 ==========
 
-	! dialogue balloon
-		! boxes Text
+	! Speech
+		+ boxes Text
+		! opens and closes
 		! shows Text letter-by-letter
 		! movable tail
 
