@@ -27,8 +27,8 @@ class Speech(Drawable, Rectangle):
 
 # * fanciness:
 #	boxes Text in a speech bubble.
+# 	opens/closes in a fancy way.
 # 	WIP - shows each letter one-by-one.
-# 	WIP - opens/closes in a fancy way
 
 	def __init__(self):
 		Drawable.__init__(self)
@@ -37,7 +37,10 @@ class Speech(Drawable, Rectangle):
 
 	def write(self, msg):
 		self.Text.write(msg)
-		self._animation.bounce()
+		self._animation.open()
+
+	def close(self):
+		self._animation.close()
 
 	def draw(self, target, states):
 		self._animation.play()
@@ -78,6 +81,7 @@ class Speech(Drawable, Rectangle):
 
 	def _update_alpha(self): #draw
 		if self.alpha > 255: self.alpha = 255
+		if self.alpha < 0: self.alpha = 0
 		a = self.alpha
 
 		def update(Drawable):
@@ -136,22 +140,38 @@ class Speech(Drawable, Rectangle):
 	# WIP - types text letter-by-letter
 	# WIP - closes window
 
+		opening = True
+		closing = False
+
+		def open(self): #Speech.write
+			self.opening = True
+			self.closing = False
+			
+
+			self.Ay.speed = 0
+			self.Ay.end = -10
+			self.Ay.vel = -0.1
+			self._.alpha = 0
+			self.pro_y = 0
+		
+		def close(self): #Speech.close
+			self.opening = False
+			self.closing = True
+			
+			self.Ay.speed = 0
+			self.Ay.end = +10
+			self.Ay.vel = +0.1
+			self._.alpha = 255
+			self.pro_y = 0
+
+		#
+
 		def __init__(self, Speech): #Speech.init
 			self._ = Speech
-			self.Ay = None
+			self.Ay = Animation()
 
-		def bounce(self): #Speech.write
-			if not self.Ay:
-				Ay = Animation()
-				Ay.end = 0.1
-				Ay.speed = -1.5
-				Ay.vel = 0.2
-				self.Ay = Ay
-				self._.alpha = 0
-				self.pro_y = 0
 
 		def play(self): #Speech.draw (loop)
-			if not self.Ay: return
 
 			Ay = self.Ay
 			pro_y = self.pro_y
@@ -159,12 +179,12 @@ class Speech(Drawable, Rectangle):
 			#progress
 			move = Ay.play(pro_y)
 			self._.y += move
-			self._.alpha += (255/15)
+
+			if self.opening: self._.alpha += (255/15)
+			if self.closing: self._.alpha -= (255/15)
 
 			#stop
 			self.pro_y += move
-			if pro_y == Ay.end:
-				self.Ay = None
 
 
 #####################################
@@ -188,9 +208,8 @@ while Window.is_open:
 			Speech.write(txt[r])
 			Speech.center = Camera.center
 
-		if Key.A.pressed():
-			Speech.alpha = 0
-			print "A"
+		if Key.BACKSPACE.pressed():
+			Speech.close()
 
 	Window.view = Camera
 	Window.clear((100,100,100))

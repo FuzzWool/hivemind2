@@ -107,9 +107,7 @@ Create my own text class.
 
 	! Speech
 		+ boxes Text
-		+ opens
-			+ animation is proportionate
-		! closes
+		+ opens / closes
 		! shows Text letter-by-letter
 		! movable tail
 
