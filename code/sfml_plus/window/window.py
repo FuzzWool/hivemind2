@@ -52,7 +52,7 @@ class Window(Rectangle):
 
 	#Event Handling
 
-	is_focused = False
+	is_focused = True
 	key_pressed = None
 
 

@@ -105,9 +105,16 @@ Create my own text class.
 
 	! Speech
 		+ boxes Text
-		! opens and closes
+		+ opens
+			+ animation is proportionate
+		! closes
 		! shows Text letter-by-letter
 		! movable tail
+
+
+	! glitches
+		! key presses are only occasionally picked up
+			! get debugging results
 
 
 ! open and close a UIBox/Dialogue
