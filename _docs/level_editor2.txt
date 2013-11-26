@@ -103,6 +103,8 @@ Create my own text class.
 			~ .graphics has Font, Text
 ==========
 
+	~ fixed button glitch
+
 	! Speech
 		+ boxes Text
 		+ opens
@@ -110,11 +112,6 @@ Create my own text class.
 		! closes
 		! shows Text letter-by-letter
 		! movable tail
-
-
-	! glitches
-		! key presses are only occasionally picked up
-			! get debugging results
 
 
 ! open and close a UIBox/Dialogue
