@@ -224,10 +224,11 @@ class Text(_Text, Drawable, Rectangle):
 	@property
 	def color(self): return self._color
 	@color.setter
-	def color(self, Color):
+	def color(self, c):
+		color = [v for v in c]
 		for letter in self.letters:
-			letter.color = Color
-		self._color = Color
+			letter.color = Color(*color)
+		self._color = Color(*color)
 	#
 
 
@@ -239,7 +240,4 @@ class Text(_Text, Drawable, Rectangle):
 			self.position = position
 			self.size = 0,0
 			self.letter = letter
-
-		#
-
-		color = Color(255,255,255,255)
+			self.color = Color(255,255,255,255)

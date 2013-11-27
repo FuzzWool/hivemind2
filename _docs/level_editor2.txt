@@ -101,14 +101,18 @@ Create my own text class.
 			~ .window has camera
 			~ .graphics has animation, mysprite, rectangle
 			~ .graphics has Font, Text
-==========
 
 	~ fixed button glitch
+
+==========
 
 	! Speech
 		+ boxes Text
 		+ opens / closes
-		! shows Text letter-by-letter
+		+ shows Text letter-by-letter
+			~ cleaned animation hierachy
+			~ fixed color glitch
+		! automatically closes over time
 		! movable tail
 
 

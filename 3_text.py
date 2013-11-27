@@ -32,8 +32,8 @@ class Speech(Drawable, Rectangle):
 
 	def __init__(self):
 		Drawable.__init__(self)
-		self._animation = self._animation(self)
 		self._create_drawables()
+		self._animation = self._animation(self)
 
 	def write(self, msg):
 		self.Text.write(msg)
@@ -43,10 +43,9 @@ class Speech(Drawable, Rectangle):
 		self._animation.close()
 
 	def draw(self, target, states):
+		self._create_box()
 		self._animation.play()
 
-		self._create_box()
-		self._update_alpha()
 		if self.Box:
 			target.draw(self.Box)
 			target.draw(self.Box_shading)
@@ -74,44 +73,20 @@ class Speech(Drawable, Rectangle):
 	# no w/h
 
 
+
 	#######
 	# DRAWABLES
-
-	alpha = 255
-
-	def _update_alpha(self): #draw
-		if self.alpha > 255: self.alpha = 255
-		if self.alpha < 0: self.alpha = 0
-		a = self.alpha
-
-		def update(Drawable):
-			if type(Drawable) == Text:
-				c = Drawable.color; c.a = a
-				Drawable.color = c
-			if type(Drawable) == RectangleShape:
-				c = Drawable.fill_color; c.a = a
-				Drawable.fill_color = c
-				c = Drawable.outline_color; c.a = a
-				Drawable.outline_color = c
-
-		update(self.Text)
-		update(self.Box)
-		update(self.Box_shading)
-
-
-	#
 
 	def _create_drawables(self): #init
 		f = Font("speech")
 		self.Text = Text(f)
-		self.Box = None
-		self.Box_shading = None
+		self.Box = RectangleShape((0,0))
+		self.Box_shading = RectangleShape((0,0))
 
 
 	def _create_box(self): #draw
 		size = self.size
 		position = self.position
-		a = self.alpha
 		#
 		Box = RectangleShape(size)
 		Box.position = position
@@ -126,7 +101,6 @@ class Speech(Drawable, Rectangle):
 	def _create_box_shading(self): #_create_box
 		w = self.w
 		x,y = self.x, self.y2-2
-		a = self.alpha
 		#
 		Box_shading = RectangleShape((w,2))
 		Box_shading.fill_color = Color(150,150,150)
@@ -135,10 +109,23 @@ class Speech(Drawable, Rectangle):
 		self.Box_shading = Box_shading
 
 
-	class _animation:
+	class _animation(object):
 	# * opens window
 	# WIP - types text letter-by-letter
 	# WIP - closes window
+
+		def __init__(self, Speech): #Speech.init
+			self._ = Speech
+			self.Ay = Animation()
+			self._init_text()
+
+		def play(self): #Speech.draw (loop)
+			self._play_openclose()
+			self._play_text()
+
+
+		###########
+		# OPEN / CLOSE
 
 		opening = True
 		closing = False
@@ -151,8 +138,10 @@ class Speech(Drawable, Rectangle):
 			self.Ay.speed = 0
 			self.Ay.end = -10
 			self.Ay.vel = -0.1
-			self._.alpha = 0
+			self._.box_alpha = 0
 			self.pro_y = 0
+			#
+			self._reset_text()
 		
 		def close(self): #Speech.close
 			self.opening = False
@@ -161,18 +150,13 @@ class Speech(Drawable, Rectangle):
 			self.Ay.speed = 0
 			self.Ay.end = +10
 			self.Ay.vel = +0.1
-			self._.alpha = 255
+			self._.box_alpha = 255
 			self.pro_y = 0
+
 
 		#
 
-		def __init__(self, Speech): #Speech.init
-			self._ = Speech
-			self.Ay = Animation()
-
-
-		def play(self): #Speech.draw (loop)
-
+		def _play_openclose(self): #play
 			Ay = self.Ay
 			pro_y = self.pro_y
 
@@ -180,18 +164,95 @@ class Speech(Drawable, Rectangle):
 			move = Ay.play(pro_y)
 			self._.y += move
 
-			if self.opening: self._.alpha += (255/15)
-			if self.closing: self._.alpha -= (255/15)
+			if self.opening: self.box_alpha += (255/15)
+			if self.closing:
+				self.box_alpha -= (255/15)
+				self.text_alpha -= (255/15)
 
 			#stop
 			self.pro_y += move
+			if Ay.end == pro_y:
+				self.opening = False
+				self.stopped = False
 
+
+
+		###########
+		# TEXT
+
+		def _init_text(self): #init
+			self.letter_index = 0
+			self.text_alpha = 0
+
+		def _reset_text(self): #open
+			self._init_text()
+
+		def _play_text(self): #play
+			if self.opening: return
+			if self.closing: return
+
+			i = self.letter_index
+			letters = self._.Text.letters
+			if i > len(letters)-1: return
+			#
+			letter = self._.Text.letters[i]
+			amt = +75
+			c = letter.color
+			a = c.a + amt
+			if a > 255: a = 255
+			c.a = a
+			letter.color = c
+			#
+			if a == 255:
+				self.letter_index += 1
+
+
+
+		###########
+		# ALPHA
+
+		_box_alpha = 255
+
+		@property
+		def box_alpha(self): return self._box_alpha
+		@box_alpha.setter
+		def box_alpha(self, a): #play
+			if a > 255: a = 255
+			if a < 0: a = 0
+			self._box_alpha = a
+
+			def update(Drawable):
+				c = Drawable.fill_color; c.a = a
+				Drawable.fill_color = c
+				c = Drawable.outline_color; c.a = a
+				Drawable.outline_color = c
+
+			update(self._.Box)
+			update(self._.Box_shading)
+
+
+		_text_alpha = 255
+
+		@property
+		def text_alpha(self): return self._text_alpha
+		@text_alpha.setter
+		def text_alpha(self, a):
+			if a > 255: a = 255
+			if a < 0: a = 0
+			self._text_alpha = a
+
+			def update(Drawable):
+				c = Drawable.color; c.a = a
+				Drawable.color = c
+
+			update(self._.Text)
 
 #####################################
 
 Speech = Speech()
-Speech.write("Hello! My name is Sam.")
+Speech.write("HiveminD")
 Speech.center = Camera.center
+
 
 while Window.is_open:
 	if Window.is_focused:
@@ -211,7 +272,7 @@ while Window.is_open:
 		if Key.BACKSPACE.pressed():
 			Speech.close()
 
-	Window.view = Camera
+	# Window.view = Camera
 	Window.clear((100,100,100))
 	Window.draw(Speech)
 	Window.display()
