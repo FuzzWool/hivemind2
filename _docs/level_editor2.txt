@@ -114,7 +114,8 @@ Create my own text class.
 
 UI BOXES FOR LEVEL EDITOR
 
-! design Level Editor toolbox
+. designed Level Editor toolbox
+
 ! Level Editor UI
 	! UI Box (Tile)
 	! UI Box (Entity)
