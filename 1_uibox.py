@@ -118,19 +118,6 @@ class _UIBox(Rectangle):
 			self.y = old_y
 
 
-class _UIDropdown:
-
-	def _create_box(self): #draw
-		x,y = self.position
-		w,h = self.size
-		#
-		Box = RectangleShape((w,h))
-		Box.position = x,y
-		Box.outline_color = Color(0,0,0)
-		Box.outline_thickness = 1
-		#
-		self.Box = Box
-
 
 ###############
 
@@ -189,16 +176,51 @@ class _UI(Rectangle):
 		pass
 
 
-class Dropdown(_UI, _UIDropdown):
+class _Dropdown:
+
+	def _create_graphic_cells(self):
+
+		graphic_cells = []
+		for cell in self.cells:
+			pass
+
+
+class Dropdown(_UI, _Dropdown):
+
+	w,h = 150,20
+	cells = ["apple", "pear", "orange"]
 
 	def controls(self, Key, Mouse, Camera):
-		pass
-		self._create_box()
-		self.graphics = [self.Box]
+		self._create_graphic_cells()
+		
+		self.graphics = []
+		for cell in self.graphic_cells:
+			self.graphics.append(cell)
+
 
 	def draw(self, Window):
-		Window.draw(self.Box)
+		for cell in self.graphic_cells:
+			Window.draw(cell)
 
+	#
+
+	graphic_cells = []
+
+	def _create_graphic_cells(self): #controls
+		cells = self.cells
+		x,y = self.position
+		w,h = self.size
+		graphic_cells = []
+		#
+		for cell in cells:
+			g_cell = RectangleShape((w,h))
+			g_cell.position = x,y
+			g_cell.outline_color = Color.BLACK
+			g_cell.outline_thickness = 1
+			graphic_cells.append(g_cell)
+			y += h
+		#
+		self.graphic_cells = graphic_cells
 
 #######################################
 
@@ -211,8 +233,8 @@ UIBox.center = Window.center
 UIBox.open()
 
 Dropdown = Dropdown()
-Dropdown.size = 100,100
-Dropdown.position = UIBox.position
+Dropdown.center = UIBox.center
+Dropdown.y = UIBox.y2 - Dropdown.h
 UIBox.add(Dropdown)
 
 Mouse = Mouse(Window)
