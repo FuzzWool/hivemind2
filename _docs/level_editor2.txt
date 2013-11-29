@@ -104,28 +104,31 @@ Create my own text class.
 
 	~ fixed button glitch
 
-==========
-
-	! Speech
+	+ basic Speech
 		+ boxes Text
 		+ opens / closes
 		+ shows Text letter-by-letter
-			~ cleaned animation hierachy
-			~ fixed color glitch
-		! automatically closes over time
-		! movable tail
+==========
 
 
-! open and close a UIBox/Dialogue
-a rectangle which opens and closes, like Windows 7
 
-	+ graphical Rectangle changes with logical Rectangle
-		+ size centers, doesn't just extend
+UI BOXES FOR LEVEL EDITOR
 
-	! Smooth
-		+ Smooth Position
-			+ both block and Smooth movements
+! design Level Editor toolbox
+! Level Editor UI
+	! UI Box (Tile)
+	! UI Box (Entity)
+	! UI Box (Warning Message)
+	! UI Box (Help dialogue for Tile)
 
-		! Smooth center
-		! Smooth size
-		! Smooth position AND Smooth size
+
+! UI Box (Tile)
+	! Tiled image
+		! with grid
+
+	! Dropdown menu
+		! with normal cells
+		! with folder cells
+
+		! Highlight recognition
+		! Click recognition

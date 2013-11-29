@@ -196,7 +196,7 @@ class Speech(Drawable, Rectangle):
 			if i > len(letters)-1: return
 			#
 			letter = self._.Text.letters[i]
-			amt = +75
+			amt = +100
 			c = letter.color
 			a = c.a + amt
 			if a > 255: a = 255
@@ -272,7 +272,7 @@ while Window.is_open:
 		if Key.BACKSPACE.pressed():
 			Speech.close()
 
-	# Window.view = Camera
+	Window.view = Camera
 	Window.clear((100,100,100))
 	Window.draw(Speech)
 	Window.display()

@@ -5,19 +5,14 @@ LEVEL 1 NOTES
 UI / DIALOGUE STANDARD
 
 
-	! Smooth movements
-	for UIs, Dialogue and Camera
-	All follow a smooth rectangle standard
+	+ Speech UI (game/__speech)
 
-	! Dialogue UI
-		! multiline, kerning, caps
-		
-
-
+	! design Level Editor toolbox
 	! Level Editor UI
-		! Warning box UI
-		! Tilesheet selection UI
-		! Tile selection UI
+		! UI Box (Tile)
+		! UI Box (Entity)
+		! UI Box (Warning Message)
+		! UI Box (Help dialogue for Tile)
 
 
 TOOLBOX W/ TOOLS
