@@ -119,10 +119,10 @@ UI BOXES FOR LEVEL EDITOR
 	! UI Box (Tile)
 
 		+ points: Draw a box.
-==========
 		+ open/close: alpha, smooth x/y
-		! controls: UIDropdown
-			! Draw a box.
+==========
+		! controls: Dropdown
+			+ draw a box, it opens/closes with UI
 			! Open a dropdown menu, cells reads from list.
 			! Lists in list are dropdown cells.
 

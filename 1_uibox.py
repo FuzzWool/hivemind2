@@ -8,7 +8,7 @@ from sfml import RectangleShape
 from sfml import Color
 from code.sfml_plus import Animation
 from code.sfml_plus.graphics.animation import Magnet
-
+from code.sfml_plus import Mouse
 
 class _UIBox(Rectangle):
 	
@@ -49,6 +49,9 @@ class _UIBox(Rectangle):
 
 		self._alpha = _alpha
 		update(self.Box)
+		for UI in self.UIs:
+			for graphic in UI.graphics:
+				update(graphic)
 
 
 
@@ -66,13 +69,21 @@ class _UIBox(Rectangle):
 
 	@x.setter
 	def x(self, x):
-			self._x = x
-			self.Smooth.x = x
+		move = x - self._x
+		for UI in self.UIs:
+			UI.x += move
+
+		self._x = x
+		self.Smooth.x = x
 
 	@y.setter
 	def y(self, y):
-			self._y = y
-			self.Smooth.y = y
+		move = y - self._y
+		for UI in self.UIs:
+			UI.y += move
+
+		self._y = y
+		self.Smooth.y = y
 
 
 	class Smooth(Rectangle):
@@ -108,7 +119,17 @@ class _UIBox(Rectangle):
 
 
 class _UIDropdown:
-	pass
+
+	def _create_box(self): #draw
+		x,y = self.position
+		w,h = self.size
+		#
+		Box = RectangleShape((w,h))
+		Box.position = x,y
+		Box.outline_color = Color(0,0,0)
+		Box.outline_thickness = 1
+		#
+		self.Box = Box
 
 
 ###############
@@ -120,8 +141,15 @@ class UIBox(_UIBox):
 
 	#
 
-	def controls(self):
-		pass
+	UIs = []
+	def add(self, UI):
+		self.UIs.append(UI)
+
+	#
+
+	def controls(self, *args):
+		for UI in self.UIs:
+			UI.controls(*args)
 
 	def draw(self, Window):
 		self._create_box()
@@ -129,7 +157,10 @@ class UIBox(_UIBox):
 		self.Smooth.play()
 		Window.draw(self.Box)
 
-	#
+		for UI in self.UIs:
+			UI.draw(Window)
+
+	###
 
 	def open(self):
 		amt = 20
@@ -144,15 +175,29 @@ class UIBox(_UIBox):
 		self._alpha = 255
 		self._end_alpha = 0
 
-	#####
 
-class UIDropdown:
+######
 
-	def controls(self):
+class _UI(Rectangle):
+
+	graphics = []
+
+	def controls(self, Key, Mouse, Camera):
 		pass
 
-	def draw(self):
+	def draw(self, Window):
 		pass
+
+
+class Dropdown(_UI, _UIDropdown):
+
+	def controls(self, Key, Mouse, Camera):
+		pass
+		self._create_box()
+		self.graphics = [self.Box]
+
+	def draw(self, Window):
+		Window.draw(self.Box)
 
 
 #######################################
@@ -161,15 +206,25 @@ class UIDropdown:
 Window = Window((1200,600), "UI Box (Tile)")
 
 UIBox = UIBox()
-UIBox.size = 100,100
+UIBox.size = 300,200
+UIBox.center = Window.center
 UIBox.open()
 
+Dropdown = Dropdown()
+Dropdown.size = 100,100
+Dropdown.position = UIBox.position
+UIBox.add(Dropdown)
+
+Mouse = Mouse(Window)
+
 while Window.is_open:
+
 	if Window.is_focused:
+		UIBox.controls(Key, Mouse, None)
 
 		if Key.ENTER.pressed(): UIBox.open()
 		if Key.BACKSPACE.pressed(): UIBox.close()
 
 	Window.clear((255,220,0))
 	UIBox.draw(Window)
-	Window.display()
+	Window.display(Mouse)

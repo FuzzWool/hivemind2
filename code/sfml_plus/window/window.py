@@ -16,7 +16,7 @@ class Window(Rectangle):
 		self.window = RenderWindow(video_mode, name, 4)
 		self.window.vertical_synchronization = True
 
-		self.position = self.window.position
+		self.position = 0,0
 		self.size = self.window.size
 
 
