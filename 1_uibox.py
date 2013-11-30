@@ -191,8 +191,12 @@ class Dropdown(_UI, _Dropdown):
 	cells = ["apple", "pear", "orange"]
 
 	def controls(self, Key, Mouse, Camera):
-		self._create_graphic_cells()
 		
+		self._opening_check(Mouse)
+
+		#
+
+		self._create_graphic_cells()
 		self.graphics = []
 		for cell in self.graphic_cells:
 			self.graphics.append(cell)
@@ -207,7 +211,11 @@ class Dropdown(_UI, _Dropdown):
 	graphic_cells = []
 
 	def _create_graphic_cells(self): #controls
-		cells = self.cells
+		opened = self.opened
+
+		if opened: cells = self.cells
+		else: cells = [self.cells[0]]
+
 		x,y = self.position
 		w,h = self.size
 		graphic_cells = []
@@ -221,6 +229,19 @@ class Dropdown(_UI, _Dropdown):
 			y += h
 		#
 		self.graphic_cells = graphic_cells
+
+	#
+
+
+	opened = False
+
+	def _opening_check(self, Mouse): #controls
+		
+		if Mouse.left.pressed():
+			if Mouse.inside(self):
+				self.opened = True
+			else:
+				self.opened = False
 
 #######################################
 

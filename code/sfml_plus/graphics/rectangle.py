@@ -299,6 +299,49 @@ class Rectangle(object):
 
 	###############################################
 
+	def inside(self, Rectangle):
+		a,b = self,Rectangle
+
+		def x():
+			if a.x1 < b.x1 < a.x2: return True
+			if a.x1 < b.x2 < a.x2: return True
+			if b.x1 < a.x1 < b.x2: return True
+			if b.x1 < a.x2 < b.x2: return True
+			return False
+
+		def y():
+			if a.y1 < b.y1 < a.y2: return True
+			if a.y1 < b.y2 < a.y2: return True
+			if b.y1 < a.y1 < b.y2: return True
+			if b.y1 < a.y2 < b.y2: return True
+			return False
+
+		if x() and y(): return True
+		return False
+
+
+	def colliding(self, Rectangle):
+		a,b = self,Rectangle
+
+		def x():
+			if a.x1 <= b.x1 <= a.x2: return True
+			if a.x1 <= b.x2 <= a.x2: return True
+			if b.x1 <= a.x1 <= b.x2: return True
+			if b.x1 <= a.x2 <= b.x2: return True
+			return False
+
+		def y():
+			if a.y1 <= b.y1 <= a.y2: return True
+			if a.y1 <= b.y2 <= a.y2: return True
+			if b.y1 <= a.y1 <= b.y2: return True
+			if b.y1 <= a.y2 <= b.y2: return True
+			return False
+
+		if x() and y(): return True
+		return False
+
+	#
+
 	def keep_in_points(self, pos=(), points=()):
 		x,y = pos
 		x1,y1,x2,y2 = points

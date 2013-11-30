@@ -122,9 +122,14 @@ UI BOXES FOR LEVEL EDITOR
 		+ open/close: alpha, smooth x/y
 		! controls: Dropdown
 			+ draw a box, it opens/closes with UI
-==========
-			+ draw dropdown cell amt == cell amt
+		
 			! Open a dropdown menu, cells reads from list.
+				+ draw a box for each cell
+==========
+				+ draw more than one box only when selected
+				! label individual cells
+				! select a labelled cell
+
 			! Lists in list are dropdown cells.
 
 
