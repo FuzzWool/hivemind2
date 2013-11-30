@@ -176,19 +176,80 @@ class _UI(Rectangle):
 		pass
 
 
+from code.sfml_plus.graphics import Font, Text
+
 class _Dropdown:
 
-	def _create_graphic_cells(self):
+	graphic_cells = []
+	text_cells = []
 
+	def _create_graphic_cells(self): #controls
+		opened = self.opened
+		if opened: cells = self.cells
+		else: cells = [self.cells[0]]
+
+		x,y = self.position
+		w,h = self.size
 		graphic_cells = []
-		for cell in self.cells:
-			pass
+		text_cells = []
+		#
+		for i, cell in enumerate(cells):
+			c = self._create_cell(i)
+			t = self._create_text(i)
+			graphic_cells.append(c)
+			text_cells.append(t)
+		#
+		self.graphic_cells = graphic_cells
+		self.text_cells = text_cells
+
+
+
+	def _create_cell(self,i):
+		x,y = self.position
+		w,h = self.size
+		y += (h*i)
+		#
+		c = RectangleShape((w,h))
+		c.position = x,y
+		c.outline_color = Color.BLACK
+		c.outline_thickness = 1
+		#
+		return c
+
+	font = Font("speech")
+	def _create_text(self,i):
+		x,y = self.position
+		w,h = self.size
+		y += (h*i)
+		msg = str(self.cells[i])
+		f = self.font
+		#
+		t = Text(f)
+		t.position = x,y
+		t.write(msg)
+		#
+		return t
+
+	#
+
+
+	opened = False
+
+	def _opening_check(self, Mouse): #controls
+		
+		if Mouse.left.pressed():
+			if Mouse.inside(self):
+				self.opened = not self.opened
+			else:
+				self.opened = False
+
+
 
 
 class Dropdown(_UI, _Dropdown):
 
 	w,h = 150,20
-	cells = ["apple", "pear", "orange"]
+	cells = ["one", "two", "three", "four"]
 
 	def controls(self, Key, Mouse, Camera):
 		
@@ -203,45 +264,23 @@ class Dropdown(_UI, _Dropdown):
 
 
 	def draw(self, Window):
+
 		for cell in self.graphic_cells:
 			Window.draw(cell)
 
-	#
-
-	graphic_cells = []
-
-	def _create_graphic_cells(self): #controls
-		opened = self.opened
-
-		if opened: cells = self.cells
-		else: cells = [self.cells[0]]
-
-		x,y = self.position
-		w,h = self.size
-		graphic_cells = []
-		#
-		for cell in cells:
-			g_cell = RectangleShape((w,h))
-			g_cell.position = x,y
-			g_cell.outline_color = Color.BLACK
-			g_cell.outline_thickness = 1
-			graphic_cells.append(g_cell)
-			y += h
-		#
-		self.graphic_cells = graphic_cells
-
-	#
+		for cell in self.text_cells:
+			Window.draw(cell)
 
 
-	opened = False
+		# ##WIP TEXT####
+		# f = Font("speech")
+		# t = Text(f)
+		# t.write("hello")
+		# t.center = self.center
+		# Window.draw(t)
+		# #
 
-	def _opening_check(self, Mouse): #controls
-		
-		if Mouse.left.pressed():
-			if Mouse.inside(self):
-				self.opened = True
-			else:
-				self.opened = False
+
 
 #######################################
 
@@ -265,8 +304,11 @@ while Window.is_open:
 	if Window.is_focused:
 		UIBox.controls(Key, Mouse, None)
 
-		if Key.ENTER.pressed(): UIBox.open()
-		if Key.BACKSPACE.pressed(): UIBox.close()
+		if Key.ENTER.pressed():
+			UIBox.center = Window.center
+			UIBox.open()
+		if Key.BACKSPACE.pressed():
+			UIBox.close()
 
 	Window.clear((255,220,0))
 	UIBox.draw(Window)
