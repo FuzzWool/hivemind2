@@ -128,10 +128,11 @@ UI BOXES FOR LEVEL EDITOR
 				+ draw more than one box only when selected
 				+ labelled individual cells
 ==========
-				! CPU usage spikes
-				! select a labelled cell
+				+ cells are classes
+				! individual cell selection
 
 			! Lists in list are dropdown cells.
+			! CPU usage spikes
 
 
 	! UI Box (Entity)

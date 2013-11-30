@@ -12,8 +12,9 @@ from code.sfml_plus import Mouse
 
 class _UIBox(Rectangle):
 	
+	### GRAPHICS
+
 	def _create_box(self): #draw
-	#Updates the box to the new points every loop.
 		x,y = self.position
 		w,h = self.size
 		#
@@ -40,21 +41,24 @@ class _UIBox(Rectangle):
 			if _alpha-amt < 0: _alpha = 0
 			else: _alpha -= amt
 		#
+
 		def update(G):
+
 			if type(G) == RectangleShape:
 				c = G.fill_color; c.a = _alpha
 				G.fill_color = c
 				c = G.outline_color; c.a = _alpha
 				G.outline_color = c
 
+			if type(G) == Text:
+				c = G.color; c.a = _alpha
+				G.color = c
+
 		self._alpha = _alpha
 		update(self.Box)
 		for UI in self.UIs:
 			for graphic in UI.graphics:
 				update(graphic)
-
-
-
 
 
 	### POSITION
@@ -178,60 +182,58 @@ class _UI(Rectangle):
 
 from code.sfml_plus.graphics import Font, Text
 
-class _Dropdown:
+class Dropdown(_UI):
+# G: Draws cells.
+# WIP - L: Forwards mouse events to cells.
 
-	graphic_cells = []
-	text_cells = []
+	w,h = 100,20
+	cell_input = ["one", "two", "three", "four"]
 
-	def _create_graphic_cells(self): #controls
-		opened = self.opened
-		if opened: cells = self.cells
-		else: cells = [self.cells[0]]
+	def __init__(self):
+		self._create_cells()
 
-		x,y = self.position
-		w,h = self.size
-		graphic_cells = []
-		text_cells = []
-		#
-		for i, cell in enumerate(cells):
-			c = self._create_cell(i)
-			t = self._create_text(i)
-			graphic_cells.append(c)
-			text_cells.append(t)
-		#
-		self.graphic_cells = graphic_cells
-		self.text_cells = text_cells
+	def controls(self, Key, Mouse, Camera):
+		self._opening_check(Mouse)
+		self._create_cell_graphics()
+
+	def draw(self, Window):
+		self._draw_cells(Window)
+
+	################################################
 
 
-
-	def _create_cell(self,i):
-		x,y = self.position
-		w,h = self.size
-		y += (h*i)
-		#
-		c = RectangleShape((w,h))
-		c.position = x,y
-		c.outline_color = Color.BLACK
-		c.outline_thickness = 1
-		#
-		return c
-
-	font = Font("speech")
-	def _create_text(self,i):
-		x,y = self.position
-		w,h = self.size
-		y += (h*i)
-		msg = str(self.cells[i])
-		f = self.font
-		#
-		t = Text(f)
-		t.position = x,y
-		t.write(msg)
-		#
-		return t
-
+	### CELLS
 	#
 
+	def _create_cells(self): #init
+		self.cells = []
+		#
+		for cell_i in self.cell_input:
+			cell = Cell(cell_i)
+			self.cells.append(cell)
+
+	def _create_cell_graphics(self): #controls
+		
+		x,y = self.position
+		for cell in self.cells:
+			cell.position = x,y
+			cell.create_graphics()
+			y += cell.h
+
+		#refresh graphics
+		self.graphics = []
+		for cell in self.cells:
+			for graphic in cell.return_graphics():
+				self.graphics.append(graphic)
+
+
+	def _draw_cells(self, Window): #draw
+		for cell in self.cells:
+			cell.draw(Window)
+
+
+	### CONTROLS
+	#
 
 	opened = False
 
@@ -243,42 +245,59 @@ class _Dropdown:
 			else:
 				self.opened = False
 
+#
 
 
 
-class Dropdown(_UI, _Dropdown):
+class Cell(Rectangle):
+# WIP - G: Creates a box. Holds text.
+# WIP - L: May be selected.
 
-	w,h = 150,20
-	cells = ["one", "two", "three", "four"]
+	text = "untitled_cell"
 
-	def controls(self, Key, Mouse, Camera):
-		
-		self._opening_check(Mouse)
+	def __init__(self, text): #dropdown.init
+		self.text = text
 
+	def create_graphics(self): #dropdown.controls
+		self._create_box()
+		self._create_gtext()
+
+	def return_graphics(self): #dropdown.controls
+		return self.box, self.gtext
+
+	def draw(self, Window): #dropdown.draw
+		Window.draw(self.box)
+		Window.draw(self.gtext)
+
+	#############################################
+
+	### GRAPHICS
+
+	x,y,w,h = 0,0,100,20
+	font = Font("speech")
+
+	def _create_box(self):
+		x,y = self.position
+		w,h = self.size
 		#
+		box = RectangleShape((w,h))
+		box.position = x,y
+		box.outline_color = Color.BLACK
+		box.outline_thickness = 1
+		#
+		self.box = box
 
-		self._create_graphic_cells()
-		self.graphics = []
-		for cell in self.graphic_cells:
-			self.graphics.append(cell)
-
-
-	def draw(self, Window):
-
-		for cell in self.graphic_cells:
-			Window.draw(cell)
-
-		for cell in self.text_cells:
-			Window.draw(cell)
-
-
-		# ##WIP TEXT####
-		# f = Font("speech")
-		# t = Text(f)
-		# t.write("hello")
-		# t.center = self.center
-		# Window.draw(t)
-		# #
+	def _create_gtext(self):
+		x,y = self.position
+		x += 3; y += 3
+		text = self.text
+		#
+		gtext = Text(self.font)
+		gtext.write(text)
+		gtext.position = x,y
+		#
+		self.gtext = gtext
+	#
 
 
 
