@@ -189,10 +189,12 @@ class Dropdown(_UI):
 
 	w,h = 100,20
 	cell_input = []
+	is_sub = False
 
-	def __init__(self, cell_input):
+	def __init__(self, cell_input, is_sub=False):
 		self.cell_input = cell_input
 		self._create_cells()
+		self.is_sub = is_sub
 
 	def controls(self, Key, Mouse, Camera):
 		self._opening_check(Mouse)
@@ -208,23 +210,35 @@ class Dropdown(_UI):
 	#
 
 	def _create_cells(self): #init
-		self.cells = []
+		self.cells = [Cell("...")]
 		#
 		for cell_i in self.cell_input:
 			if type(cell_i) == str:
 				cell = Cell(cell_i)
 			if type(cell_i) == list:
-				cell = Dropdown(cell_i)
+				cell = Dropdown(cell_i, is_sub=True)
 			
 			self.cells.append(cell)
 
 	def create_graphics(self): #controls
 		
+		#cell 0
 		x,y = self.position
-		for cell in self.cells:
+		cell = self.cells[0]
+		cell.position = x,y
+		cell.create_graphics()
+		y += cell.h
+
+		# other cells
+		if self.is_sub:
+			x += self.w+1
+			y -= cell.h
+
+		for cell in self.cells[1:]:
 			cell.position = x,y
 			cell.create_graphics()
 			y += cell.h
+
 
 		#refresh graphics
 		self.graphics = []
@@ -351,7 +365,8 @@ UIBox.size = 300,200
 UIBox.center = Window.center
 UIBox.open()
 
-Dropdown = Dropdown(["one", "two", "three", ["one", "two"]])
+Dropdown = Dropdown\
+(["one", "two", "three", ["ONE", ["TWO", "THREE"]]])
 Dropdown.center = UIBox.center
 Dropdown.y = UIBox.y2 - Dropdown.h
 UIBox.add(Dropdown)

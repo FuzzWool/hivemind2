@@ -132,6 +132,7 @@ UI BOXES FOR LEVEL EDITOR
 ==========
 			! Lists in list are dropdown cells
 				+ Lists are read as extra cells
+				+ sub: lists to the right of cell 0
 				! lists may be opened/closed
 
 			! CPU usage spikes
