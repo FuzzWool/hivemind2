@@ -127,9 +127,10 @@ UI BOXES FOR LEVEL EDITOR
 				+ draw a box for each cell
 				+ draw more than one box only when selected
 				+ labelled individual cells
-==========
 				+ cells are classes
-				! individual cell selection
+==========
+				+ cells may be selected/highlighted
+
 
 			! Lists in list are dropdown cells.
 			! CPU usage spikes

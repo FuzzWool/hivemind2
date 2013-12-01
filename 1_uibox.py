@@ -187,7 +187,7 @@ class Dropdown(_UI):
 # WIP - L: Forwards mouse events to cells.
 
 	w,h = 100,20
-	cell_input = ["one", "two", "three", "four"]
+	cell_input = ["one", "two", "three", "four", "five"]
 
 	def __init__(self):
 		self._create_cells()
@@ -239,11 +239,16 @@ class Dropdown(_UI):
 
 	def _opening_check(self, Mouse): #controls
 		
-		if Mouse.left.pressed():
-			if Mouse.inside(self):
-				self.opened = not self.opened
-			else:
-				self.opened = False
+		# if Mouse.left.pressed():
+		# 	if Mouse.inside(self):
+		# 		self.opened = not self.opened
+		# 	else:
+		# 		self.opened = False
+
+		#
+
+		for cell in self.cells:
+			cell.controls(Mouse)
 
 #
 
@@ -254,9 +259,21 @@ class Cell(Rectangle):
 # WIP - L: May be selected.
 
 	text = "untitled_cell"
+	selected = False
+	highlighted = False
 
 	def __init__(self, text): #dropdown.init
 		self.text = text
+
+	#
+
+	def controls(self, Mouse):
+		self.highlighted = Mouse.inside(self)
+
+		if Mouse.left.pressed():
+			self.selected = Mouse.inside(self)
+
+	#
 
 	def create_graphics(self): #dropdown.controls
 		self._create_box()
@@ -279,11 +296,17 @@ class Cell(Rectangle):
 	def _create_box(self):
 		x,y = self.position
 		w,h = self.size
+		highlighted = self.highlighted
+		selected = self.selected
 		#
 		box = RectangleShape((w,h))
 		box.position = x,y
 		box.outline_color = Color.BLACK
 		box.outline_thickness = 1
+
+		if highlighted: box.fill_color = Color(255,255,20)
+		if selected: box.fill_color = Color(200,200,150)
+		
 		#
 		self.box = box
 
