@@ -184,17 +184,19 @@ from code.sfml_plus.graphics import Font, Text
 
 class Dropdown(_UI):
 # G: Draws cells.
-# WIP - L: Forwards mouse events to cells.
+# L: Forwards mouse events to cells.
+# WIP - L: Opens list cells as their own dropdowns.
 
 	w,h = 100,20
-	cell_input = ["one", "two", "three", "four", "five"]
+	cell_input = []
 
-	def __init__(self):
+	def __init__(self, cell_input):
+		self.cell_input = cell_input
 		self._create_cells()
 
 	def controls(self, Key, Mouse, Camera):
 		self._opening_check(Mouse)
-		self._create_cell_graphics()
+		self.create_graphics()
 
 	def draw(self, Window):
 		self._draw_cells(Window)
@@ -209,10 +211,14 @@ class Dropdown(_UI):
 		self.cells = []
 		#
 		for cell_i in self.cell_input:
-			cell = Cell(cell_i)
+			if type(cell_i) == str:
+				cell = Cell(cell_i)
+			if type(cell_i) == list:
+				cell = Dropdown(cell_i)
+			
 			self.cells.append(cell)
 
-	def _create_cell_graphics(self): #controls
+	def create_graphics(self): #controls
 		
 		x,y = self.position
 		for cell in self.cells:
@@ -227,7 +233,18 @@ class Dropdown(_UI):
 				self.graphics.append(graphic)
 
 
+	def return_graphics(self): #controls
+	# (Only when treated as a cell)
+
+		r_graphics = []
+		for cell in self.cells:
+			for graphic in cell.return_graphics():
+				r_graphics.append(graphic)
+		return r_graphics
+
+
 	def _draw_cells(self, Window): #draw
+
 		for cell in self.cells:
 			cell.draw(Window)
 
@@ -248,7 +265,7 @@ class Dropdown(_UI):
 		#
 
 		for cell in self.cells:
-			cell.controls(Mouse)
+			cell.controls(None, Mouse, None)
 
 #
 
@@ -267,7 +284,7 @@ class Cell(Rectangle):
 
 	#
 
-	def controls(self, Mouse):
+	def controls(self, Key, Mouse, Camera):
 		self.highlighted = Mouse.inside(self)
 
 		if Mouse.left.pressed():
@@ -334,7 +351,7 @@ UIBox.size = 300,200
 UIBox.center = Window.center
 UIBox.open()
 
-Dropdown = Dropdown()
+Dropdown = Dropdown(["one", "two", "three", ["one", "two"]])
 Dropdown.center = UIBox.center
 Dropdown.y = UIBox.y2 - Dropdown.h
 UIBox.add(Dropdown)

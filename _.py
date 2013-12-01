@@ -1,3 +1,2 @@
-foo = "abc"
-try: print foo.index("A")
-except: print foo.upper().index("A")
+print type([]) == list
+print type("") == str
