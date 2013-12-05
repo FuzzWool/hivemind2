@@ -180,198 +180,22 @@ class _UI(Rectangle):
 		pass
 
 
+
 from code.sfml_plus.graphics import Font, Text
 
-class Dropdown(_UI):
-# G: Draws cells.
-# L: Forwards mouse events to cells.
-# WIP - L: Opens list cells as their own dropdowns.
+class Dropdown(_UI, Rectangle):
 
-	w,h = 100,20
-	cell_input = []
-	is_sub = False
+	x,y,w,h = 0,0,0,0
 
-	def __init__(self, cell_input, is_sub=False):
-		self.cell_input = cell_input
-		self._create_cells()
-		self.is_sub = is_sub
-
-	def controls(self, Key, Mouse, Camera):
-		self._opening_check(Mouse)
-		self.create_graphics()
+	def __init__(self, cells):
+		pass
 
 	def draw(self, Window):
-		self._draw_cells(Window)
+		pass
 
-	################################################
+	###############################
 
-
-	### CELLS
-	#
-
-	def _create_cells(self): #init
-		self.cells = [Cell("...")]
-		#
-		for cell_i in self.cell_input:
-			if type(cell_i) == str:
-				cell = Cell(cell_i)
-			if type(cell_i) == list:
-				cell = Dropdown(cell_i, is_sub=True)
-			
-			self.cells.append(cell)
-
-	def create_graphics(self): #controls
-		
-		#cell 0
-		x,y = self.position
-		cell = self.cells[0]
-		cell.position = x,y
-		cell.create_graphics()
-		y += cell.h
-
-		# other cells
-		if self.is_sub:
-			x += self.w+1
-			y -= cell.h
-
-		for cell in self.cells[1:]:
-			cell.position = x,y
-			cell.create_graphics()
-			y += cell.h
-
-
-		#refresh graphics
-		self.graphics = []
-		for cell in self.cells:
-			for graphic in cell.return_graphics():
-				self.graphics.append(graphic)
-
-
-	def return_graphics(self): #controls
-	# (Only when treated as a cell)
-
-		r_graphics = []
-		for cell in self.cells:
-			for graphic in cell.return_graphics():
-				r_graphics.append(graphic)
-		return r_graphics
-
-
-	def _draw_cells(self, Window): #draw
-
-		if self.opened: cells = self.cells
-		if not self.opened: cells = [self.cells[0]]
-		#
-		for cell in cells:
-			cell.draw(Window)
-
-
-	### CONTROLS
-	#
-
-	opened = False
-
-	def _opening_check(self, Mouse): #controls
-
-		#Check if any following children are opened.
-		#If so, it has permission to use controls.
-		from compiler.ast import flatten
-		
-		if Mouse.left.pressed():
-			if Mouse.inside(self):
-				self.opened = not self.opened
-			# else:
-			# 	self.opened = False
-
-		cells = flatten(self.cells)
-		dropdown_cells = \
-		[c for c in cells if type(cells) == Dropdown]
-
-		for cell in dropdown_cells:
-			if cell.opened:
-				self.opened = True
-
-		#
-
-		if self.opened: cells = self.cells
-		if not self.opened: cells = [self.cells[0]]
-		#
-		for cell in cells:
-			cell.controls(None, Mouse, None)
-
-#
-
-
-
-class Cell(Rectangle):
-# G: Creates a box. Holds text.
-# L: May be selected.
-
-	text = "untitled_cell"
-	selected = False
-	highlighted = False
-
-	def __init__(self, text): #dropdown.init
-		self.text = text
-
-	#
-
-	def controls(self, Key, Mouse, Camera):
-		self.highlighted = Mouse.inside(self)
-
-		if Mouse.left.pressed():
-			self.selected = Mouse.inside(self)
-
-	#
-
-	def create_graphics(self): #dropdown.controls
-		self._create_box()
-		self._create_gtext()
-
-	def return_graphics(self): #dropdown.controls
-		return self.box, self.gtext
-
-	def draw(self, Window): #dropdown.draw
-		Window.draw(self.box)
-		Window.draw(self.gtext)
-
-	#############################################
-
-	### GRAPHICS
-
-	x,y,w,h = 0,0,100,20
-	font = Font("speech")
-
-	def _create_box(self):
-		x,y = self.position
-		w,h = self.size
-		highlighted = self.highlighted
-		selected = self.selected
-		#
-		box = RectangleShape((w,h))
-		box.position = x,y
-		box.outline_color = Color.BLACK
-		box.outline_thickness = 1
-
-		if highlighted: box.fill_color = Color(255,255,20)
-		if selected: box.fill_color = Color(200,200,150)
-		
-		#
-		self.box = box
-
-	def _create_gtext(self):
-		x,y = self.position
-		x += 3; y += 3
-		text = self.text
-		#
-		gtext = Text(self.font)
-		gtext.write(text)
-		gtext.position = x,y
-		#
-		self.gtext = gtext
-	#
-
-
+	pass
 
 #######################################
 

@@ -120,24 +120,37 @@ UI BOXES FOR LEVEL EDITOR
 
 		+ points: Draw a box.
 		+ open/close: alpha, smooth x/y
-		! controls: Dropdown
-			+ draw a box, it opens/closes with UI
-		
-			+ cells reads from list.
-				+ draw a box for each cell
-				+ draw more than one box only when selected
-				+ labelled individual cells
-				+ cells are classes
-			+ cells may be selected/highlighted
+
+	! controls: Dropdown
+		+ draw a box, it opens/closes with UI
+	
+		+ cells reads from list.
+			+ draw a box for each cell
+			+ draw more than one box only when selected
+			+ labelled individual cells
+			+ cells are classes
+		+ cells may be selected/highlighted
+
+		! Lists in list are dropdown cells
+			+ Lists are read as extra cells
+			+ sub: lists to the right of cell 0
 ==========
-			! Lists in list are dropdown cells
-				+ Lists are read as extra cells
-				+ sub: lists to the right of cell 0
-				! lists may be opened/closed
+			x lists may be opened/closed
+				x other sub-lists are unselected by choosing another
 
-			! CPU usage spikes
+	! Dropdown #2
+		! Init(cells): init cells, create rects, draw them
+		every cell is treated as a new dropdown class
+
+		! Controls: opening and closing the list
+		by clicking. 
+
+		! cells (lists in lists):
+		sub-cells may open in different directions
 
 
+	
+	! CPU usage spikes
 	! UI Box (Entity)
 	! UI Box (Warning Message)
 	! UI Box (Help dialogue for Tile)
