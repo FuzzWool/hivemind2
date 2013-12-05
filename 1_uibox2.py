@@ -257,17 +257,23 @@ class Dropdown(Cell):
 		self.cells = self._create_cells(cells)
 
 	def controls(self, Key, Mouse, Camera):
-		Cell.controls(self, Key, Mouse, Camera)
+		if self.selected:
+			for cell in self.cells:
+				cell.controls(Key, Mouse, Camera)
 		#
+		Cell.controls(self, Key, Mouse, Camera)
 		for cell in self.cells:
-			cell.controls(Key, Mouse, Camera)
+			if cell.selected:
+				self.selected = True
+				self.name = cell.name
 
 	def draw(self, Window):
-		Cell.draw(self, Window)
-		#
 		self.cells = self._position_cells(self.cells)
-		for cell in self.cells:
-			cell.draw(Window)
+		if self.selected:
+			for cell in self.cells:
+				cell.draw(Window)
+		#
+		Cell.draw(self, Window)
 
 
 	###############################
