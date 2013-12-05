@@ -190,11 +190,30 @@ class Cell(_UI, Rectangle):
 	def __init__(self, name):
 		self.name = name
 
+	def controls(self, Key, Mouse, Camera):
+		self.hovered = self._hover(Mouse)
+		self.selected = self._select(Mouse)
+
 	def draw(self, Window):
 		self.rect = self._create_rect()
 		self.text = self._create_text()
 		Window.draw(self.rect)
 		Window.draw(self.text)
+
+
+	############################
+
+	hovered = False
+	def _hover(self, Mouse):
+		return Mouse.inside(self)
+
+	selected = False
+	def _select(self, Mouse):
+		if Mouse.left.pressed():
+			if self.hovered: return True
+			else: return False
+		return self.selected
+
 
 	############################
 
@@ -203,11 +222,15 @@ class Cell(_UI, Rectangle):
 	def _create_rect(self): #draw
 		x,y = self.position
 		w,h = self.size
+		hovered = self.hovered
+		selected = self.selected
 		#
 		rect = RectangleShape((w,h))
 		rect.position = x,y
 		rect.outline_color = Color.BLACK
 		rect.outline_thickness = 1
+		if hovered: rect.fill_color = Color(255,0,0)
+		if selected: rect.fill_color = Color(200,200,200)
 		#
 		return rect
 
@@ -224,6 +247,7 @@ class Cell(_UI, Rectangle):
 
 
 
+
 class Dropdown(Cell):
 
 	name = "DROPDOWN"
@@ -232,10 +256,19 @@ class Dropdown(Cell):
 	def __init__(self, cells):
 		self.cells = self._create_cells(cells)
 
+	def controls(self, Key, Mouse, Camera):
+		Cell.controls(self, Key, Mouse, Camera)
+		#
+		for cell in self.cells:
+			cell.controls(Key, Mouse, Camera)
+
 	def draw(self, Window):
+		Cell.draw(self, Window)
+		#
 		self.cells = self._position_cells(self.cells)
 		for cell in self.cells:
 			cell.draw(Window)
+
 
 	###############################
 
@@ -257,8 +290,8 @@ class Dropdown(Cell):
 		x,y = self.position
 		#
 		for cell in cells:
-			cell.position = x,y
 			y += cell.h
+			cell.position = x,y
 		#
 		return cells
 
