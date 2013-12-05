@@ -183,19 +183,72 @@ class _UI(Rectangle):
 
 from code.sfml_plus.graphics import Font, Text
 
-class Dropdown(_UI, Rectangle):
+class Cell(_UI, Rectangle):
+	x,y,w,h = 0,0,100,20
+	name = "untitled_cell"
 
-	x,y,w,h = 0,0,0,0
-
-	def __init__(self, cells):
-		pass
+	def __init__(self, name):
+		self.name = name
 
 	def draw(self, Window):
-		pass
+		self.rect = self._create_rect()
+		Window.draw(self.rect)
+
+	############################
+
+	def _create_rect(self): #draw
+		x,y = self.position
+		w,h = self.size
+		#
+		rect = RectangleShape((w,h))
+		rect.position = x,y
+		rect.outline_color = Color.BLACK
+		rect.outline_thickness = 1
+		#
+		return rect
+
+	def _create_text(self): #draw
+		text = None
+
+
+class Dropdown(Cell):
+
+	cells = []
+	_cells = []
+
+	def __init__(self, cells):
+		self.cells = self._create_cells(cells)
+
+	def draw(self, Window):
+		self.cells = self._position_cells(self.cells)
+		for cell in self.cells:
+			cell.draw(Window)
 
 	###############################
 
-	pass
+	def _create_cells(self, cell_input): #init
+		cells = []
+		#
+		for ci in cell_input:
+			
+			if type(ci) == str:
+				cell = Cell(ci)
+			if type(ci) == list:
+				cell = Dropdown(ci)
+
+			cells.append(cell)
+		#
+		self._position_cells(cells)
+		return cells
+
+	def _position_cells(self, cells): #draw
+		x,y = self.position
+		#
+		for cell in cells:
+			cell.position = x,y
+			y += cell.h
+		#
+		return cells
 
 #######################################
 
@@ -208,7 +261,8 @@ UIBox.center = Window.center
 UIBox.open()
 
 dropdown = Dropdown\
-(["one", "two", "three", ["ONE", ["TWO", "THREE"]],["FOUR"]])
+(["one", "two", "three", "four"])
+# (["one", "two", "three", ["ONE", ["TWO", "THREE"]],["FOUR"]])
 dropdown.center = UIBox.center
 dropdown.y = UIBox.y2 - Dropdown.h
 UIBox.add(dropdown)

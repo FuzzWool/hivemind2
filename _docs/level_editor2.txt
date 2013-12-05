@@ -134,14 +134,13 @@ UI BOXES FOR LEVEL EDITOR
 		! Lists in list are dropdown cells
 			+ Lists are read as extra cells
 			+ sub: lists to the right of cell 0
-==========
 			x lists may be opened/closed
 				x other sub-lists are unselected by choosing another
 
-	! Dropdown #2
-		! Init(cells): init cells, create rects, draw them
-		every cell is treated as a new dropdown class
 
+	! Dropdown #2
+		+ Init(cells): init cells, create rects, draw them
+==========
 		! Controls: opening and closing the list
 		by clicking. 
 
