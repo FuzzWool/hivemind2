@@ -192,9 +192,13 @@ class Cell(_UI, Rectangle):
 
 	def draw(self, Window):
 		self.rect = self._create_rect()
+		self.text = self._create_text()
 		Window.draw(self.rect)
+		Window.draw(self.text)
 
 	############################
+
+	font = Font("speech")
 
 	def _create_rect(self): #draw
 		x,y = self.position
@@ -208,13 +212,22 @@ class Cell(_UI, Rectangle):
 		return rect
 
 	def _create_text(self): #draw
-		text = None
+		x,y = self.position
+		x += 3; y += 3
+		name = self.name
+		#
+		text = Text(self.font)
+		text.write(name)
+		text.position = x,y
+		#
+		return text
+
 
 
 class Dropdown(Cell):
 
+	name = "DROPDOWN"
 	cells = []
-	_cells = []
 
 	def __init__(self, cells):
 		self.cells = self._create_cells(cells)
@@ -238,7 +251,6 @@ class Dropdown(Cell):
 
 			cells.append(cell)
 		#
-		self._position_cells(cells)
 		return cells
 
 	def _position_cells(self, cells): #draw

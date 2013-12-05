@@ -141,6 +141,7 @@ UI BOXES FOR LEVEL EDITOR
 	! Dropdown #2
 		+ Init(cells): init cells, create rects, draw them
 ==========
+		+ text
 		! Controls: opening and closing the list
 		by clicking. 
 
