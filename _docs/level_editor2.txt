@@ -116,37 +116,18 @@ UI BOXES FOR LEVEL EDITOR
 . designed Level Editor toolbox
 
 ! Level Editor UI
-	! UI Box (Tile)
+	+ UI Box (Tile)
 
 		+ points: Draw a box.
 		+ open/close: alpha, smooth x/y
 
-	! controls: Dropdown
-		+ draw a box, it opens/closes with UI
-	
-		+ cells reads from list.
-			+ draw a box for each cell
-			+ draw more than one box only when selected
-			+ labelled individual cells
-			+ cells are classes
-		+ cells may be selected/highlighted
-
-		! Lists in list are dropdown cells
-			+ Lists are read as extra cells
-			+ sub: lists to the right of cell 0
-			x lists may be opened/closed
-				x other sub-lists are unselected by choosing another
-
-
-	! Dropdown #2
+	+ Dropdown
 		+ Init(cells): init cells, create rects, draw them
 		+ Controls: opening and closing the list by clicking.
 		+ cells (lists in lists):
 		sub-cells may open in different directions
-==========
-		! value changes
-			+ value - for committing to a sheet
-			! name - for previewing sheets
+	========
+		+ graphics fade in and out
 
 
 	

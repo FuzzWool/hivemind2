@@ -140,7 +140,11 @@ class UIBox(_UIBox):
 
 	def controls(self, *args):
 		for UI in self.UIs:
-			UI.controls(*args)
+			UI.update_graphics()
+
+		if self.active:
+			for UI in self.UIs:
+				UI.controls(*args)
 
 	def draw(self, Window):
 		self._create_box()
@@ -153,7 +157,11 @@ class UIBox(_UIBox):
 
 	###
 
+	active = True
+
 	def open(self):
+		self.active = True
+
 		amt = 20
 		self.y += amt
 		self.Smooth.y = self.y - amt
@@ -161,6 +169,8 @@ class UIBox(_UIBox):
 		self._end_alpha = 255
 
 	def close(self):
+		self.active = False
+
 		amt = 20
 		self.Smooth.y = self.y + amt
 		self._alpha = 255
@@ -174,6 +184,9 @@ class _UI(Rectangle):
 	graphics = []
 
 	def controls(self, Key, Mouse, Camera):
+		pass
+
+	def update_graphics(self):
 		pass
 
 	def draw(self, Window):
@@ -192,13 +205,16 @@ class Cell(_UI, Rectangle):
 		self.name = name
 		self.value = name
 
+	def update_graphics(self): #_
+		self.rect = self._create_rect()
+		self.text = self._create_text()
+		self.graphics = [self.rect, self.text]
+
 	def controls(self, Key, Mouse, Camera):
 		self.hovered = self._hover(Mouse)
 		self.selected = self._select(Mouse)
-
+	
 	def draw(self, Window):
-		self.rect = self._create_rect()
-		self.text = self._create_text()
 		Window.draw(self.rect)
 		Window.draw(self.text)
 
@@ -220,8 +236,9 @@ class Cell(_UI, Rectangle):
 	############################
 
 	font = Font("speech")
+	graphics = []
 
-	def _create_rect(self): #draw
+	def _create_rect(self): #update_graphics
 		x,y = self.position
 		w,h = self.size
 		hovered = self.hovered
@@ -231,12 +248,12 @@ class Cell(_UI, Rectangle):
 		rect.position = x,y
 		rect.outline_color = Color.BLACK
 		rect.outline_thickness = 1
-		if hovered: rect.fill_color = Color(255,0,0)
+		if hovered: rect.fill_color = Color(255,220,220)
 		if selected: rect.fill_color = Color(200,200,200)
 		#
 		return rect
 
-	def _create_text(self): #draw
+	def _create_text(self): #update_graphics
 		x,y = self.position
 		x += 3; y += 3
 		name = self.name
@@ -250,12 +267,12 @@ class Cell(_UI, Rectangle):
 
 
 
+
 class Dropdown(Cell):
 
 	name = "-"
-	value = None #controls
 	cells = []
-	is_sub = False #position_cells
+	is_sub = False #position_cells, controls
 
 	def __init__(self, cells, is_sub=False):
 		self.cells = self._create_cells(cells)
@@ -270,34 +287,18 @@ class Dropdown(Cell):
 		#
 		Cell.controls(self, Key, Mouse, Camera)
 		
+		###
+		self._watch_subselection()
+		self._access_selected_value()
+		self._access_hovered_value()
+		#
 
-		# PASS PERMENANT VALUE
-
-		#Keep selected if a GROUPED cell is selected.
-		#(keep the dropdown open)
+	def update_graphics(self): #_
+		Cell.update_graphics(self)
+		self.graphics = [self.rect, self.text]
 		for cell in self.cells:
-			if cell.selected:
-				self.selected = True
-				self.value = cell.value
-
-		# The parent retrieves the children's values.
-		if not self.is_sub:
-			for cell in self.cells:
-				if cell.selected:
-					if cell.value != None:
-						self.name = cell.value
-						self.value = cell.value
-
-
-		# PASS TEMPORARY VALUE
-
-		#
-
-		#wipe unselected dropdowns
-		if not self.selected:
-			self.value = None
-
-		#
+			cell.update_graphics()
+			self.graphics += cell.graphics
 
 
 	def draw(self, Window):
@@ -310,6 +311,9 @@ class Dropdown(Cell):
 
 
 	###############################
+	# GRAPHICS
+
+	graphics = []
 
 	def _create_cells(self, cell_input): #init
 		cells = []
@@ -338,6 +342,55 @@ class Dropdown(Cell):
 			cell.position = x,y
 		#
 		return cells
+
+
+	###############################
+	# LOGIC
+	
+	def _access_selected_value(self): #controls
+	#Passes the selected child value to the root cell.
+
+		#Children pass.
+		if self.is_sub:
+			for cell in self.cells:
+				if cell.selected:
+					self.value = cell.value
+
+		#Root grabs.
+		if not self.is_sub:
+			for cell in self.cells:
+				if cell.selected:
+					if cell.value != None:
+						self.name = cell.value
+						self.value = cell.value
+
+
+	def _access_hovered_value(self): #controls
+	#Passes the hovered child value to the root cell.
+		pass
+		
+		# #Children pass.
+		# if self.is_sub:
+		# 	for cell in self.cells:
+		# 		if cell.hovered:
+		# 			self.value = cell.value
+
+		# #Root grabs.
+		# if not self.is_sub:
+		# 	for cell in self.cells:
+		# 		if cell.hovered:
+		# 			if cell.value != None:
+		# 				self.name = cell.value
+
+
+	def _watch_subselection(self): #controls
+	#Stops the Dropdown from vanishing if
+	#a sub-Dropdown is selected.
+		for cell in self.cells:
+			if cell.selected:
+				self.selected = True
+			if cell.hovered:
+				self.hovered = True
 
 #######################################
 
