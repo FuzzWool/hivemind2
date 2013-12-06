@@ -116,8 +116,8 @@ UI BOXES FOR LEVEL EDITOR
 . designed Level Editor toolbox
 
 ! Level Editor UI
-	+ UI Box (Tile)
 
+	+ UI Box (Tile)
 		+ points: Draw a box.
 		+ open/close: alpha, smooth x/y
 
@@ -126,9 +126,18 @@ UI BOXES FOR LEVEL EDITOR
 		+ Controls: opening and closing the list by clicking.
 		+ cells (lists in lists):
 		sub-cells may open in different directions
-	========
 		+ graphics fade in and out
 
+	========
+
+	! Move Dropdown to UI
+
+	! Grid_Sprite
+		! opens an image
+		! may change the image at any time
+		! a cursor may select multiple tiles
+
+	! Dropdown + Grid Image
 
 	
 	! CPU usage spikes
