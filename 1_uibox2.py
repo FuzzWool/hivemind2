@@ -186,9 +186,11 @@ from code.sfml_plus.graphics import Font, Text
 class Cell(_UI, Rectangle):
 	x,y,w,h = 0,0,100,20
 	name = "untitled_cell"
+	value = None
 
 	def __init__(self, name):
 		self.name = name
+		self.value = name
 
 	def controls(self, Key, Mouse, Camera):
 		self.hovered = self._hover(Mouse)
@@ -250,11 +252,14 @@ class Cell(_UI, Rectangle):
 
 class Dropdown(Cell):
 
-	name = "DROPDOWN"
+	name = "-"
+	value = None #controls
 	cells = []
+	is_sub = False #position_cells
 
-	def __init__(self, cells):
+	def __init__(self, cells, is_sub=False):
 		self.cells = self._create_cells(cells)
+		self.is_sub = is_sub
 
 	def controls(self, Key, Mouse, Camera):
 		if self.selected:
@@ -265,7 +270,12 @@ class Dropdown(Cell):
 		for cell in self.cells:
 			if cell.selected:
 				self.selected = True
-				self.name = cell.name
+				self.value = cell.value
+
+				#####
+				if cell.value != None:
+					if not self.is_sub:
+						self.name = cell.value
 
 	def draw(self, Window):
 		self.cells = self._position_cells(self.cells)
@@ -286,7 +296,7 @@ class Dropdown(Cell):
 			if type(ci) == str:
 				cell = Cell(ci)
 			if type(ci) == list:
-				cell = Dropdown(ci)
+				cell = Dropdown(ci, is_sub=True)
 
 			cells.append(cell)
 		#
@@ -294,9 +304,14 @@ class Dropdown(Cell):
 
 	def _position_cells(self, cells): #draw
 		x,y = self.position
+		is_sub = self.is_sub
 		#
+		if is_sub:
+			x += Cell.w + 1
+			y -= Cell.h
+
 		for cell in cells:
-			y += cell.h
+			y += Cell.h
 			cell.position = x,y
 		#
 		return cells
@@ -306,31 +321,32 @@ class Dropdown(Cell):
 
 Window = Window((1200,600), "UI Box (Tile)")
 
-UIBox = UIBox()
-UIBox.size = 300,200
-UIBox.center = Window.center
-UIBox.open()
+UIBox1 = UIBox()
+UIBox1.size = 300,200
+UIBox1.center = Window.center
+UIBox1.open()
 
 dropdown = Dropdown\
-(["one", "two", "three", "four"])
-# (["one", "two", "three", ["ONE", ["TWO", "THREE"]],["FOUR"]])
-dropdown.center = UIBox.center
-dropdown.y = UIBox.y2 - Dropdown.h
-UIBox.add(dropdown)
+(["one", "two", "three", ["ONE", ["TWO", "THREE"]]])
+# (["one", "two", "three", ["four"])
+# (["one", "two", "three", "four"])
+dropdown.center = UIBox1.center
+dropdown.y = UIBox1.y2 - Dropdown.h
+UIBox1.add(dropdown)
 
 Mouse = Mouse(Window)
 
 while Window.is_open:
 
 	if Window.is_focused:
-		UIBox.controls(Key, Mouse, None)
+		UIBox1.controls(Key, Mouse, None)
 
 		if Key.ENTER.pressed():
-			UIBox.center = Window.center
-			UIBox.open()
+			UIBox1.center = Window.center
+			UIBox1.open()
 		if Key.BACKSPACE.pressed():
-			UIBox.close()
+			UIBox1.close()
 
 	Window.clear((255,220,0))
-	UIBox.draw(Window)
+	UIBox1.draw(Window)
 	Window.display(Mouse)

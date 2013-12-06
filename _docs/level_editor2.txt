@@ -140,12 +140,13 @@ UI BOXES FOR LEVEL EDITOR
 
 	! Dropdown #2
 		+ Init(cells): init cells, create rects, draw them
-==========
-		+ Controls: opening and closing the list
-		by clicking.
-
-		! cells (lists in lists):
+		+ Controls: opening and closing the list by clicking.
+		+ cells (lists in lists):
 		sub-cells may open in different directions
+==========
+		! value changes
+			! selected_value - for committing to a sheet
+			! highlighted_value - for previewing sheets
 
 
 	
