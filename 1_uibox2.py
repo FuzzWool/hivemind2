@@ -186,7 +186,7 @@ from code.sfml_plus.graphics import Font, Text
 class Cell(_UI, Rectangle):
 	x,y,w,h = 0,0,100,20
 	name = "untitled_cell"
-	value = None
+	value = None #Dropdown support
 
 	def __init__(self, name):
 		self.name = name
@@ -262,20 +262,43 @@ class Dropdown(Cell):
 		self.is_sub = is_sub
 
 	def controls(self, Key, Mouse, Camera):
+
+		#GENERAL event handling.
 		if self.selected:
 			for cell in self.cells:
 				cell.controls(Key, Mouse, Camera)
 		#
 		Cell.controls(self, Key, Mouse, Camera)
+		
+
+		# PASS PERMENANT VALUE
+
+		#Keep selected if a GROUPED cell is selected.
+		#(keep the dropdown open)
 		for cell in self.cells:
 			if cell.selected:
 				self.selected = True
 				self.value = cell.value
 
-				#####
-				if cell.value != None:
-					if not self.is_sub:
+		# The parent retrieves the children's values.
+		if not self.is_sub:
+			for cell in self.cells:
+				if cell.selected:
+					if cell.value != None:
 						self.name = cell.value
+						self.value = cell.value
+
+
+		# PASS TEMPORARY VALUE
+
+		#
+
+		#wipe unselected dropdowns
+		if not self.selected:
+			self.value = None
+
+		#
+
 
 	def draw(self, Window):
 		self.cells = self._position_cells(self.cells)

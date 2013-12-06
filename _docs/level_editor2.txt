@@ -145,8 +145,8 @@ UI BOXES FOR LEVEL EDITOR
 		sub-cells may open in different directions
 ==========
 		! value changes
-			! selected_value - for committing to a sheet
-			! highlighted_value - for previewing sheets
+			+ value - for committing to a sheet
+			! name - for previewing sheets
 
 
 	
