@@ -194,40 +194,117 @@ class _UI(Rectangle):
 		pass
 
 
-
-
-class Dropdown(_UI):
-# A cell containing a list of other cells.
-# The root cell represents the selected cell.  
-
-	def __init__(self, input_cells):
-		pass
-
-	def update_graphics(self):
-		pass
-
-	def draw(self, Window):
-		pass
-
-	#######################################
-
-	pass
-
-
 from code.sfml_plus.graphics import Font, Text
-class Dropdown_Cell(_UI):
-# A cell within a dropdown menu.
-	
+class _Cell(_UI):
+# A consistent base for Dropdowns, Cells and SubDropdowns.
+# Represents only a GRAPHICAL cell.
+
 	name = "untitled"
+	x,y,w,h = 0,0,100,20
 
 	def __init__(self, name):
 		self.name = name
 
 	def update_graphics(self):
-		pass
+		self.rect = self._create_rect()
+		self.text = self._create_text()
+		self.graphics = [self.rect, self.text]
 
 	def draw(self, Window):
-		pass
+		Window.draw(self.rect)
+		Window.draw(self.text)
+
+	#######################################
+
+
+	#update_graphics
+	font = Font("speech")
+
+	def _create_rect(self):
+		x,y = self.position
+		w,h = self.size
+		#
+		rect = RectangleShape((w,h))
+		rect.position = x,y
+		rect.outline_color = Color.BLACK
+		rect.outline_thickness = 1
+		#
+		return rect
+
+	def _create_text(self): #update_graphics
+		x,y = self.position
+		x += 3; y += 3
+		name = self.name
+		#
+		text = Text(self.font)
+		text.write(name)
+		text.position = x,y
+		#
+		return text
+
+
+
+class Dropdown(_Cell):
+# A cell containing a list of other cells.
+# The root cell represents the selected cell.  
+
+	cells = []
+	x,y,w,h = 0,0,100,20
+
+	def __init__(self, input_cells):
+		_Cell.__init__(self, "-")
+		self.cells = self._create_cells(input_cells)
+
+	def update_graphics(self):
+		_Cell.update_graphics(self)
+		self.cells = self._position_cells(self.cells)
+		for cell in self.cells:
+			cell.update_graphics()
+			for graphic in cell.graphics:
+				self.graphics.append(graphic)
+
+	def draw(self, Window):
+		_Cell.draw(self, Window)
+		for cell in self.cells:
+			cell.draw(Window)
+
+	#######################################
+
+	#init
+	def _create_cells(self, input_cells):
+		cells = []
+		for ci in input_cells:
+			cell = Dropdown_Cell(ci)
+			cells.append(cell)
+		return cells
+
+
+	#update_graphics
+	def _position_cells(self, cells):
+		x,y = self.position
+		#
+		for cell in cells:
+			y += cell.h
+			cell.position = x,y
+		#
+		return cells
+
+
+	#draw
+	pass
+
+
+class Dropdown_Cell(_Cell):
+# WIP - For handling Dropdown-specific communication.
+
+	def __init__(self, name):
+		_Cell.__init__(self, name)
+
+	def update_graphics(self):
+		_Cell.update_graphics(self)
+
+	def draw(self, Window):
+		_Cell.draw(self, Window)
 
 	#######################################
 

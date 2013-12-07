@@ -134,10 +134,16 @@ UI BOXES FOR LEVEL EDITOR
 			events are slopped across the cells
 			cannot name sub-dropdowns
 
+	===================
+
 	! Dropdown3
-		! draw cells
-			! rects, text
-			! pass to UI graphics (open/close)
+		* Model:
+			Explicit functionality.
+			Implicit design.
+
+		+ draw cells
+			+ rects, text
+			+ pass to UI graphics (open/close)
 
 		! Dropdown selects a cell (root: selected_cell)
 		! Dropdown hovers a cell (root: hovered_cell)
