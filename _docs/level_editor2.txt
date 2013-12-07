@@ -121,12 +121,33 @@ UI BOXES FOR LEVEL EDITOR
 		+ points: Draw a box.
 		+ open/close: alpha, smooth x/y
 
-	+ Dropdown
+	+ Dropdown2
 		+ Init(cells): init cells, create rects, draw them
 		+ Controls: opening and closing the list by clicking.
 		+ cells (lists in lists):
 		sub-cells may open in different directions
 		+ graphics fade in and out
+
+		Problems:
+			passing values is unclean
+			difficult to determine important events
+			events are slopped across the cells
+			cannot name sub-dropdowns
+
+	! Dropdown3
+		! draw cells
+			! rects, text
+			! pass to UI graphics (open/close)
+
+		! Dropdown selects a cell (root: selected_cell)
+		! Dropdown hovers a cell (root: hovered_cell)
+
+		! dropdowns in dropdowns:
+			dropdown cells have their own names
+
+		! DiD: Dropdown selects a cell
+		! DiD: Dropdown hovers a cell
+
 
 	========
 
