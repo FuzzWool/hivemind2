@@ -134,7 +134,6 @@ UI BOXES FOR LEVEL EDITOR
 			events are slopped across the cells
 			cannot name sub-dropdowns
 
-	===================
 
 	! Dropdown3
 		* Model:
@@ -144,9 +143,14 @@ UI BOXES FOR LEVEL EDITOR
 		+ draw cells
 			+ rects, text
 			+ pass to UI graphics (open/close)
+	===================
 
-		! Dropdown selects a cell (root: selected_cell)
-		! Dropdown hovers a cell (root: hovered_cell)
+		~ Rectangle checks Lists too
+		+ cell hovering
+		+ menu opening
+			+ opens when dropdown is selected
+			+ closes when cells aren't selected
+		! cell selection
 
 		! dropdowns in dropdowns:
 			dropdown cells have their own names

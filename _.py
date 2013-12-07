@@ -1,4 +1,1 @@
-#for - access every item, no matter it's depth
-# access every item, lists in lists become one list
-
-from compiler.ast import flatten
+#check if an object is a class

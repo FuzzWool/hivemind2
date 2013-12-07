@@ -201,6 +201,8 @@ class _Cell(_UI):
 
 	name = "untitled"
 	x,y,w,h = 0,0,100,20
+	hovered = False
+	selected = False
 
 	def __init__(self, name):
 		self.name = name
@@ -216,18 +218,21 @@ class _Cell(_UI):
 
 	#######################################
 
-
 	#update_graphics
 	font = Font("speech")
 
 	def _create_rect(self):
 		x,y = self.position
 		w,h = self.size
+		hovered = self.hovered
+		selected = self.selected
 		#
 		rect = RectangleShape((w,h))
 		rect.position = x,y
 		rect.outline_color = Color.BLACK
 		rect.outline_thickness = 1
+		if hovered: rect.fill_color = Color(200,200,200)
+		if selected: rect.fill_color = Color(100,100,100)
 		#
 		return rect
 
@@ -242,13 +247,14 @@ class _Cell(_UI):
 		#
 		return text
 
+	#controls
+
 
 
 class Dropdown(_Cell):
 # A cell containing a list of other cells.
 # The root cell represents the selected cell.  
 
-	cells = []
 	x,y,w,h = 0,0,100,20
 
 	def __init__(self, input_cells):
@@ -263,14 +269,26 @@ class Dropdown(_Cell):
 			for graphic in cell.graphics:
 				self.graphics.append(graphic)
 
+	def controls(self, Key, Mouse, Camera):
+		_Cell.controls(self, Key, Mouse, Camera)
+		self._open(Mouse)
+		self._cells_controls(Mouse)
+
 	def draw(self, Window):
+		cells = self.cells
+		opened = self.opened
+		#
 		_Cell.draw(self, Window)
-		for cell in self.cells:
-			cell.draw(Window)
+		if opened:
+			for cell in cells:
+				cell.draw(Window)
 
 	#######################################
 
-	#init
+	cells = []
+	opened = False
+
+	#INIT
 	def _create_cells(self, input_cells):
 		cells = []
 		for ci in input_cells:
@@ -279,7 +297,7 @@ class Dropdown(_Cell):
 		return cells
 
 
-	#update_graphics
+	#UPDATE_GRAPHICS
 	def _position_cells(self, cells):
 		x,y = self.position
 		#
@@ -289,22 +307,48 @@ class Dropdown(_Cell):
 		#
 		return cells
 
+	#CONTROLS
+	def _open(self, Mouse):
+	#open the dropdown menu
+		opened = self.opened
+		inside_cells = False
+		for cell in self.cells:
+			if Mouse.inside(cell):
+				inside_cells = True
+		#
+		if Mouse.left.pressed():
+			if Mouse.inside(self):
+				opened = not self.opened
+			elif not inside_cells:
+				opened = False
+		#
+		self.opened = opened
 
-	#draw
-	pass
+	def _cells_controls(self, Mouse):
+	#select the contained cells
+		cells = self.cells
+		name = self.name
+		#
+		for cell in cells:
+			cell.controls(Mouse)
+			if cell.selected:
+				name = cell.name
+		#
+		self.name = name
 
 
 class Dropdown_Cell(_Cell):
 # WIP - For handling Dropdown-specific communication.
 
-	def __init__(self, name):
-		_Cell.__init__(self, name)
+	hovered = False
+	selected = False
 
-	def update_graphics(self):
-		_Cell.update_graphics(self)
+	def controls(self, Mouse):
+		self.hovered = Mouse.inside(self)
 
-	def draw(self, Window):
-		_Cell.draw(self, Window)
+		if Mouse.left.pressed():
+			if self.hovered: self.selected = True
+			else: self.selected = False
 
 	#######################################
 
@@ -331,7 +375,7 @@ dropdown = Dropdown\
 # (["one", "two", "three", ["ONE", ["TWO", "THREE"]]])
 # (["one", "two", "three", ["four"])
 dropdown.center = UIBox1.center
-dropdown.y = UIBox1.y2 - Dropdown.h
+dropdown.y = UIBox1.y2 - dropdown.h
 UIBox1.add(dropdown)
 
 Mouse = Mouse(Window)

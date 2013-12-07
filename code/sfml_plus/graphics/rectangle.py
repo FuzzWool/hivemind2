@@ -299,8 +299,11 @@ class Rectangle(object):
 
 	###############################################
 
-	def inside(self, Rectangle):
-		a,b = self,Rectangle
+	def inside(self, R):
+		a = self
+		if type(R) == list or type(R) == tuple:
+			b = Rectangle(); b.points = R
+		else: b = R
 
 		def x():
 			if a.x1 < b.x1 < a.x2: return True
@@ -321,7 +324,10 @@ class Rectangle(object):
 
 
 	def colliding(self, Rectangle):
-		a,b = self,Rectangle
+		a = self
+		if type(R) == list or type(R) == tuple:
+			b = Rectangle(); b.points = R
+		else: b = R
 
 		def x():
 			if a.x1 <= b.x1 <= a.x2: return True
