@@ -271,6 +271,7 @@ class _Dropdown:
 		self._hover_cell()
 		self._open(Mouse)
 		self._cell_controls(Mouse)
+		self._close_dropdowns(Mouse)
 
 	def draw(self, Window):
 		self._draw_cells(Window)
@@ -342,6 +343,31 @@ class _Dropdown:
 					hovered_cell = cell.hovered_cell
 		#
 		self.hovered_cell = hovered_cell
+
+
+	def _close_dropdowns(self, Mouse):
+	#! HACKY
+		amt_open = 0
+
+		#find the amt of open dropdowns
+		for cell in self.cells:
+			if type(cell) == Dropdown_Dropdown:
+				if cell.opened:
+					amt_open += 1
+
+		#wipe them if there's too many
+		if amt_open >= 2:
+			for cell in self.cells:
+				cell.opened = False
+				cell.hovered = False
+				cell.selected_cell = None
+
+		#open only one
+		for cell in self.cells:
+			if Mouse.inside(cell):
+				cell.opened = True
+				cell.hovered = True
+				cell.selected_cell = None
 
 
 	#DRAW
@@ -454,7 +480,7 @@ class Dropdown_Dropdown(_Cell, _Dropdown):
 	#UPDATE_GRAPHICS
 	def _position_cells(self, cells):
 		x,y = self.position
-		x += _Cell.w+1
+		x += _Cell.w
 		y -= _Cell.h
 		#
 		for cell in cells:
@@ -480,8 +506,7 @@ UIBox1.center = Window.center
 UIBox1.open()
 
 dropdown = Dropdown\
-(["one", "two", "three", ["folderA", "TWO", ["folderAA", "FOUR"]]])
-# (["one", "two", "three", ["ONE", "TWO", "THREE"]])
+(["a", ["A", "aa", "ab"], ["B", "ba", "bb"]])
 # (["one", "two", "three", "four"])
 # (["one", "two", "three", ["four"])
 dropdown.center = UIBox1.center
