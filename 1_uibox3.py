@@ -349,18 +349,20 @@ class _Dropdown:
 	#! HACKY
 		amt_open = 0
 
-		#find the amt of open dropdowns
+		#find the amt of hovered cells
 		for cell in self.cells:
-			if type(cell) == Dropdown_Dropdown:
-				if cell.opened:
-					amt_open += 1
+			if cell.hovered:
+				amt_open += 1
 
 		#wipe them if there's too many
 		if amt_open >= 2:
 			for cell in self.cells:
-				cell.opened = False
-				cell.hovered = False
-				cell.selected_cell = None
+				if type(cell) == Dropdown_Dropdown:
+					cell.opened = False
+					cell.hovered = False
+					cell.selected_cell = None
+					for cell in cell.cells:
+						cell.selected = False
 
 		#open only one
 		for cell in self.cells:
@@ -480,7 +482,7 @@ class Dropdown_Dropdown(_Cell, _Dropdown):
 	#UPDATE_GRAPHICS
 	def _position_cells(self, cells):
 		x,y = self.position
-		x += _Cell.w
+		x += _Cell.w+1
 		y -= _Cell.h
 		#
 		for cell in cells:
@@ -506,7 +508,7 @@ UIBox1.center = Window.center
 UIBox1.open()
 
 dropdown = Dropdown\
-(["a", ["A", "aa", "ab"], ["B", "ba", "bb"]])
+(["a", ["A", "aa", "ab", ["C", "c"]], ["B", "ba", "bb"]])
 # (["one", "two", "three", "four"])
 # (["one", "two", "three", ["four"])
 dropdown.center = UIBox1.center

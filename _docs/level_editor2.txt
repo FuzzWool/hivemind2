@@ -122,7 +122,11 @@ UI BOXES FOR LEVEL EDITOR
 		+ open/close: alpha, smooth x/y
 
 
-	! Dropdown3
+	+ Dropdown3
+	* Problems with it:
+		Poor state refreshing for Sub-Dropdowns.
+		(closing, opening)
+
 		* Model:
 			Explicit functionality.
 			Implicit design.
@@ -130,7 +134,6 @@ UI BOXES FOR LEVEL EDITOR
 		+ draw cells
 			+ rects, text
 			+ pass to UI graphics (open/close)
-
 
 		~ Rectangle checks Lists too
 		+ cell hovering
@@ -149,9 +152,9 @@ UI BOXES FOR LEVEL EDITOR
 			+ Dropdown: name of selected_cell
 				+ take names of sub-dropdown cells
 
-	===================
-		!+ (hacky) Dropdown_Dropdowns close when not hovered
+		+ (hacky) Dropdown_Dropdowns close when not hovered
 
+	===================
 
 
 	! Move Dropdown to UI
