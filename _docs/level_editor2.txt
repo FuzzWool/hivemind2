@@ -143,17 +143,20 @@ UI BOXES FOR LEVEL EDITOR
 		+ draw cells
 			+ rects, text
 			+ pass to UI graphics (open/close)
-	===================
+
 
 		~ Rectangle checks Lists too
 		+ cell hovering
 		+ menu opening
 			+ opens when dropdown is selected
 			+ closes when cells aren't selected
-		! cell selection
-
-		! dropdowns in dropdowns:
-			dropdown cells have their own names
+		+ cell selection
+		
+	===================
+		~ minor Dropdown: no controls unless opened
+		~ _Dropdown now provides cell event handling
+		+ support for dropdowns in dropdowns:
+			+ dropdown cells have their own names
 
 		! DiD: Dropdown selects a cell
 		! DiD: Dropdown hovers a cell

@@ -196,8 +196,8 @@ class _UI(Rectangle):
 
 from code.sfml_plus.graphics import Font, Text
 class _Cell(_UI):
-# A consistent base for Dropdowns, Cells and SubDropdowns.
-# Represents only a GRAPHICAL cell.
+# A basic cell graphic: A box and text.
+# Basic graphical states, too.
 
 	name = "untitled"
 	x,y,w,h = 0,0,100,20
@@ -247,22 +247,19 @@ class _Cell(_UI):
 		#
 		return text
 
-	#controls
 
+class _Dropdown:
+# * Core event handling for Dropdown menus.
+#   Provides for any cells under it's wing.
+# * It's own _Cell functions need manual settings.
 
-
-class Dropdown(_Cell):
-# A cell containing a list of other cells.
-# The root cell represents the selected cell.  
-
-	x,y,w,h = 0,0,100,20
+	cells = []
+	graphics = []
 
 	def __init__(self, input_cells):
-		_Cell.__init__(self, "-")
 		self.cells = self._create_cells(input_cells)
 
 	def update_graphics(self):
-		_Cell.update_graphics(self)
 		self.cells = self._position_cells(self.cells)
 		for cell in self.cells:
 			cell.update_graphics()
@@ -270,32 +267,83 @@ class Dropdown(_Cell):
 				self.graphics.append(graphic)
 
 	def controls(self, Key, Mouse, Camera):
-		_Cell.controls(self, Key, Mouse, Camera)
 		self._open(Mouse)
-		self._cells_controls(Mouse)
+		self._cell_controls(Mouse)
 
 	def draw(self, Window):
-		cells = self.cells
-		opened = self.opened
-		#
-		_Cell.draw(self, Window)
-		if opened:
-			for cell in cells:
-				cell.draw(Window)
+		self._draw_cells(Window)
 
-	#######################################
 
-	cells = []
+	######################################
+
 	opened = False
+
+	#UPDATE_GRAPHICS
+	def _position_cells(self, cells):
+		raise "Set _position_cells!"
+
+	#CONTROLS
+	def _open(self, Mouse):
+		raise "Set _open!"
+
+	#
 
 	#INIT
 	def _create_cells(self, input_cells):
 		cells = []
 		for ci in input_cells:
-			cell = Dropdown_Cell(ci)
+			if type(ci) == str:
+				cell = Dropdown_Cell(ci)
+			if type(ci) == list:
+				cell = Dropdown_Dropdown(ci)
 			cells.append(cell)
 		return cells
 
+
+	#CONTROLS
+	def _cell_controls(self, Mouse):
+	#Shared event handling for Cells and Dropdowns.
+		if not self.opened: return
+		for cell in self.cells:
+			cell.controls(Mouse)
+
+	#DRAW
+	def _draw_cells(self, Window):
+		if not self.opened: return
+		for cell in self.cells:
+			cell.draw(Window)
+
+
+
+class Dropdown(_Cell, _Dropdown):
+# * A cell containing other cells.
+#   It tucks them away inside a toggleable list.
+# * This is the root Dropdown menu.
+#   It positions cells differently, and changes it's name.
+
+	x,y,w,h = 0,0,100,20
+
+	def __init__(self, input_cells):
+		_Cell.__init__(self, "-")
+		_Dropdown.__init__(self, input_cells)
+
+	def update_graphics(self):
+		_Cell.update_graphics(self)
+		_Dropdown.update_graphics(self)
+
+	def controls(self, Key, Mouse, Camera):
+		_Cell.controls(self, Key, Mouse, Camera)
+		_Dropdown.controls(self, Key, Mouse, Camera)
+		self._change_name()
+
+	def draw(self, Window):
+		_Cell.draw(self, Window)
+		_Dropdown.draw(self, Window)
+
+	#######################################
+
+	cells = []
+	opened = False
 
 	#UPDATE_GRAPHICS
 	def _position_cells(self, cells):
@@ -309,7 +357,6 @@ class Dropdown(_Cell):
 
 	#CONTROLS
 	def _open(self, Mouse):
-	#open the dropdown menu
 		opened = self.opened
 		inside_cells = False
 		for cell in self.cells:
@@ -324,21 +371,15 @@ class Dropdown(_Cell):
 		#
 		self.opened = opened
 
-	def _cells_controls(self, Mouse):
-	#select the contained cells
-		cells = self.cells
-		name = self.name
-		#
-		for cell in cells:
-			cell.controls(Mouse)
+	def _change_name(self):
+		if not self.opened: return
+		for cell in self.cells:
 			if cell.selected:
-				name = cell.name
-		#
-		self.name = name
+				self.name = cell.name
 
 
 class Dropdown_Cell(_Cell):
-# WIP - For handling Dropdown-specific communication.
+# Simple event handling.
 
 	hovered = False
 	selected = False
@@ -350,14 +391,51 @@ class Dropdown_Cell(_Cell):
 			if self.hovered: self.selected = True
 			else: self.selected = False
 
+
+
+class Dropdown_Dropdown(_Cell, _Dropdown):
+# A dropdown menu contained within a dropdown menu.
+
+	def __init__(self, cells):
+		if len(cells) <= 1: raise "empty"
+		_Cell.__init__(self, cells[0])
+		_Dropdown.__init__(self, cells[1:])
+
+	def update_graphics(self):
+		_Cell.update_graphics(self)
+		_Dropdown.update_graphics(self)
+
+	def controls(self, Mouse):
+		_Dropdown.controls(self, None, Mouse, None)
+
+	def draw(self, Window):
+		_Cell.draw(self, Window)
+		_Dropdown.draw(self, Window)
+
+
 	#######################################
 
-	pass
+	opened = True
 
+	#UPDATE_GRAPHICS
+	def _position_cells(self, cells):
+		x,y = self.position
+		x += _Cell.w+1
+		y -= _Cell.h
+		#
+		for cell in cells:
+			y += _Cell.h
+			cell.position = x,y
+		#
+		return cells
 
-class Dropdown_Dropdown(_UI):
-# A dropdown menu contained within a dropdown menu.
-	pass
+	#CONTROLS
+	def _open(self, Mouse):
+		if Mouse.inside(self):
+			self.hovered = True
+		else:
+			self.hovered = False
+		self.opened = self.hovered
 
 
 #######################################
@@ -371,8 +449,8 @@ UIBox1.center = Window.center
 UIBox1.open()
 
 dropdown = Dropdown\
-(["one", "two", "three", "four"])
-# (["one", "two", "three", ["ONE", ["TWO", "THREE"]]])
+(["one", "two", "three", ["ONE", "TWO", "THREE"]])
+# (["one", "two", "three", "four"])
 # (["one", "two", "three", ["four"])
 dropdown.center = UIBox1.center
 dropdown.y = UIBox1.y2 - dropdown.h
