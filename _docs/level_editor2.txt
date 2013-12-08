@@ -152,14 +152,18 @@ UI BOXES FOR LEVEL EDITOR
 			+ closes when cells aren't selected
 		+ cell selection
 		
-	===================
 		~ minor Dropdown: no controls unless opened
 		~ _Dropdown now provides cell event handling
 		+ support for dropdowns in dropdowns:
 			+ dropdown cells have their own names
 
-		! DiD: Dropdown selects a cell
-		! DiD: Dropdown hovers a cell
+	===================
+		+ Dropdown takes sub-Dropdown names
+			~ selected_cell, hovered_cell
+			+ Dropdown: name of selected_cell
+				+ take names of sub-dropdown cells
+
+		! Dropdown closes sub-Dropdown menus when it's own cell is selected
 
 
 	========

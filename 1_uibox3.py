@@ -267,6 +267,8 @@ class _Dropdown:
 				self.graphics.append(graphic)
 
 	def controls(self, Key, Mouse, Camera):
+		self._select_cell()
+		self._hover_cell()
 		self._open(Mouse)
 		self._cell_controls(Mouse)
 
@@ -277,6 +279,8 @@ class _Dropdown:
 	######################################
 
 	opened = False
+	selected_cell = None
+	hovered_cell = None
 
 	#UPDATE_GRAPHICS
 	def _position_cells(self, cells):
@@ -306,6 +310,39 @@ class _Dropdown:
 		if not self.opened: return
 		for cell in self.cells:
 			cell.controls(Mouse)
+
+	def _select_cell(self):
+		if not self.opened: return
+
+		selected_cell = None
+		cells = self.cells
+		#
+		for cell in cells:
+			if type(cell) == Dropdown_Cell:
+				if cell.selected:
+					selected_cell = cell
+			if type(cell) == Dropdown_Dropdown:
+				if cell.selected_cell != None:
+					selected_cell = cell.selected_cell
+		#
+		self.selected_cell = selected_cell
+
+	def _hover_cell(self):
+		if not self.opened: return
+
+		hovered_cell = None
+		cells = self.cells
+		#
+		for cell in cells:
+			if type(cell) == Dropdown_Cell:
+				if cell.hovered:
+					hovered_cell = cell
+			if type(cell) == Dropdown_Dropdown:
+				if cell.hovered_cell != None:
+					hovered_cell = cell.hovered_cell
+		#
+		self.hovered_cell = hovered_cell
+
 
 	#DRAW
 	def _draw_cells(self, Window):
@@ -344,6 +381,8 @@ class Dropdown(_Cell, _Dropdown):
 
 	cells = []
 	opened = False
+	selected_cell = None
+	hovered_cell = None
 
 	#UPDATE_GRAPHICS
 	def _position_cells(self, cells):
@@ -358,24 +397,19 @@ class Dropdown(_Cell, _Dropdown):
 	#CONTROLS
 	def _open(self, Mouse):
 		opened = self.opened
-		inside_cells = False
-		for cell in self.cells:
-			if Mouse.inside(cell):
-				inside_cells = True
+		hovered_cell = bool(self.hovered_cell != None)
 		#
 		if Mouse.left.pressed():
 			if Mouse.inside(self):
 				opened = not self.opened
-			elif not inside_cells:
+			elif not hovered_cell:
 				opened = False
 		#
 		self.opened = opened
 
 	def _change_name(self):
-		if not self.opened: return
-		for cell in self.cells:
-			if cell.selected:
-				self.name = cell.name
+		if self.selected_cell != None:
+			self.name = self.selected_cell.name
 
 
 class Dropdown_Cell(_Cell):
@@ -433,10 +467,7 @@ class Dropdown_Dropdown(_Cell, _Dropdown):
 	def _open(self, Mouse):
 		if Mouse.inside(self):
 			self.hovered = True
-		else:
-			self.hovered = False
 		self.opened = self.hovered
-
 
 #######################################
 
@@ -449,7 +480,8 @@ UIBox1.center = Window.center
 UIBox1.open()
 
 dropdown = Dropdown\
-(["one", "two", "three", ["ONE", "TWO", "THREE"]])
+(["one", "two", "three", ["folderA", "TWO", ["folderAA", "FOUR"]]])
+# (["one", "two", "three", ["ONE", "TWO", "THREE"]])
 # (["one", "two", "three", "four"])
 # (["one", "two", "three", ["four"])
 dropdown.center = UIBox1.center
