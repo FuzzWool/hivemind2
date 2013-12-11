@@ -156,6 +156,14 @@ UI BOXES FOR LEVEL EDITOR
 
 	===================
 
+	! Dropdown4
+		+ Dropdown_Dropdowns are closed when another opens
+		Parent handles opening and closing.
+
+		! Dropdown names itself the selected cell
+			! Dropdown selects multiple different cells
+			  in different groups
+
 
 	! Move Dropdown to UI
 
