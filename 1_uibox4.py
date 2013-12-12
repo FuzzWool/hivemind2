@@ -256,6 +256,7 @@ class _Dropdown:
 	opened = False
 
 	def __init__(self, input_cells):
+		self.child = self._child()
 		self.cells = self._init_cells(input_cells)
 
 	def update_graphics(self):
@@ -271,17 +272,36 @@ class _Dropdown:
 	def draw(self, Window):
 		self._draw_cells(Window)
 
-	#
+	#######################################
+
+	class _child(object):
+		
+		#If another dropdown is open,
+		#close the previous.
+		_opened_dropdown = None
+		@property
+		def opened_dropdown(self):
+			return self._opened_dropdown
+		@opened_dropdown.setter
+		def opened_dropdown(self, new_d):
+			old_d = self.opened_dropdown
+			if old_d != None:
+				if old_d != new_d:
+					old_d.opened = False
+			self._opened_dropdown = new_d
+
+	#######################################
 
 	def _init_cells(self, input_cells): #init
 		cells = []
-		root = self.root
+		r = self.root
+		c = self.child
 		#
 		for input_cell in input_cells:
 			if type(input_cell) == str:
-				cell = Dropdown_Cell(input_cell, root)
+				cell = Dropdown_Cell(input_cell,r)
 			if type(input_cell) == list:
-				cell = Dropdown_Dropdown(input_cell, root)
+				cell = Dropdown_Dropdown(input_cell,r,c)
 			cells.append(cell)
 		#
 		return cells
@@ -316,7 +336,7 @@ class Dropdown(_Cell, _Dropdown):
 		_Dropdown.__init__(self, input_cells)
 
 	def controls(self, Key, Mouse, Camera):
-		self._open_close(Mouse)
+		self._open(Mouse)
 		_Dropdown.controls(self, Mouse)
 
 	def update_graphics(self):
@@ -333,6 +353,8 @@ class Dropdown(_Cell, _Dropdown):
 	class root:
 	#Cells communicating directly with the root.
 	#(So event handling may be independant)
+
+		#Dropdown > Dropdown_Cell
 		selected_cell = None
 		hovered_cell = None
 
@@ -343,10 +365,12 @@ class Dropdown(_Cell, _Dropdown):
 
 	#########
 	#CONTROLS
-	def _open_close(self, Mouse): #controls
+	def _open(self, Mouse): #controls
+		
+		#Click the Dropdown.
 		if Mouse.left.pressed():
 			if Mouse.inside(self):
-				self.opened = True
+				self.opened = not self.opened
 
 	def _change_name(self):
 		if self.root.selected_cell != None:
@@ -410,9 +434,10 @@ class Dropdown_Cell(_Cell):
 
 class Dropdown_Dropdown(_Cell, _Dropdown):
 
-	def __init__(self, input_cells, root):
+	def __init__(self, input_cells, root, parent):
 		if len(input_cells) < 1: raise "empty"
 		self.root = root
+		self.parent = parent
 		_Cell.__init__(self, input_cells[0])
 		_Dropdown.__init__(self, input_cells[1:])
 
@@ -421,6 +446,7 @@ class Dropdown_Dropdown(_Cell, _Dropdown):
 		_Dropdown.update_graphics(self)
 
 	def controls(self, Key, Mouse, Camera):
+		self._open(Mouse)
 		_Dropdown.controls(self, Mouse)
 
 	def draw(self, Window):
@@ -430,7 +456,6 @@ class Dropdown_Dropdown(_Cell, _Dropdown):
 
 	#######################################
 
-	opened = True
 
 	def _position_cells(self, cells): #update_graphics
 		x,y = self.position
@@ -443,6 +468,33 @@ class Dropdown_Dropdown(_Cell, _Dropdown):
 		#
 		return cells
 
+
+	#PARENT STATES
+	_opened = False
+	@property
+	def opened(self): return self._opened
+	@opened.setter
+	def opened(self, b):
+		self._opened = b
+		if b == True:
+			self.parent.opened_dropdown = self
+		
+		#If closed...
+		# Unselect all cells within it.
+		# Close all dropdowns within it.
+		if b == False:
+			for cell in self.cells:
+				if type(cell) == Dropdown_Cell:
+					cell.selected = False
+				if type(cell) == Dropdown_Dropdown:
+					cell.opened = False
+
+
+	def _open(self, Mouse):
+		if Mouse.inside(self):
+			self.opened = True
+
+
 #######################################
 
 
@@ -454,7 +506,7 @@ UIBox1.center = Window.center
 UIBox1.open()
 
 dropdown = Dropdown\
-(["a","b","c", ["A", "aa", "bb"]])
+(["a","b","c", ["A", "aa"], ["B","ba"]])
 # (["a","b","c"])
 dropdown.center = UIBox1.center
 dropdown.y = UIBox1.y2 - dropdown.h

@@ -163,10 +163,13 @@ UI BOXES FOR LEVEL EDITOR
 	+ Dropdown creates cells from a list
 	+ Dropdown opens and closes
 	+ Dropdown selects a cell
-	===================
 	+ Dropdown selects a Dropdown_Dropdown cell
-	! Dropdown opens and closes Dropdown_Dropdowns
-
+		+ Dropdown.root
+	===================
+	+ Dropdown_Dropdowns close when the neighbors are opened
+		+ _Dropdown.child > parent
+	! Test Dropdowns in Dropdowns in Dropdowns
+	! close Dropdown after selecting a cell
 
 
 	! Move Dropdown to UI
