@@ -258,10 +258,11 @@ class Dropdown(_Cell):
 		self.cells = self._init_cells(input_cells)
 
 	def controls(self, Key, Mouse, Camera):
-		pass
+		self._open_close(Mouse)
 
 	def update_graphics(self):
 		_Cell.update_graphics(self)
+		#
 		self.cells = self._position_cells(self.cells)
 		for cell in self.cells:
 			cell.update_graphics()
@@ -270,18 +271,27 @@ class Dropdown(_Cell):
 
 	def draw(self, Window):
 		_Cell.draw(self, Window)
-		for cell in self.cells:
-			cell.draw(Window)
+		self._draw_cells()
 
 	#######################################
 
+	class root:
+	#Cells communicating directly with the root.
+	#(So event handling may be independant)
+		selected_cell = None
+		hovered_cell = None
+
+	#######################################
+
+	opened = False
 
 	#init
 	def _init_cells(self, input_cells):
 		cells = []
+		root = self.root
 		#
 		for input_cell in input_cells:
-			cell = Dropdown_Cell(input_cell)
+			cell = Dropdown_Cell(input_cell, root)
 			cells.append(cell)
 		#
 		return cells
@@ -295,9 +305,23 @@ class Dropdown(_Cell):
 		#
 		return cells
 
+	#controls
+	def _open_close(self, Mouse):
+		if Mouse.left.pressed():
+			self.opened = Mouse.inside(self)
+
+	def _draw_cells(self):
+		if self.opened:
+			for cell in self.cells:
+				cell.draw(Window)
+
 
 class Dropdown_Cell(_Cell):
-	pass
+# WIP - Event handling forwards to root.
+
+	def __init__(self, name, root):
+		self.name = name
+		self.root = root
 
 #######################################
 

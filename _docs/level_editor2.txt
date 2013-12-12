@@ -154,17 +154,18 @@ UI BOXES FOR LEVEL EDITOR
 
 		+ (hacky) Dropdown_Dropdowns close when not hovered
 
-	===================
 
 	! Dropdown 4
 	selected_cell and hovered_cell
-	are stored in a root_events class.
-
+	are stored in a root class.
 	Each class performs it's own event handling.
-	Changes are performed 
 
 	+ Dropdown creates cells from a list
-	
+	===================
+	+ Dropdown opens and closes
+	! Dropdown selects a cell
+	! Dropdown opens and closes Dropdown_Dropdowns
+	! Dropdown selects a Dropdown_Dropdown cell
 
 
 
