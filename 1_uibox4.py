@@ -259,6 +259,7 @@ class Dropdown(_Cell):
 
 	def controls(self, Key, Mouse, Camera):
 		self._open_close(Mouse)
+		self._cells_controls(Mouse)
 
 	def update_graphics(self):
 		_Cell.update_graphics(self)
@@ -268,6 +269,8 @@ class Dropdown(_Cell):
 			cell.update_graphics()
 			for graphic in cell.graphics:
 				self.graphics.append(graphic)
+		#
+		self._change_name()
 
 	def draw(self, Window):
 		_Cell.draw(self, Window)
@@ -283,10 +286,12 @@ class Dropdown(_Cell):
 
 	#######################################
 
+
 	opened = False
 
-	#init
-	def _init_cells(self, input_cells):
+	##############
+	#CELL HANDLING
+	def _init_cells(self, input_cells): #init
 		cells = []
 		root = self.root
 		#
@@ -296,7 +301,7 @@ class Dropdown(_Cell):
 		#
 		return cells
 
-	def _position_cells(self, cells):
+	def _position_cells(self, cells): #update_graphics
 		x,y = self.position
 		#
 		for cell in cells:
@@ -305,23 +310,81 @@ class Dropdown(_Cell):
 		#
 		return cells
 
-	#controls
-	def _open_close(self, Mouse):
-		if Mouse.left.pressed():
-			self.opened = Mouse.inside(self)
+	def _cells_controls(self, Mouse): #controls
+		if self.opened:
+			for cell in self.cells:
+				cell.controls(None, Mouse, None)
 
-	def _draw_cells(self):
+	def _draw_cells(self): #draw
 		if self.opened:
 			for cell in self.cells:
 				cell.draw(Window)
 
+	#########
+	#CONTROLS
+	def _open_close(self, Mouse): #controls
+		if Mouse.left.pressed():
+			if Mouse.inside(self):
+				self.opened = True
+
+	def _change_name(self):
+		if self.root.selected_cell != None:
+			self.name = self.root.selected_cell.name
+		else:
+			self.name = "-"
+
+
 
 class Dropdown_Cell(_Cell):
-# WIP - Event handling forwards to root.
+# Event handling is the responsibility of the parent.
+# Some states are forwarded to the root parent.
 
 	def __init__(self, name, root):
 		self.name = name
 		self.root = root
+
+	def controls(self, Key, Mouse, Camera):
+		self._hover(Mouse)
+		self._select(Mouse)
+
+	#######################################
+
+	#ROOT STATES
+	root = None	
+	_hovered = False
+	_selected = False
+
+	@property
+	def hovered(self): return self._hovered
+	@hovered.setter
+	def hovered(self, b):
+		self._hovered = b
+		if b == True:
+			self.root.hovered_cell = self
+		if b == False:
+			if self.root.hovered_cell == self:
+				self.root.hovered_cell = None
+
+	@property
+	def selected(self): return self._selected
+	@selected.setter
+	def selected(self, b):
+		self._selected = b
+		if b == True:
+			self.root.selected_cell = self
+		if b == False:
+			if self.root.selected_cell == self:
+				self.root.selected_cell = None
+
+	#
+
+	def _hover(self, Mouse):
+		self.hovered = Mouse.inside(self)
+
+	def _select(self, Mouse):
+		if Mouse.left.pressed():
+			self.selected = self.hovered
+
 
 #######################################
 
