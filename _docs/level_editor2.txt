@@ -156,13 +156,16 @@ UI BOXES FOR LEVEL EDITOR
 
 	===================
 
-	! Dropdown4
-		+ Dropdown_Dropdowns are closed when another opens
-		Parent handles opening and closing.
+	! Dropdown 4
+	selected_cell and hovered_cell
+	are stored in a root_events class.
 
-		! Dropdown names itself the selected cell
-			! Dropdown selects multiple different cells
-			  in different groups
+	Each class performs it's own event handling.
+	Changes are performed 
+
+	+ Dropdown creates cells from a list
+	
+
 
 
 	! Move Dropdown to UI
