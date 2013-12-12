@@ -162,10 +162,10 @@ UI BOXES FOR LEVEL EDITOR
 
 	+ Dropdown creates cells from a list
 	+ Dropdown opens and closes
-	===================
 	+ Dropdown selects a cell
+	===================
+	+ Dropdown selects a Dropdown_Dropdown cell
 	! Dropdown opens and closes Dropdown_Dropdowns
-	! Dropdown selects a Dropdown_Dropdown cell
 
 
 
