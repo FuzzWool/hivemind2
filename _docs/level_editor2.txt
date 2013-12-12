@@ -133,10 +133,12 @@ UI BOXES FOR LEVEL EDITOR
 		+ Dropdown.root
 	+ Dropdown_Dropdowns close when the neighbors are opened
 		+ _Dropdown.child > parent
-	===================
 	. Test Dropdowns in Dropdowns in Dropdowns
 	+ close Dropdown after selecting a cell
-
+	=======================================
+	! (wip) Dropdown's name is formatted: selected (hovered)
+		+ selected_name, hovered_name > name
+		! () characters for font
 
 	! Move Dropdown to UI
 

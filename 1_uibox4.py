@@ -350,6 +350,9 @@ class Dropdown(_Cell, _Dropdown):
 # * Creates contained cells from a list.
 
 	cells = []
+	name = ""
+	selected_name = ""
+	hovered_name = ""
 
 	def __init__(self, input_cells):
 		_Cell.__init__(self, "-")
@@ -410,9 +413,17 @@ class Dropdown(_Cell, _Dropdown):
 				self.opened = False
 
 	def _change_name(self):
-		if self.root.selected_cell != None:
-			self.name = self.root.selected_cell.name
+		root = self.root
+		if root.selected_cell != None:
+			self.selected_name = root.selected_cell.name
+		if root.hovered_cell != None:
+			self.hovered_name = root.hovered_cell.name
 
+		if self.opened:
+			self.name = "%s .%s" \
+			% (self.selected_name, self.hovered_name)
+		else:
+			self.name = self.selected_name
 
 
 class Dropdown_Cell(_Cell):
