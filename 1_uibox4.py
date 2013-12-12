@@ -248,7 +248,7 @@ class _Cell(_UI):
 		return text
 
 
-class _Dropdown:
+class _Dropdown(object):
 #A skeleton designed to be inherited by Dropdown cells.
 #Provides cell event handling similarities.
 
@@ -274,6 +274,7 @@ class _Dropdown:
 
 	#######################################
 
+	#DROPDOWN STATES
 	class _child(object):
 		
 		#If another dropdown is open,
@@ -292,6 +293,7 @@ class _Dropdown:
 
 	#######################################
 
+	#CELL HANDLING
 	def _init_cells(self, input_cells): #init
 		cells = []
 		r = self.root
@@ -325,6 +327,24 @@ class _Dropdown:
 			for cell in self.cells:
 				cell.draw(Window)
 
+	#CONTROLS
+	_opened = False
+	@property
+	def opened(self): return self._opened
+	@opened.setter
+	def opened(self, b):
+		self._opened = b
+		if b == False: self._close()
+	#
+	def _close(self):
+		# Unselect all cells within it.
+		# Close all dropdowns within it.
+		for cell in self.cells:
+			if type(cell) == Dropdown_Cell:
+				cell.selected = False
+			if type(cell) == Dropdown_Dropdown:
+				cell.opened = False
+
 
 class Dropdown(_Cell, _Dropdown):
 # * Creates contained cells from a list.
@@ -334,9 +354,11 @@ class Dropdown(_Cell, _Dropdown):
 	def __init__(self, input_cells):
 		_Cell.__init__(self, "-")
 		_Dropdown.__init__(self, input_cells)
+		self.root = self.root()
 
 	def controls(self, Key, Mouse, Camera):
 		self._open(Mouse)
+		self.root.update()
 		_Dropdown.controls(self, Mouse)
 
 	def update_graphics(self):
@@ -358,10 +380,20 @@ class Dropdown(_Cell, _Dropdown):
 		selected_cell = None
 		hovered_cell = None
 
+		selected_changed = False #for controls
+		old_selected = None
+		#
+		def update(self):
+			if self.selected_cell != self.old_selected:
+				self.selected_changed = True
+			else:
+				self.selected_changed = False
+			self.old_selected = self.selected_cell
+
 	#######################################
 
 
-	opened = False
+	# opened = False
 
 	#########
 	#CONTROLS
@@ -372,11 +404,14 @@ class Dropdown(_Cell, _Dropdown):
 			if Mouse.inside(self):
 				self.opened = not self.opened
 
+		#Click a selection.
+		if self.root.selected_changed:
+			if self.root.selected_cell != None:
+				self.opened = False
+
 	def _change_name(self):
 		if self.root.selected_cell != None:
 			self.name = self.root.selected_cell.name
-		else:
-			self.name = "-"
 
 
 
@@ -476,19 +511,11 @@ class Dropdown_Dropdown(_Cell, _Dropdown):
 	@opened.setter
 	def opened(self, b):
 		self._opened = b
+		self.selected = b
 		if b == True:
 			self.parent.opened_dropdown = self
-		
-		#If closed...
-		# Unselect all cells within it.
-		# Close all dropdowns within it.
 		if b == False:
-			for cell in self.cells:
-				if type(cell) == Dropdown_Cell:
-					cell.selected = False
-				if type(cell) == Dropdown_Dropdown:
-					cell.opened = False
-
+			self._close()
 
 	def _open(self, Mouse):
 		if Mouse.inside(self):
@@ -506,7 +533,7 @@ UIBox1.center = Window.center
 UIBox1.open()
 
 dropdown = Dropdown\
-(["a","b","c", ["A", "aa"], ["B","ba"]])
+(["a",["A","aa",["C","ca"]],["B","ba",["D","da"]]])
 # (["a","b","c"])
 dropdown.center = UIBox1.center
 dropdown.y = UIBox1.y2 - dropdown.h
