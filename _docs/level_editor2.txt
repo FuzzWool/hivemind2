@@ -137,12 +137,15 @@ UI BOXES FOR LEVEL EDITOR
 	+ close Dropdown after selecting a cell
 	+ Dropdown's name is formatted: selected (hovered)
 
-	=======================================
+
 	~ Font img
 		+ added comma, bullet, slashes, numbers and icons
-
-	! Font: numbers
+	=======================================
+	+ Font: numbers
 	! Font: folder icon
+	! Font: comma, bullet, slashes
+	! save tool
+
 
 	! Dropdown_Dropdowns have folder icons (via text)
 	! Move Dropdown to UI

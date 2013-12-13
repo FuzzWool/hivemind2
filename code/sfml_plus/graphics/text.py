@@ -9,6 +9,7 @@ from sfml import Color
 class Ref:
 	characters = "abcdefghijklmnopqrstuvwxyz "
 	grammar = ".:,;-!()"
+	numbers = "0123456789"
 
 
 class Font:
@@ -21,6 +22,7 @@ class Font:
 		self._load_boundaries(d)
 		self.characters = Ref.characters
 		self.grammar = Ref.grammar
+		self.numbers = Ref.numbers
 
 	def get_character_points(self, character):
 		x, y = 0,0
@@ -34,6 +36,9 @@ class Font:
 		elif c in self.grammar:
 			x = self.grammar.index(c)
 			y = 2
+		elif c in self.numbers:
+			x = self.numbers.index(c)
+			y = 3
 
 		x1,y1,x2,y2 = self.boundaries[y][x]
 		x1 -= 1; y1 -= 1
@@ -135,6 +140,7 @@ class _Letter:
 	def __init__(self):
 		self.characters = Ref.characters
 		self.grammar = Ref.grammar
+		self.numbers = Ref.numbers
 
 	def create_vertex(self, Font): #Text...vertex_array
 		vertex = []

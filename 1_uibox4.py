@@ -437,7 +437,7 @@ class Dropdown(_Cell, _Dropdown):
 		elif self.selected_name != "":
 			name = self.selected_name
 		else:
-			name = "..." 
+			name = "0123456789" 
 		#
 		self.name = name
 
