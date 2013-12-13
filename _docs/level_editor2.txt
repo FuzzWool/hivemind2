@@ -95,13 +95,17 @@ LEVEL EDITOR UI
 		Individual tiles from the grid may be selected.
 		Multiple tiles may be selected at once.
 
-		! Sprite with a Grid overlay (Grid class)
+		+ Tilemap with a Grid overlay (Grid class)
+
+		! Fix Grid.color lie by changing the transparency changes of UIBox
 		! Cursor appears over the image, hides the mouse
 		! Cursor selects a tile, old selection still visible
 		! Cursor selects multiple tiles
 			! Splits the corners, fills the gaps with -
 			! contains 2D data for the tiles
 
+
+! use Grid in main's WorldMap
 
 ! Entity Tool
 

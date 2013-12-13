@@ -21,9 +21,13 @@ class MySprite(Sprite, Rectangle):
 	def y(self, y): self.position = self.x, y
 
 	@property
-	def w(self): return self.clip.w
+	def w(self):
+		try: return self.clip.w
+		except: return self.global_bounds.width
 	@property
-	def h(self): return self.clip.h
+	def h(self):
+		try: return self.clip.h
+		except: return self.global_bounds.height
 	#
 
 class clip:

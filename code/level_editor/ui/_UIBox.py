@@ -46,7 +46,7 @@ class _UIBox(Rectangle):
 				c = G.outline_color; c.a = _alpha
 				G.outline_color = c
 
-			if type(G) == Text:
+			else:
 				c = G.color; c.a = _alpha
 				G.color = c
 
