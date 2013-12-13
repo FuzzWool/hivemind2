@@ -135,13 +135,16 @@ UI BOXES FOR LEVEL EDITOR
 		+ _Dropdown.child > parent
 	. Test Dropdowns in Dropdowns in Dropdowns
 	+ close Dropdown after selecting a cell
-	=======================================
 	+ Dropdown's name is formatted: selected (hovered)
 
+	=======================================
+	~ Font img
+		+ added comma, bullet, slashes, numbers and icons
+
+	! Font: numbers
+	! Font: folder icon
+
 	! Dropdown_Dropdowns have folder icons (via text)
-
-
-	! Add more grammar characters to font
 	! Move Dropdown to UI
 
 	! Grid_Sprite
