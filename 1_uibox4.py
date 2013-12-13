@@ -342,6 +342,7 @@ class _Dropdown(object):
 		for cell in self.cells:
 			if type(cell) == Dropdown_Cell:
 				cell.selected = False
+				cell.hovered = False
 			if type(cell) == Dropdown_Dropdown:
 				cell.opened = False
 
@@ -414,16 +415,31 @@ class Dropdown(_Cell, _Dropdown):
 
 	def _change_name(self):
 		root = self.root
+	
 		if root.selected_cell != None:
 			self.selected_name = root.selected_cell.name
+
 		if root.hovered_cell != None:
 			self.hovered_name = root.hovered_cell.name
-
-		if self.opened:
-			self.name = "%s .%s" \
-			% (self.selected_name, self.hovered_name)
 		else:
-			self.name = self.selected_name
+			self.hovered_name = ""
+
+		#
+
+		name = self.name
+		#
+		if self.hovered_name != ""\
+		and self.selected_name != "":
+			name = "%s (%s)" \
+			% (self.selected_name, self.hovered_name)
+		elif self.hovered_name != "":
+			name = "(%s)" % self.hovered_name
+		elif self.selected_name != "":
+			name = self.selected_name
+		else:
+			name = "..." 
+		#
+		self.name = name
 
 
 class Dropdown_Cell(_Cell):

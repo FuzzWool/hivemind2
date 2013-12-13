@@ -136,10 +136,12 @@ UI BOXES FOR LEVEL EDITOR
 	. Test Dropdowns in Dropdowns in Dropdowns
 	+ close Dropdown after selecting a cell
 	=======================================
-	! (wip) Dropdown's name is formatted: selected (hovered)
-		+ selected_name, hovered_name > name
-		! () characters for font
+	+ Dropdown's name is formatted: selected (hovered)
 
+	! Dropdown_Dropdowns have folder icons (via text)
+
+
+	! Add more grammar characters to font
 	! Move Dropdown to UI
 
 	! Grid_Sprite

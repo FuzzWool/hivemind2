@@ -6,6 +6,10 @@ from code.sfml_plus.graphics import Rectangle
 
 from sfml import Color
 
+class Ref:
+	characters = "abcdefghijklmnopqrstuvwxyz "
+	grammar = ".:,;-!()"
+
 
 class Font:
 # * Loads the texture.
@@ -15,10 +19,9 @@ class Font:
 		d = "assets/fonts/%s" % name
 		self._load_texture(d)
 		self._load_boundaries(d)
+		self.characters = Ref.characters
+		self.grammar = Ref.grammar
 
-
-	characters = "abcdefghijklmnopqrstuvwxyz "
-	grammar = ".:,;-!"
 	def get_character_points(self, character):
 		x, y = 0,0
 		c = character
@@ -129,8 +132,9 @@ class _Text:
 class _Letter:
 # * Creates a vertex upon being initialized.
 
-	characters = "abcdefghijklmnopqrstuvwxyz "
-	grammar = ".:,;-!"
+	def __init__(self):
+		self.characters = Ref.characters
+		self.grammar = Ref.grammar
 
 	def create_vertex(self, Font): #Text...vertex_array
 		vertex = []
