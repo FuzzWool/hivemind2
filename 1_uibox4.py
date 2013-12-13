@@ -1,9 +1,20 @@
 from code.sfml_plus import Window
 from code.sfml_plus import Key
 from code.sfml_plus import Mouse
+from code.level_editor.ui import UIBox, Dropdown
 
 #######################################
-from code.level_editor.ui import UIBox, Dropdown
+
+from code.level_editor.ui import _UI
+
+class TileSelector(_UI):
+# WIP - Selects tiles on a Tilesheet.
+	# WIP - May store multiple tiles.
+
+	class Cursor:
+		pass
+
+
 #######################################
 
 Window = Window((1200,600), "UI Box (Tile)")
