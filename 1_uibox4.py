@@ -231,8 +231,8 @@ class _Cell(_UI):
 		rect.position = x,y
 		rect.outline_color = Color.BLACK
 		rect.outline_thickness = 1
-		if hovered: rect.fill_color = Color(200,200,200)
-		if selected: rect.fill_color = Color(100,100,100)
+		if hovered: rect.fill_color = Color(225,225,225)
+		if selected: rect.fill_color = Color(175,175,175)
 		#
 		return rect
 

@@ -126,26 +126,18 @@ UI BOXES FOR LEVEL EDITOR
 	are stored in a root class.
 	Each class performs it's own event handling.
 
+	Dropdown.root
+	_Dropdown.parent > child
+
+
 	+ Dropdown creates cells from a list
 	+ Dropdown opens and closes
 	+ Dropdown selects a cell
 	+ Dropdown selects a Dropdown_Dropdown cell
-		+ Dropdown.root
 	+ Dropdown_Dropdowns close when the neighbors are opened
-		+ _Dropdown.child > parent
-	. Test Dropdowns in Dropdowns in Dropdowns
-	+ close Dropdown after selecting a cell
 	+ Dropdown's name is formatted: selected (hovered)
 
-
-	~ Font img
-		+ added comma, bullet, slash, numbers and icons
-	+ Font: numbers
 	=======================================
-	+ Font: comma, bullet, slash, question mark
-
-	! Improve Dropdown graphics
-		! Dropdown cells use a different color
 
 	! Move Dropdown to UI
 
