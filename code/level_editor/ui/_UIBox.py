@@ -122,17 +122,19 @@ class _UIBox(Rectangle):
 ###############
 
 class UIBox(_UIBox):
+# * A window which handles UI widgets.
+# * Opens and closes.
 
 	def __init__(self):
 		self.Smooth = self.Smooth(self)
 
-	#
+
+	####
+	# UIs
 
 	UIs = []
 	def add(self, UI):
 		self.UIs.append(UI)
-
-	#
 
 	def controls(self, *args):
 		for UI in self.UIs:
@@ -151,7 +153,9 @@ class UIBox(_UIBox):
 		for UI in self.UIs:
 			UI.draw(Window)
 
+
 	###
+	# OPENING/CLOSING
 
 	active = True
 

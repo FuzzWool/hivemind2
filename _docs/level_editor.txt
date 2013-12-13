@@ -9,13 +9,14 @@ UI STANDARD
 	+ Speech (game/__speech)
 
 	! Level Editor UI
-		+ UIBox
-		+ Dropdown
+		! Tile Tool
+			+ UIBox
+			+ Dropdown
+			! GridSprite
 ===========================================
-		! UI Box (Tile)
-		! UI Box (Entity)
-		! UI Box (Warning Message)
-		! UI Box (Help dialogue for Tile)
+		! Help Dialogue
+		! Entity Tool
+		! Warning Message
 
 
 TOOLBOX W/ TOOLS

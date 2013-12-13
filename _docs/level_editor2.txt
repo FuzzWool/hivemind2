@@ -66,40 +66,47 @@ Create my own text class.
 LEVEL EDITOR UI
 ==========================================================
 
-+ UI Box (Tile)
-Designed to handle all of the UI widgets.
-	#
-	+ points: Draw a box.
-	+ open/close: alpha, smooth x/y
+! Tile Tool
 
-+ Dropdown
-Designed for Tile and Entity tools.
-	#
-	* Model:
-		* Dropdown.root
-		* _Dropdown.parent > child
-	#
-	+ Dropdown creates cells from a list
-	+ Dropdown opens and closes
-	+ Dropdown selects a cell
-	+ Dropdown selects a Dropdown_Dropdown cell
-	+ Dropdown_Dropdowns close when others are opened
-	+ Dropdown's name is formatted: selected (hovered)
-	~ moved to UI
+	+ UI Box
+	A window which handles all of the widgets.
+		#
+		+ points: Draw a box.
+		+ open/close: alpha, smooth x/y
+
+	+ Dropdown
+	A dropdown menu with cells and more dropdown menus.
+		#
+		* Model:
+			* Dropdown.root
+			* _Dropdown.parent > child
+		#
+		+ Dropdown creates cells from a list
+		+ Dropdown opens and closes
+		+ Dropdown selects a cell
+		+ Dropdown selects a Dropdown_Dropdown cell
+		+ Dropdown_Dropdowns close when others are opened
+		+ Dropdown's name is formatted: selected (hovered)
 
 =======================================
-~ cleaned docs
-! Review code thus far
-! Consider cleaning UIBox and Dropdown
+
+	! GridSprite
+		An image split into a gridded view.
+		Individual tiles from the grid may be selected.
+		Multiple tiles may be selected at once.
 
 
-! Grid_Sprite
-	! opens an image
-	! may change the image at any time
-	! a cursor may select multiple tiles
+! Entity Tool
 
-! Dropdown + Grid Image
+	! ScrollBox
+		A box with a scroller.
+		The contents of the box scroll with the scroller.
 
-! UI Box (Entity)
-! UI Box (Warning Message)
+	! SpriteSelector
+		A ScrollBox containing a list of images.
+		Images are loaded left-to-right,
+		and move down a row when there are too many.
+		A sprite may be clicked to be selected.
+
+! Warning Message (example: an entity has an error)
 ! UI Box (Help dialogue for Tile)
