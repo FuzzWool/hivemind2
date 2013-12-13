@@ -121,25 +121,21 @@ UI BOXES FOR LEVEL EDITOR
 		+ points: Draw a box.
 		+ open/close: alpha, smooth x/y
 
-	! Dropdown 4
-	selected_cell and hovered_cell
-	are stored in a root class.
-	Each class performs it's own event handling.
+	+ Dropdown
+		* Model:
+			* Dropdown.root
+			* _Dropdown.parent > child
+		#
+		+ Dropdown creates cells from a list
+		+ Dropdown opens and closes
+		+ Dropdown selects a cell
+		+ Dropdown selects a Dropdown_Dropdown cell
+		+ Dropdown_Dropdowns close when others are opened
+		+ Dropdown's name is formatted: selected (hovered)
+		=======================================
+		~ moved to UI
 
-	Dropdown.root
-	_Dropdown.parent > child
-
-
-	+ Dropdown creates cells from a list
-	+ Dropdown opens and closes
-	+ Dropdown selects a cell
-	+ Dropdown selects a Dropdown_Dropdown cell
-	+ Dropdown_Dropdowns close when the neighbors are opened
-	+ Dropdown's name is formatted: selected (hovered)
-
-	=======================================
-
-	! Move Dropdown to UI
+	! Consider cleaning UIBox and Dropdown
 
 	! Grid_Sprite
 		! opens an image
