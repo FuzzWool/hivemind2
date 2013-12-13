@@ -8,7 +8,7 @@ from sfml import Color
 
 class Ref:
 	characters = "abcdefghijklmnopqrstuvwxyz "
-	grammar = ".:,;-!()"
+	grammar = ".:,;-!()'*/?"
 	numbers = "0123456789"
 
 

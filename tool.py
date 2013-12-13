@@ -7,7 +7,7 @@ from code.sfml_plus import Mouse
 
 class Text_Ref:
 	characters = "abcdefghijklmnopqrstuvwxyz "
-	grammar = ".:,;-!()"
+	grammar = ".:,;-!()'*/?"
 	numbers = "0123456789"
 
 
@@ -201,11 +201,16 @@ class Text_Spacing_Tool:
 				if char == "NUM1": char = "!"
 				if char == "NUM9": char = "("
 				if char == "NUM0": char = ")"
+				if char == "NUM8": char = "*"
+				if char == "SLASH": char = "?"
+
 			else:
 				if char == "PERIOD": char = "."
 				if char == "COMMA": char = ","
 				if char == "SEMI_COLON": char = ";"
 				if char == "DASH": char = "-"
+				if char == "TILDE": char = "'"
+				if char == "SLASH": char = "/"
 
 				if char == "NUM0": char = "0"
 				if char == "NUM1": char = "1"

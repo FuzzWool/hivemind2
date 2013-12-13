@@ -7,7 +7,8 @@ from code.sfml_plus import Mouse
 
 class Text_Ref:
 	characters = "abcdefghijklmnopqrstuvwxyz "
-	grammar = ".:,;-!"
+	grammar = ".:,;-!()'*/?"
+	numbers = "0123456789"
 
 
 from sfml import RectangleShape, Color
@@ -57,6 +58,7 @@ class Text_Spacing_Tool:
 		for box in self.box_upper: window.draw(box())
 		for box in self.box_lower: window.draw(box())
 		for box in self.box_grammar: window.draw(box())
+		for box in self.box_numbers: window.draw(box())
 		window.draw(self.sprite)
 
 
@@ -141,6 +143,7 @@ class Text_Spacing_Tool:
 		self.box_upper = []
 		self.box_lower = []
 		self.box_grammar = []
+		self.box_numbers = []
 
 		for character in Text_Ref.characters:
 			self.box_lower.append(self.Box(character))
@@ -148,9 +151,14 @@ class Text_Spacing_Tool:
 			self.box_upper.append(self.Box(upper_char))
 		for character in Text_Ref.grammar:
 			self.box_grammar.append(self.Box(character))
+		for character in Text_Ref.numbers:
+			self.box_numbers.append(self.Box(character))
 
 		self.all_boxes =\
-		[self.box_upper, self.box_lower, self.box_grammar]
+		[self.box_upper,
+		 self.box_lower,
+		 self.box_grammar,
+		 self.box_numbers]
 
 
 	class Box(Rectangle):
@@ -191,11 +199,29 @@ class Text_Spacing_Tool:
 			if Key.L_SHIFT.held():
 				if char == "SEMI_COLON": char = ":"
 				if char == "NUM1": char = "!"
+				if char == "NUM9": char = "("
+				if char == "NUM0": char = ")"
+				if char == "NUM8": char = "*"
+				if char == "SLASH": char = "?"
+
 			else:
 				if char == "PERIOD": char = "."
 				if char == "COMMA": char = ","
 				if char == "SEMI_COLON": char = ";"
 				if char == "DASH": char = "-"
+				if char == "TILDE": char = "'"
+				if char == "SLASH": char = "/"
+
+				if char == "NUM0": char = "0"
+				if char == "NUM1": char = "1"
+				if char == "NUM2": char = "2"
+				if char == "NUM3": char = "3"
+				if char == "NUM4": char = "4"
+				if char == "NUM5": char = "5"
+				if char == "NUM6": char = "6"
+				if char == "NUM7": char = "7"
+				if char == "NUM8": char = "8"
+				if char == "NUM9": char = "9"
 
 			#caps
 			if Key.L_SHIFT.held(): char = char.upper()
@@ -238,6 +264,9 @@ class Text_Spacing_Tool:
 			if char in Text_Ref.grammar:
 				x = Text_Ref.grammar.index(char)
 				y = 2
+			if char in Text_Ref.numbers:
+				x = Text_Ref.numbers.index(char)
+				y = 3
 
 			#Highlight it
 			w,h = 8,12

@@ -437,7 +437,7 @@ class Dropdown(_Cell, _Dropdown):
 		elif self.selected_name != "":
 			name = self.selected_name
 		else:
-			name = "0123456789" 
+			name = "It's a me! Mario?!?!" 
 		#
 		self.name = name
 
@@ -500,7 +500,7 @@ class Dropdown_Dropdown(_Cell, _Dropdown):
 		if len(input_cells) < 1: raise "empty"
 		self.root = root
 		self.parent = parent
-		_Cell.__init__(self, input_cells[0])
+		_Cell.__init__(self, input_cells[0] + "...")
 		_Dropdown.__init__(self, input_cells[1:])
 
 	def update_graphics(self):

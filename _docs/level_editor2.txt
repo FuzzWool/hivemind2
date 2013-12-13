@@ -139,15 +139,14 @@ UI BOXES FOR LEVEL EDITOR
 
 
 	~ Font img
-		+ added comma, bullet, slashes, numbers and icons
-	=======================================
+		+ added comma, bullet, slash, numbers and icons
 	+ Font: numbers
-	! Font: folder icon
-	! Font: comma, bullet, slashes
-	! save tool
+	=======================================
+	+ Font: comma, bullet, slash, question mark
 
+	! Improve Dropdown graphics
+		! Dropdown cells use a different color
 
-	! Dropdown_Dropdowns have folder icons (via text)
 	! Move Dropdown to UI
 
 	! Grid_Sprite
