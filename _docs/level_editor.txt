@@ -1,14 +1,17 @@
 goals > level_editor
 LEVEL 1 NOTES
 ============================================
+NEW LEVEL EDITOR
+============================================
 
-UI / DIALOGUE STANDARD
 
+UI STANDARD
+	+ Speech (game/__speech)
 
-	+ Speech UI (game/__speech)
-
-	! design Level Editor toolbox
 	! Level Editor UI
+		+ UIBox
+		+ Dropdown
+===========================================
 		! UI Box (Tile)
 		! UI Box (Entity)
 		! UI Box (Warning Message)

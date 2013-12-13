@@ -2,62 +2,10 @@ goals > level_editor > level_editor2
 LEVEL 2 NOTES
 ============================================
 
-+ BASIC LEVEL EDITOR CLASS
--
-~ Cleaned: moved controls to LevelEditor.
-	~ Controls the Camera.
-		+ Level Editor Camera snaps to Rooms
-	~ Contains a background.
-
----
-
-+ CREATED UI STANDARD
-
-+ text input box
-	+ text input
-		+ Work out the current key being pressed.
-			~ Order the keys by value
-
-
-	+ flickering cursor
-		+ added cursor
-			+ drawn every loop to match text bounds
-
-	+ box is bounded
-		+ box is wrapped around the text
-		~ string can't exceed box length
-
-
-+ made a UI box. (contains UI elements)
-	+ top-level UI handling
-		+ can set inputbox position
-		+ when a child is added, set it's proportional pos 	
-		+ when the UI is moved, move the contents, too
-
-
-+ button UI
-	+ sfml_plus Mouse
-		+ Mouse inherits from GameRectangle
-		+ Mouse has held, pressed, released
-			+ window reset
-
-	+ sfml_plus.window (Window, Key, Mouse)
-
-	+ create a Button
-		+ rectangle, text
-		+ held, pressed
-
-		+ ui_box can respond to ui objects' events
-			+ events are stored in a dictionary within ui_box
-			+ event specifies the id when invoked
-			+ example: ui_box can pick up button_pressed
-			+ can change input_box's text via uibox.contents
-
->>>>>>
-
-
-DIALOGUE / UIBOX STANDARD
-
+==========================================================
+SPEECH
+==========================================================
+Created for practice. Will likely be scrapped later on.
 
 + Text Class
 Create my own text class.
@@ -111,53 +59,47 @@ Create my own text class.
 
 
 
-UI BOXES FOR LEVEL EDITOR
-
-. designed Level Editor toolbox
-
-! Level Editor UI
-
-	+ UI Box (Tile)
-		+ points: Draw a box.
-		+ open/close: alpha, smooth x/y
-
-	+ Dropdown
-		* Model:
-			* Dropdown.root
-			* _Dropdown.parent > child
-		#
-		+ Dropdown creates cells from a list
-		+ Dropdown opens and closes
-		+ Dropdown selects a cell
-		+ Dropdown selects a Dropdown_Dropdown cell
-		+ Dropdown_Dropdowns close when others are opened
-		+ Dropdown's name is formatted: selected (hovered)
-		=======================================
-		~ moved to UI
-
-	! Consider cleaning UIBox and Dropdown
-
-	! Grid_Sprite
-		! opens an image
-		! may change the image at any time
-		! a cursor may select multiple tiles
-
-	! Dropdown + Grid Image
-
-	
-	! CPU usage spikes
-	! UI Box (Entity)
-	! UI Box (Warning Message)
-	! UI Box (Help dialogue for Tile)
 
 
-! UI Box (Tile)
-	! Tiled image
-		! with grid
 
-	! Dropdown menu
-		! with normal cells
-		! with folder cells
+==========================================================
+LEVEL EDITOR UI
+==========================================================
 
-		! Highlight recognition
-		! Click recognition
++ UI Box (Tile)
+Designed to handle all of the UI widgets.
+	#
+	+ points: Draw a box.
+	+ open/close: alpha, smooth x/y
+
++ Dropdown
+Designed for Tile and Entity tools.
+	#
+	* Model:
+		* Dropdown.root
+		* _Dropdown.parent > child
+	#
+	+ Dropdown creates cells from a list
+	+ Dropdown opens and closes
+	+ Dropdown selects a cell
+	+ Dropdown selects a Dropdown_Dropdown cell
+	+ Dropdown_Dropdowns close when others are opened
+	+ Dropdown's name is formatted: selected (hovered)
+	~ moved to UI
+
+=======================================
+~ cleaned docs
+! Review code thus far
+! Consider cleaning UIBox and Dropdown
+
+
+! Grid_Sprite
+	! opens an image
+	! may change the image at any time
+	! a cursor may select multiple tiles
+
+! Dropdown + Grid Image
+
+! UI Box (Entity)
+! UI Box (Warning Message)
+! UI Box (Help dialogue for Tile)

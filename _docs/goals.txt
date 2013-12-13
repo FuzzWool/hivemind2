@@ -3,25 +3,15 @@ LEVEL 0 NOTES
 ============================================
 
 + WORLDMAP
-Goals:
-	+ loads basic WorldMap (just filler tiles).
-	+ Smooth moving camera.
+	Goals:
+		+ loads basic WorldMap (just filler tiles).
+		+ Smooth moving camera.
 
-
-LEVEL EDITOR
-! keep referencing level_editor.txt
-Goals:
-
-	! Dialogue standard
-	! UI standard
-
-	! ToolBox w/ Tools
-		! Tiles (place, remove, select (tile/tileset))
-		! Camera (place, remove, )
-		! Level
-		! Entity
-		! General
-
+! NEW LEVEL EDITOR
+A clean new interface for the creation of the game.
+	Goals:
+		! UI Standard.
+		! Toolbox with Tools.
 
 ENTITIES
 Goals:
