@@ -1,1 +1,1 @@
-#check if an object is a class
+#multiple objects in a list

@@ -8,6 +8,15 @@ from sfml import Texture
 from sfml import Vertex
 from sfml import Color
 
+
+def Key(self, x,y): #unused
+#data format for positioning.
+	x,y = str(x),str(y)
+	if len(x) == 1: "0"+x
+	if len(y) == 1: "0"+y
+	return x,y
+
+
 class _WorldMap(Rectangle):
 # * WIP - contains Tiles of all the (active) rooms.
 

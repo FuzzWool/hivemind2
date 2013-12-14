@@ -6,12 +6,13 @@ from code.level_editor.ui import UIBox, Dropdown
 #######################################
 
 from code.level_editor.ui import Grid
-
 from code.level_editor.ui import _UI
+
 from code.sfml_plus import Rectangle
-from sfml import Texture
 from code.sfml_plus import MySprite
-from code.sfml_plus.constants import TILE
+from sfml import Texture
+from sfml import Color
+
 
 class TileSelector(_UI):
 # WIP - Selects tiles on a Tilesheet.
@@ -20,23 +21,34 @@ class TileSelector(_UI):
 	x,y,w,h = 0,0,0,0
 	graphics = []
 
-
 	def __init__(self):
 		self.Tileset = self.Tileset("1")
-		self.Cursor = self.Cursor()
+		self.New_Cursor = self.Cursor()
+		self.Old_Cursor = self.Cursor()
 		self.size = self.Tileset.size
+		self.Old_Cursor.skin = 1
 
 	def controls(self, Key, Mouse, Camera):
-		self.Cursor.active = Mouse.inside(self.Tileset)
-		self.Cursor.controls(Mouse)
+		self.New_Cursor.active =Mouse.inside(self.Tileset)
+		self.New_Cursor.controls(Mouse)
+
+		selecting = self.New_Cursor.selecting
+		if selecting:
+			self.Old_Cursor.active =True
+			self.Old_Cursor.tile_position \
+			=self.New_Cursor.tile_position
+			self.Old_Cursor.tile_size \
+			=self.New_Cursor.tile_size
 
 	def update_graphics(self):
-		self.Tileset.position = self.position
-		self.graphics = self.Tileset.graphics
+		self.Tileset.position =self.position
+		self.graphics =self.Tileset.graphics
+
 
 	def draw(self, Window):
 		self.Tileset.draw(Window)
-		self.Cursor.draw(Window)
+		self.Old_Cursor.draw(Window)
+		self.New_Cursor.draw(Window)
 
 
 	#######################################
@@ -65,35 +77,48 @@ class TileSelector(_UI):
 		###################################
 
 		sprite = None
-		def _make_sprite(self, path):
+		def _make_sprite(self, path): #init
 			texture = Texture.from_file(path)
 			sprite = MySprite(texture)
 			self.size = sprite.size
 			self.sprite = sprite
 
 		grid = None
-		def _make_grid(self):
+		def _make_grid(self): #init
 			self.grid = Grid(self.points)
 
 
 
 	class Cursor(Rectangle):
 	#A cursor sprite.
-	#Each edge is split into 8 parts for multi-selections.
-	#It snaps to the mouse tile-per-tile.	
+	#
+	# * Edges are split into 4 parts for multi-selections.
+	# * It snaps to the mouse tile-per-tile.
+	# * Handles tile selections.
 
 		active = False
+		selecting = False
+		skin = 0 #0,1
+
+		# @property
+		# def selected(self): #unused, returns a 2D list
+		# 	pass
 
 		def __init__(self):
 			self.sprites = self._make_sprites()
 
 		def controls(self, Mouse):
 			if not self.active: return
+
 			self.tile_position = Mouse.tile_position
-			self.sprites = self._position_sprites()
+			#
+			self._select_tiles(Mouse)
 
 		def draw(self, Window):
 			if not self.active: return
+
+			self._change_skin()
+			self.sprites = self._position_sprites()
 			for row in self.sprites:
 				for sprite in row:
 					Window.draw(sprite)
@@ -102,7 +127,7 @@ class TileSelector(_UI):
 
 		sprites = []
 		tile_x, tile_y = 0,0
-		w,h = TILE, TILE
+		tile_w, tile_h = 0,0
 		tex_path = "assets/ui/cursor.png"
 		texture = Texture.from_file(tex_path)
 
@@ -111,32 +136,87 @@ class TileSelector(_UI):
 			texture = self.texture
 			w,h = self.size
 			#
-			for x in range(3):
+			for x in range(2):
 				sprites.append([])
-				for y in range(3):
+				for y in range(2):
 					sprite = MySprite(texture)
 					sprite.clip.set(8,8)
-					sprite.clip.use(x,y)
+					sprite.clip.use(x*2,y*2)
 
 					o = sprite.origin
-					if x > 0: sprite.origin = -8*x,o[1]
+					if x > 0: sprite.origin = -16,o[1]
 					o = sprite.origin
-					if y > 0: sprite.origin = o[0],-8*y
+					if y > 0: sprite.origin = o[0],-16
 
 					sprites[-1].append(sprite)
 			#
 			return sprites
 
 
-		def _position_sprites(self): #snap_to
+		def _position_sprites(self): #draw
 			sprites = self.sprites
-			tile_position = self.tile_position
+			x1,y1,x2,y2 = self.tile_points
+			#
+			sprites[0][0].tile_position = x1,y1
+			sprites[0][1].tile_position = x1,y2
+			sprites[1][0].tile_position = x2,y1
+			sprites[1][1].tile_position = x2,y2
+			#
+			return sprites
+
+		#
+
+		selecting = False
+		start_anchor = 0,0
+		finish_anchor = 0,0
+		#
+		def _select_tiles(self, Mouse): #controls
+			_x,_y = self.tile_position
+			tile_points = _x,_y,_x+1,_y+1
+			#
+			selecting = self.selecting
+			start_anchor = self.start_anchor
+			finish_anchor = self.finish_anchor
+			#
+			if Mouse.left.held() and (not selecting):
+				selecting = True
+				start_anchor = tile_points[0:2]
+			if selecting:
+				finish_anchor = tile_points[2:4]
+			if (not Mouse.left.held()) and selecting:
+				selecting = False
+			#
+			self.selecting = selecting
+			self.start_anchor = start_anchor
+			self.finish_anchor = finish_anchor
+			#
+			if selecting:
+				x,y = start_anchor
+				w = finish_anchor[0]-start_anchor[0]-1
+				h = finish_anchor[1]-start_anchor[1]-1
+				if w < 0: x += w; w = abs(w)
+				if h < 0: y += h; h = abs(h)
+				self.tile_position = x,y
+				self.tile_size = w,h
+			else:
+				self.tile_size = 0,0
+
+		#
+
+		def _change_skin(self):
+		#Change the cursor skin of all the sprites.
+			skin = self.skin
+			sprites = self.sprites
 			#
 			for row in sprites:
 				for sprite in row:
-					sprite.tile_position = tile_position
+					c = 255
+					if skin == 0:
+						sprite.color = Color(c,c,c,255)
+					if skin == 1:
+						sprite.color = Color(c,c,c,100)
 			#
-			return sprites
+			self.sprites = sprites
 
 
 #######################################

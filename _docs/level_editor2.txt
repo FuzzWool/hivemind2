@@ -95,13 +95,21 @@ LEVEL EDITOR UI
 		Multiple tiles may be selected at once.
 
 		+ Tilemap with a Grid overlay (Grid class)
-=======================================
 		+ Cursor appears over the image
+=======================================
+		+ Cursor selects a tile, old selection still visible
+			+ an old selection left behind
+			+ two color choices
 
-		! Cursor selects a tile, old selection still visible
+		! Cursor graphics update with Window open/closes
 		! Cursor selects multiple tiles
 			! Splits the corners, fills the gaps with -
 			! contains 2D data for the tiles
+
+
+	! Tabs
+		For diving the UI Window into multiple sections.
+		Each room may use up to 3 different tilesets.
 
 
 ! use Grid in main's WorldMap
