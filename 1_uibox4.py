@@ -11,6 +11,7 @@ from code.level_editor.ui import _UI
 from code.sfml_plus import Rectangle
 from sfml import Texture
 from code.sfml_plus import MySprite
+from code.sfml_plus.constants import TILE
 
 class TileSelector(_UI):
 # WIP - Selects tiles on a Tilesheet.
@@ -22,10 +23,12 @@ class TileSelector(_UI):
 
 	def __init__(self):
 		self.Tileset = self.Tileset("1")
+		self.Cursor = self.Cursor()
 		self.size = self.Tileset.size
 
 	def controls(self, Key, Mouse, Camera):
-		pass
+		self.Cursor.active = Mouse.inside(self.Tileset)
+		self.Cursor.controls(Mouse)
 
 	def update_graphics(self):
 		self.Tileset.position = self.position
@@ -33,12 +36,14 @@ class TileSelector(_UI):
 
 	def draw(self, Window):
 		self.Tileset.draw(Window)
+		self.Cursor.draw(Window)
 
 
 	#######################################
 
 	class Tileset(Rectangle):
-		
+	#A tileset image with a grid overlaying it.
+
 		def __init__(self, path):
 			self.load(path)
 
@@ -70,9 +75,68 @@ class TileSelector(_UI):
 		def _make_grid(self):
 			self.grid = Grid(self.points)
 
-	class Cursor(Rectangle):
-		pass
 
+
+	class Cursor(Rectangle):
+	#A cursor sprite.
+	#Each edge is split into 8 parts for multi-selections.
+	#It snaps to the mouse tile-per-tile.	
+
+		active = False
+
+		def __init__(self):
+			self.sprites = self._make_sprites()
+
+		def controls(self, Mouse):
+			if not self.active: return
+			self.tile_position = Mouse.tile_position
+			self.sprites = self._position_sprites()
+
+		def draw(self, Window):
+			if not self.active: return
+			for row in self.sprites:
+				for sprite in row:
+					Window.draw(sprite)
+
+		########################################
+
+		sprites = []
+		tile_x, tile_y = 0,0
+		w,h = TILE, TILE
+		tex_path = "assets/ui/cursor.png"
+		texture = Texture.from_file(tex_path)
+
+		def _make_sprites(self): #init
+			sprites = []
+			texture = self.texture
+			w,h = self.size
+			#
+			for x in range(3):
+				sprites.append([])
+				for y in range(3):
+					sprite = MySprite(texture)
+					sprite.clip.set(8,8)
+					sprite.clip.use(x,y)
+
+					o = sprite.origin
+					if x > 0: sprite.origin = -8*x,o[1]
+					o = sprite.origin
+					if y > 0: sprite.origin = o[0],-8*y
+
+					sprites[-1].append(sprite)
+			#
+			return sprites
+
+
+		def _position_sprites(self): #snap_to
+			sprites = self.sprites
+			tile_position = self.tile_position
+			#
+			for row in sprites:
+				for sprite in row:
+					sprite.tile_position = tile_position
+			#
+			return sprites
 
 
 #######################################

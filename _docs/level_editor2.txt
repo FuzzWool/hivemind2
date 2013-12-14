@@ -96,10 +96,8 @@ LEVEL EDITOR UI
 
 		+ Tilemap with a Grid overlay (Grid class)
 =======================================
+		+ Cursor appears over the image
 
-		~ cleaned and moved Grid to UI
-
-		! Cursor appears over the image, hides the mouse
 		! Cursor selects a tile, old selection still visible
 		! Cursor selects multiple tiles
 			! Splits the corners, fills the gaps with -
