@@ -88,7 +88,6 @@ LEVEL EDITOR UI
 		+ Dropdown_Dropdowns close when others are opened
 		+ Dropdown's name is formatted: selected (hovered)
 
-=======================================
 
 	! TileSelector
 		An image split into a gridded view.
@@ -96,8 +95,10 @@ LEVEL EDITOR UI
 		Multiple tiles may be selected at once.
 
 		+ Tilemap with a Grid overlay (Grid class)
+=======================================
 
-		! Fix Grid.color lie by changing the transparency changes of UIBox
+		~ cleaned and moved Grid to UI
+
 		! Cursor appears over the image, hides the mouse
 		! Cursor selects a tile, old selection still visible
 		! Cursor selects multiple tiles
