@@ -9,8 +9,7 @@ from sfml import Color
 t = Texture.from_file("assets/tilesets/1.png")
 s = MySprite(t)
 
-s.color = Color(255,255,255,-100)
-
+s.color = Color(255,255,255,100)
 
 #######################################
 

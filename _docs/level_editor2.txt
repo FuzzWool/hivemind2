@@ -98,12 +98,12 @@ LEVEL EDITOR UI
 		+ Cursor appears over the image
 		+ Cursor selects a tile, old selection still visible
 =======================================
-		! Cursor graphics update with Window open/closes
+		+ Cursor graphics update with Window open/closes
 			+ position
-			! transparency
-				proportional with alpha, not literal
+			+ transparency
+				+ dumbs down color
 
-		! New UIBox Standard
+		! New UIBox standard
 
 		! Cursor selects multiple tiles
 			! Splits the corners, fills the gaps with -

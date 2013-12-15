@@ -40,8 +40,8 @@ class TileSelector(_UI):
 		self.old_pos = self.position
 
 		graphics = self.Tileset.graphics
-		graphics += self.Old_Cursor.graphics
-		graphics += self.New_Cursor.graphics
+		graphics += [self.Old_Cursor]
+		graphics += [self.New_Cursor]
 		self.graphics = graphics
 
 
@@ -113,6 +113,24 @@ class TileSelector(_UI):
 		selecting = False
 		skin = 0 #0,1
 
+
+		#COLOR
+		#Forcefully dumbs down the alpha for UIBox.
+
+		_color = Color(255,255,255,50)
+		@property
+		def color(self): return self._color
+		@color.setter
+		def color(self,color):
+			if self.skin == 1: color.a /= 2
+			for row in self.sprites:
+				for sprite in row:
+					sprite.color = color
+
+			self._color = color
+		#
+
+
 		# @property
 		# def selected(self): #unused, returns a 2D list
 		# 	pass
@@ -129,7 +147,6 @@ class TileSelector(_UI):
 		def draw(self, Window):
 			if not self.active: return
 
-			self._change_skin()
 			self.sprites = self._position_sprites()
 			for row in self.sprites:
 				for sprite in row:
@@ -220,21 +237,6 @@ class TileSelector(_UI):
 				self.tile_size = 0,0
 
 		#
-
-		def _change_skin(self):
-		#Change the cursor skin of all the sprites.
-			skin = self.skin
-			sprites = self.sprites
-			#
-			for row in sprites:
-				for sprite in row:
-					c = 255
-					if skin == 0:
-						sprite.color = Color(c,c,c,255)
-					if skin == 1:
-						sprite.color = Color(c,c,c,150)
-			#
-			self.sprites = sprites
 
 
 #######################################

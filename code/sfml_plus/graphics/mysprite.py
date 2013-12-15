@@ -11,7 +11,7 @@ class MySprite(Sprite, Rectangle):
 
 	###
 	#RECTANGLE
-	#To support positioning obeying the Rectangle standard.
+	# To match my own positioning standard.
 
 	@property
 	def x(self): return self.position.x
@@ -31,6 +31,8 @@ class MySprite(Sprite, Rectangle):
 	def h(self):
 		try: return self.clip.h
 		except: return self.global_bounds.height
+
+
 
 
 class clip:
