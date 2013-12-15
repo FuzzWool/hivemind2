@@ -98,16 +98,25 @@ LEVEL EDITOR UI
 		+ Cursor appears over the image
 		+ Cursor selects a tile, old selection still visible
 		+ Cursor graphics update with Window open/closes
-=======================================
 
 ! new UIBox standard
 	. communication, states, graphics
 	UI Elements are stacked using the same base.
-
 	UI Communication
-	! Box opens and closes
-	! Multiple buttons open and close with the Box
-	! A button opens inside of multiple boxes
+
+	=======================================
+	+ Box opens and closes
+		+ raised box
+		+ TweenRectangle
+		+ disappear and reappear
+
+	! Box parents children, they open and close with it
+
+	! Button
+	! Slider
+	! BoxSlider
+	! Text
+	! TextBox
 
 
 ! use Grid in main's WorldMap

@@ -2,6 +2,10 @@ from code.sfml_plus.constants import TILE as T
 from code.sfml_plus.constants import ROOM_WIDTH as RX
 from code.sfml_plus.constants import ROOM_HEIGHT as RY
 
+from code.sfml_plus.graphics import Animation
+from code.sfml_plus.graphics.animation import Magnet
+
+
 class Rectangle(object):
 
 	#### ABSOLUTE
@@ -361,3 +365,71 @@ class Rectangle(object):
 		if pos == self.keep_in_points(pos, points):
 			return True
 		return False
+
+
+class TweenRectangle(Rectangle):
+#Smoothly tween from place to place.
+
+	def __init__(self):
+		self.tween = self._Tween(self)
+		self.tween.speed = 5
+
+	def draw(self):
+		self.tween.play()
+
+	###########################
+
+
+	###### POSITION
+	# Forces tween with it, so it block moves like normal.
+	# Only tween itself is able to ignore this.
+	_x, _y = 0,0
+
+	@property
+	def x(self): return self._x
+	@x.setter
+	def x(self, x):
+		self._x = x
+		self.tween.x = x
+
+	@property
+	def y(self): return self._y
+	@y.setter
+	def y(self, y):
+		self._y = y
+		self.tween.y = y
+
+
+	class _Tween(Rectangle):
+
+		speed = 5
+
+		#
+
+		_x,_y = 0,0
+
+		def __init__(self, Rectangle): #_.init
+			self._ = Rectangle
+			self.points = self._.points
+
+			self.animation_x = Animation()
+			self.animation_y = Animation()
+			self.animation_x.mode = Magnet
+			self.animation_y.mode = Magnet
+
+		def play(self): #_.draw
+
+			self.animation_x.end = self.x
+			self.animation_y.end = self.y
+
+			speed_x = abs((self.x-self._.x)/self.speed)
+			speed_y = abs((self.y-self._.y)/self.speed)
+			self.animation_x.speed = speed_x
+			self.animation_y.speed = speed_y
+
+			old_x = self.x
+			old_y = self.y
+			self._.x += self.animation_x.play(self._.x)
+			self._.y += self.animation_y.play(self._.y)
+			self.x = old_x
+			self.y = old_y
