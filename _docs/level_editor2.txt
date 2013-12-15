@@ -89,7 +89,7 @@ LEVEL EDITOR UI
 		+ Dropdown's name is formatted: selected (hovered)
 
 
-	! TileSelector
+	+ TileSelector
 		An image split into a gridded view.
 		Individual tiles from the grid may be selected.
 		Multiple tiles may be selected at once.
@@ -100,13 +100,17 @@ LEVEL EDITOR UI
 		+ Cursor graphics update with Window open/closes
 =======================================
 
-		! Cursor selects multiple tiles
-			! Splits the corners, fills the gaps with -
-			! contains 2D data for the tiles
+! new UIBox standard
+	. communication, states, graphics
+	UI Elements are stacked using the same base.
+
+	UI Communication
+	! Box opens and closes
+	! Multiple buttons open and close with the Box
+	! A button opens inside of multiple boxes
 
 
 ! use Grid in main's WorldMap
-
 ! Entity Tool
 
 	! ScrollBox
