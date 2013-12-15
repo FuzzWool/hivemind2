@@ -97,22 +97,12 @@ LEVEL EDITOR UI
 		+ Tilemap with a Grid overlay (Grid class)
 		+ Cursor appears over the image
 		+ Cursor selects a tile, old selection still visible
-=======================================
 		+ Cursor graphics update with Window open/closes
-			+ position
-			+ transparency
-				+ dumbs down color
-
-		! New UIBox standard
+=======================================
 
 		! Cursor selects multiple tiles
 			! Splits the corners, fills the gaps with -
 			! contains 2D data for the tiles
-
-
-	! Tabs
-		For diving the UI Window into multiple sections.
-		Each room may use up to 3 different tilesets.
 
 
 ! use Grid in main's WorldMap
@@ -131,3 +121,36 @@ LEVEL EDITOR UI
 
 ! Warning Message (example: an entity has an error)
 ! UI Box (Help dialogue for Tile)
+
+
+
+
+
+
+***
+
+! New UIBox standard
+HUI (Hivemind User Interface)
+	! Research Windows Forms
+
+	! Effects
+		! Opening/Closing (3D Dropdown Movement)
+			! 4 different directions (2 per axis)
+			! 3 different speeds
+		! States
+			! Hovering (Raises a D)
+
+	! Graphical Styles
+		! Background, Outline, Button Colors
+
+	! States
+		Hovering (raise a D)
+
+	! Tabs
+		For diving the UI Window into multiple sections.
+		Each room may use up to 3 different tilesets.
+
+	! Scrollers
+		! Contents inside of a box scroll...
+			! up and down
+			! left and right
