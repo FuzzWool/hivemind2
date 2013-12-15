@@ -1,4 +1,4 @@
-from sfml import Sprite
+from sfml import Texture, Sprite
 from code.sfml_plus.graphics import Rectangle
 
 class MySprite(Sprite, Rectangle):
@@ -9,7 +9,10 @@ class MySprite(Sprite, Rectangle):
 		Sprite.__init__(self, *args)
 		self.clip = clip(self)
 
-	#Rectangle
+	###
+	#RECTANGLE
+	#To support positioning obeying the Rectangle standard.
+
 	@property
 	def x(self): return self.position.x
 	@x.setter
@@ -28,9 +31,11 @@ class MySprite(Sprite, Rectangle):
 	def h(self):
 		try: return self.clip.h
 		except: return self.global_bounds.height
-	#
+
 
 class clip:
+# Clipping is proportional and easy for sprite sheets.
+
 	def __init__(self, MySprite):
 		self._ = MySprite
 		self.x, self.y = 0,0

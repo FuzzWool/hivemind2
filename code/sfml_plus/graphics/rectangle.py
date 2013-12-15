@@ -5,24 +5,16 @@ from code.sfml_plus.constants import ROOM_HEIGHT as RY
 class Rectangle(object):
 
 	#### ABSOLUTE
-	_origin = 0,0
 	_x,_y,_w,_h = 0,0,0,0
 
 	@property
-	def origin(self): return self._origin
-	@origin.setter
-	def origin(self, o):
-		self._origin = o
-		self.position = self.position
-
-	@property
-	def x(self): return self._x - self.origin[0]
+	def x(self): return self._x
 	@x.setter
-	def x(self,x): self._x = x + self.origin[0]
+	def x(self,x): self._x = x
 	@property
-	def y(self): return self._y - self.origin[1]
+	def y(self): return self._y
 	@y.setter
-	def y(self,y): self._y = y + self.origin[1]
+	def y(self,y): self._y = y
 	@property
 	def w(self): return self._w
 	@w.setter

@@ -27,6 +27,23 @@ class TileSelector(_UI):
 		self.Old_Cursor = self.Cursor()
 		self.size = self.Tileset.size
 		self.Old_Cursor.skin = 1
+		self.old_pos = self.position
+
+
+	old_pos = 0,0
+	def update_graphics(self):
+		self.Tileset.position =self.position
+		x = self.x - self.old_pos[0]
+		y = self.y - self.old_pos[1]
+		self.Old_Cursor.x +=x; self.Old_Cursor.y +=y
+		self.New_Cursor.x +=x; self.New_Cursor.y +=y
+		self.old_pos = self.position
+
+		graphics = self.Tileset.graphics
+		graphics += self.Old_Cursor.graphics
+		graphics += self.New_Cursor.graphics
+		self.graphics = graphics
+
 
 	def controls(self, Key, Mouse, Camera):
 		self.New_Cursor.active =Mouse.inside(self.Tileset)
@@ -39,10 +56,6 @@ class TileSelector(_UI):
 			=self.New_Cursor.tile_position
 			self.Old_Cursor.tile_size \
 			=self.New_Cursor.tile_size
-
-	def update_graphics(self):
-		self.Tileset.position =self.position
-		self.graphics =self.Tileset.graphics
 
 
 	def draw(self, Window):
@@ -109,9 +122,8 @@ class TileSelector(_UI):
 
 		def controls(self, Mouse):
 			if not self.active: return
-
+			
 			self.tile_position = Mouse.tile_position
-			#
 			self._select_tiles(Mouse)
 
 		def draw(self, Window):
@@ -123,11 +135,17 @@ class TileSelector(_UI):
 				for sprite in row:
 					Window.draw(sprite)
 
+		@property
+		def graphics(self):
+			graphics = []
+			for row in self.sprites:
+				for sprite in row:
+					graphics.append(sprite)
+			return graphics
+
 		########################################
 
 		sprites = []
-		tile_x, tile_y = 0,0
-		tile_w, tile_h = 0,0
 		tex_path = "assets/ui/cursor.png"
 		texture = Texture.from_file(tex_path)
 
@@ -155,12 +173,12 @@ class TileSelector(_UI):
 
 		def _position_sprites(self): #draw
 			sprites = self.sprites
-			x1,y1,x2,y2 = self.tile_points
+			x1,y1,x2,y2 = self.points
 			#
-			sprites[0][0].tile_position = x1,y1
-			sprites[0][1].tile_position = x1,y2
-			sprites[1][0].tile_position = x2,y1
-			sprites[1][1].tile_position = x2,y2
+			sprites[0][0].position = x1,y1
+			sprites[0][1].position = x1,y2
+			sprites[1][0].position = x2,y1
+			sprites[1][1].position = x2,y2
 			#
 			return sprites
 
@@ -214,7 +232,7 @@ class TileSelector(_UI):
 					if skin == 0:
 						sprite.color = Color(c,c,c,255)
 					if skin == 1:
-						sprite.color = Color(c,c,c,100)
+						sprite.color = Color(c,c,c,150)
 			#
 			self.sprites = sprites
 
@@ -233,7 +251,6 @@ dropdown = Dropdown\
 dropdown.center = UIBox1.center
 dropdown.y = UIBox1.y2 - dropdown.h
 UIBox1.add(dropdown)
-
 
 tileselector = TileSelector()
 tileselector.center = UIBox1.center

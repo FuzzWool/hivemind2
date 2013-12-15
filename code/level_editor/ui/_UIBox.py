@@ -4,8 +4,6 @@ from sfml import Color
 from code.sfml_plus import Animation
 from code.sfml_plus.graphics.animation import Magnet
 
-from code.sfml_plus.graphics import Text #type checking
-
 class _UIBox(Rectangle):
 	
 	### GRAPHICS
@@ -125,10 +123,6 @@ class UIBox(_UIBox):
 # * A window which handles UI widgets.
 # * Opens and closes.
 
-	def __init__(self):
-		self.Smooth = self.Smooth(self)
-
-
 	####
 	# UIs
 
@@ -175,6 +169,12 @@ class UIBox(_UIBox):
 		self.Smooth.y = self.y + amt
 		self._alpha = 255
 		self._end_alpha = 0
+
+	#
+
+
+	def __init__(self):
+		self.Smooth = self.Smooth(self)
 
 
 ######
