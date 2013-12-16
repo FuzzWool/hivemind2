@@ -105,15 +105,21 @@ LEVEL EDITOR UI
 	UI Communication
 
 	+ Box opens and closes
-	=======================================
 	+ Box parents children, they open and close with it
-		+ children follow position, transparency
+	=======================================
+	+ minor: preserves shadow alpha
 
 	! Button
+		! RED Cancel Button
+		! GREEN Confirm Button
+
 	! Slider
 	! BoxSlider
 	! Text
 	! TextBox
+
+	! ToolBox
+		! Shiny ToolIcon
 
 
 ! use Grid in main's WorldMap

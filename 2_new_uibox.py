@@ -87,22 +87,28 @@ class Box(TweenRectangle, _UI):
 	##### GRAPHICS
 	# Creates boxes each loop in order to position them.
 
-	# w,h = 200,100
+
+	#
+
+	w,h = 200,100
 	rise = 5
 
+	box_fill = Color.WHITE
+	box_outline = Color.BLACK
 	def box(self): #draw
 		size = self.w, self.h+self.rise
 		b = RectangleShape(size)
 		b.position = self.position
 		b.outline_thickness = 1
-		b.outline_color = Color.BLACK
+		b.outline_color = self.box_outline
+		b.fill_color = self.box_fill
 		return b
 
-	def shadow(self):
+	def shadow(self): #draw
 		w,h = self.size
 		b = RectangleShape((w,self.rise))
 		b.position = self.x, self.y2
-		b.fill_color = Color(200,200,200)
+		b.fill_color = Color(0,0,0,255)
 		return b
 
 
@@ -113,7 +119,6 @@ class Box(TweenRectangle, _UI):
 	def __init__(self):
 		_UI.__init__(self)
 		TweenRectangle.__init__(self)
-		self.size = 200,100
 
 	def _play(self): #draw
 		self.tween.play()
@@ -135,7 +140,7 @@ class Box(TweenRectangle, _UI):
 		a=self.alpha
 		c=box.fill_color;c.a=a;box.fill_color=c
 		c=box.outline_color;c.a=a;box.outline_color=c
-		c=shadow.fill_color;c.a=a;shadow.fill_color=c
+		c=shadow.fill_color;c.a=a/4;shadow.fill_color=c
 
 
 class Button(Box):
@@ -150,32 +155,25 @@ Mouse = Mouse(Window)
 box1 = Box()
 box1.center = Window.center
 
-box2 = Box()
-box2.size = 75,75
+box2 = Button()
+box2.size = 20,20
+box2.x += box1.w - box2.w
 box1.children.append(box2)
-
-box3 = Box()
-box3.size = 50,50
-box2.children.append(box3)
-
-box4 = Box()
-box4.size = 25,25
-box3.children.append(box4)
 
 while Window.is_open:
 	if Window.is_focused:
 
-		if Key.ENTER.pressed():
-			box1.tween.x -= 100
-
-		if Key.BACKSPACE.pressed():
-			box1.tween.x += 100
-
 		# if Key.ENTER.pressed():
-		# 	if box1.alpha == 255:
-		# 		box1.close()
-		# 	if box1.alpha == 0:
-		# 		box1.open()
+		# 	box1.tween.x -= 100
+
+		# if Key.BACKSPACE.pressed():
+		# 	box1.tween.x += 100
+
+		if Key.ENTER.pressed():
+			if box1.alpha == 255:
+				box1.close()
+			if box1.alpha == 0:
+				box1.open()
 
 		box1.controls(Key, Mouse, None)
 
