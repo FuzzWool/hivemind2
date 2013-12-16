@@ -104,13 +104,10 @@ LEVEL EDITOR UI
 	UI Elements are stacked using the same base.
 	UI Communication
 
-	=======================================
 	+ Box opens and closes
-		+ raised box
-		+ TweenRectangle
-		+ disappear and reappear
-
-	! Box parents children, they open and close with it
+	=======================================
+	+ Box parents children, they open and close with it
+		+ children follow position, transparency
 
 	! Button
 	! Slider

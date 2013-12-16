@@ -59,7 +59,7 @@ class Rectangle(object):
 	@property
 	def y2(self): return self.y + self.h
 	@y2.setter
-	def y2(self, y2): self.h = y2 - self.y
+	def y2(self, y2): self.y = y2 - self.y
 
 
 	#position
@@ -383,21 +383,27 @@ class TweenRectangle(Rectangle):
 	###### POSITION
 	# Forces tween with it, so it block moves like normal.
 	# Only tween itself is able to ignore this.
+	# _set_x properties are for external overriding.
+
 	_x, _y = 0,0
 
 	@property
 	def x(self): return self._x
+	def _set_x(self, x):
+		self.tween.x = x
 	@x.setter
 	def x(self, x):
+		self._set_x(x)
 		self._x = x
-		self.tween.x = x
 
 	@property
 	def y(self): return self._y
+	def _set_y(self, y):
+		self.tween.y = y
 	@y.setter
 	def y(self, y):
+		self._set_y(y)
 		self._y = y
-		self.tween.y = y
 
 
 	class _Tween(Rectangle):
