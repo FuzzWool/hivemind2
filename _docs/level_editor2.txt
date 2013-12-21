@@ -108,23 +108,13 @@ LEVEL EDITOR UI
 	+ Box parents children, they open and close with it
 	=======================================
 
-	***
-	+ New UI Graphics: automatically handles alpha
-	- Remove UI Graphics
-		doesn't work b/c
-			* Manual opacity settings needed
-			* Graphics created on-the-fly cannot move
-	***
-
-	! Button
+	+ Buttons
 		+ state colors
-
-		! text
-			! position
-			! alpha
-
-		! RED Cancel Button
-		! GREEN Confirm Button
+		+ text
+			+ position (adjusts for rise_offset)
+			+ alpha
+		+ RED Cancel Button
+		+ GREEN Confirm Button
 
 	! Slider
 	! BoxSlider

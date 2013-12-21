@@ -88,18 +88,20 @@ class Box(TweenRectangle, _UI):
 	# Creates boxes each loop in order to position them.
 
 	w,h = 200,100
-	rise = 5
 	box_fill = Color.WHITE
 	box_outline = Color.BLACK
+
+	rise = 5
+	@property
+	def rise_offset(self): return self.rise-self.old_rise
 
 	#
 
 	old_rise = rise
 	def box(self): #draw
-		rise_dist = self.rise-self.old_rise
 		size = self.w, self.h+self.rise
 		b = RectangleShape(size)
-		b.position = self.x, self.y-rise_dist
+		b.position = self.x, self.y-self.rise_offset
 		b.outline_thickness = 1
 		b.outline_color = self.box_outline
 		b.fill_color = self.box_fill
@@ -207,36 +209,44 @@ class Button(Box):
 
 
 	### TEXT (Optional)
-	# Create, move, draw
+	# Create, pos/alpha, draw
 
-	graphics = []
-	_text = Text(Font("speech"))
+	_Text = Text(Font("speech"))
+	text = ""
+	_text = text
 
-	@property
-	def text(self): return self._text.string
-	@text.setter
-	def text(self, t):
-		self._text.write(t)
-
-
-	# def draw(self, Window):
-	# 	self._text.center = self.center
-	# 	self.graphics.append(self._text)
-	# 	Box.draw(self, Window)
+	def draw(self, Window):
+		Box.draw(self, Window)
+		#
+		#update text
+		if self._text != self.text:
+			self._Text.write(self.text)
+		#color
+		text = self._Text
+		c=text.color;c.a=self.alpha;text.color=c
+		#pos
+		text.center = self.center
+		text.y -= self.rise_offset
+		#draw
+		Window.draw(text)
 
 
 
 ####
 
-class Close_Button(Button):
-# Graphics
-# * Red state colors.
+class Cancel_Button(Button):
+# Graphics - colors/text
 
 	hovered_color = Color(255,150,150)
 	held_color = Color.RED
 	selected_color = Color.RED
+	text = "Nah"
 
-
+class Accept_Button(Button):
+	hovered_color = Color(150,255,150)
+	held_color = Color.GREEN
+	selected_color = Color.GREEN
+	text = "Sure"
 
 ##########################################
 Window = Window((1200,600), "Untitled")
@@ -245,11 +255,15 @@ Mouse = Mouse(Window)
 box1 = Box()
 box1.center = Window.center
 
-box2 = Close_Button()
+box2 = Accept_Button()
 box2.x += box1.w - box2.w
 box2.y -= box2.rise
-box2.text = "hello"
 box1.children.append(box2)
+
+box3 = Cancel_Button()
+box3.x += box1.w - (box3.w*2)
+box3.y -= box3.rise
+box1.children.append(box3)
 
 while Window.is_open:
 	if Window.is_focused:
