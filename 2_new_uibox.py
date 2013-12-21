@@ -87,18 +87,19 @@ class Box(TweenRectangle, _UI):
 	##### GRAPHICS
 	# Creates boxes each loop in order to position them.
 
+	w,h = 200,100
+	rise = 5
+	box_fill = Color.WHITE
+	box_outline = Color.BLACK
 
 	#
 
-	w,h = 200,100
-	rise = 5
-
-	box_fill = Color.WHITE
-	box_outline = Color.BLACK
+	old_rise = rise
 	def box(self): #draw
+		rise_dist = self.rise-self.old_rise
 		size = self.w, self.h+self.rise
 		b = RectangleShape(size)
-		b.position = self.position
+		b.position = self.x, self.y-rise_dist
 		b.outline_thickness = 1
 		b.outline_color = self.box_outline
 		b.fill_color = self.box_fill
@@ -143,9 +144,98 @@ class Box(TweenRectangle, _UI):
 		c=shadow.fill_color;c.a=a/4;shadow.fill_color=c
 
 
+from code.sfml_plus import Font, Text
+
 class Button(Box):
 # State Handling
-	pass
+# 	* Hovering, Pressing, Selecting
+# Graphics
+# 	* Rises based on state.
+# 	* Colored based on state.
+#	* (Optional) contains text.
+
+	w,h = 50,20
+
+	def controls(self,*args):
+		self._hover(Mouse)
+		self._select(Mouse)
+		self._held(Mouse)
+		self._color_states()
+		Box.controls(self,*args)
+
+
+	### STATE HANDLING
+
+	hovered = False
+	def _hover(self, Mouse):
+		self.hovered = Mouse.inside(self)
+
+	held = False
+	def _held(self, Mouse):
+		if Mouse.left.pressed():
+			if self.hovered:
+				self.held = True
+				self.rise = 0
+		elif not Mouse.left.held():
+			self.held = False
+			self.rise = self.old_rise
+
+	selected = False
+	def _select(self, Mouse):
+		self.selected = False
+		if not Mouse.left.held():
+			if self.held:
+				self.selected = True
+
+
+	### COLORING
+
+	box_fill = Color(240,240,240)
+	old_fill = box_fill
+	hovered_color = Color(255,255,255)
+	held_color = hovered_color
+	selected_color = hovered_color
+
+	def _color_states(self):
+		self.box_fill = self.old_fill
+		if self.hovered:
+			self.box_fill = self.hovered_color
+		if self.held:
+			self.box_fill = self.held_color
+		if self.selected:
+			self.box_fill = self.selected_color
+
+
+	### TEXT (Optional)
+	# Create, move, draw
+
+	graphics = []
+	_text = Text(Font("speech"))
+
+	@property
+	def text(self): return self._text.string
+	@text.setter
+	def text(self, t):
+		self._text.write(t)
+
+
+	# def draw(self, Window):
+	# 	self._text.center = self.center
+	# 	self.graphics.append(self._text)
+	# 	Box.draw(self, Window)
+
+
+
+####
+
+class Close_Button(Button):
+# Graphics
+# * Red state colors.
+
+	hovered_color = Color(255,150,150)
+	held_color = Color.RED
+	selected_color = Color.RED
+
 
 
 ##########################################
@@ -155,9 +245,10 @@ Mouse = Mouse(Window)
 box1 = Box()
 box1.center = Window.center
 
-box2 = Button()
-box2.size = 20,20
+box2 = Close_Button()
 box2.x += box1.w - box2.w
+box2.y -= box2.rise
+box2.text = "hello"
 box1.children.append(box2)
 
 while Window.is_open:
@@ -169,11 +260,11 @@ while Window.is_open:
 		# if Key.BACKSPACE.pressed():
 		# 	box1.tween.x += 100
 
+		if box2.selected:
+			box1.close()
+
 		if Key.ENTER.pressed():
-			if box1.alpha == 255:
-				box1.close()
-			if box1.alpha == 0:
-				box1.open()
+			box1.open()
 
 		box1.controls(Key, Mouse, None)
 

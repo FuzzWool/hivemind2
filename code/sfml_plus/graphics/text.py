@@ -222,11 +222,14 @@ class Text(_Text, Drawable, Rectangle):
 
 	@property
 	def w(self):
-		return self.letters[-1].x2 - self.letters[0].x1
+		try:
+			return self.letters[-1].x2-self.letters[0].x1
+		except: return 0
 
 	@property
 	def h(self):
-		return self.letters[-1].y2 - self.letters[0].y1
+		try: return self.letters[-1].y2-self.letters[0].y1
+		except: return 0
 	#
 
 	#COLOR

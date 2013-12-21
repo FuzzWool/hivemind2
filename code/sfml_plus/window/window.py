@@ -14,7 +14,7 @@ class Window(Rectangle):
 	def __init__(self, size, name):
 		video_mode = VideoMode(*size)
 		self.window = RenderWindow(video_mode, name, 4)
-		# self.window.framerate_limit = 10
+		# self.window.framerate_limit = 1
 		self.window.vertical_synchronization = True
 
 		self.position = 0,0

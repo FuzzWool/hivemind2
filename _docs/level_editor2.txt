@@ -107,15 +107,27 @@ LEVEL EDITOR UI
 	+ Box opens and closes
 	+ Box parents children, they open and close with it
 	=======================================
-	+ minor: preserves shadow alpha
+
+	***
+	+ New UI Graphics: automatically handles alpha
+	- Remove UI Graphics
+		doesn't work b/c
+			* Manual opacity settings needed
+			* Graphics created on-the-fly cannot move
+	***
 
 	! Button
+		+ state colors
+
+		! text
+			! position
+			! alpha
+
 		! RED Cancel Button
 		! GREEN Confirm Button
 
 	! Slider
 	! BoxSlider
-	! Text
 	! TextBox
 
 	! ToolBox
