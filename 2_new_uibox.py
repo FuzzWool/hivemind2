@@ -255,13 +255,75 @@ class Accept_Button(Button):
 ##########################################
 #SLIDERS
 
-class Slider(_UI):
+class Slider(_UI): #horizontal
 # Graphics
 # * A variable amount of lines spanning the width.
+
+	w,h = 150,15
 	lines = 5
 
-	#	(WIP)
+	def __init__(self):
+		_UI.__init__(self)
+		self._create_Box()
 
+	def controls(self, Key, Mouse, Camera):
+		_UI.controls(self, Key, Mouse, Camera)
+
+	def draw(self, Window):
+		_UI.draw(self, Window)
+		#
+		self._create_baseLine()
+		self._create_Lines()
+		lines = self.Lines + [self.baseLine]
+		for line in lines: Window.draw(line)
+		#
+		self._position_Box()
+		self.Box.draw(Window)
+
+	####################
+
+	### GRAPHICS
+	# WIP - create, pos/alpha, draw
+	baseLine = None
+	Lines = []
+	Box = None
+
+	def _create_baseLine(self):
+		self.baseLine = RectangleShape((self.w,0))
+		self.baseLine.position = self.x, self.center[1]
+		self.baseLine.outline_thickness = 1
+		self.baseLine.outline_color = Color(0,0,0)
+
+		#color
+		b = self.baseLine
+		c=b.outline_color;c.a=self.alpha;b.outline_color=c
+
+
+	def _create_Lines(self):
+		self.Lines = []
+
+		for i in range(self.lines):
+			w = float(self.w)/(self.lines-1)
+
+			line = RectangleShape((0,self.h))
+			x = self.x+(w*(i))
+			line.position = x, self.y
+			line.outline_thickness = 1
+			line.outline_color = Color.BLACK
+
+			#color
+			c=line.outline_color;c.a=self.alpha
+			line.outline_color=c
+
+			self.Lines.append(line)
+
+	def _create_Box(self):
+		self.Box = Box()
+		self.Box.size = 10,10
+
+	def _position_Box(self):
+		self.Box.position = self.position
+		self.Box.alpha = self.alpha
 
 ##########################################
 
@@ -283,6 +345,7 @@ box3.y += (box1.h - box3.h) - box3.rise
 box1.children.append(box3)
 
 slider = Slider()
+slider.position = 10,10
 box1.children.append(slider)
 
 while Window.is_open:
