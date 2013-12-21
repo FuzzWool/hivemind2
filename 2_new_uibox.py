@@ -146,6 +146,9 @@ class Box(TweenRectangle, _UI):
 		c=shadow.fill_color;c.a=a/4;shadow.fill_color=c
 
 
+##########################################
+# BUTTONS
+
 from code.sfml_plus import Font, Text
 
 class Button(Box):
@@ -248,7 +251,21 @@ class Accept_Button(Button):
 	selected_color = Color.GREEN
 	text = "Sure"
 
+
 ##########################################
+#SLIDERS
+
+class Slider(_UI):
+# Graphics
+# * A variable amount of lines spanning the width.
+	lines = 5
+
+	#	(WIP)
+
+
+##########################################
+
+
 Window = Window((1200,600), "Untitled")
 Mouse = Mouse(Window)
 
@@ -257,13 +274,16 @@ box1.center = Window.center
 
 box2 = Accept_Button()
 box2.x += box1.w - box2.w
-box2.y -= box2.rise
+box2.y += (box1.h - box2.h) - box2.rise
 box1.children.append(box2)
 
 box3 = Cancel_Button()
 box3.x += box1.w - (box3.w*2)
-box3.y -= box3.rise
+box3.y += (box1.h - box3.h) - box3.rise
 box1.children.append(box3)
+
+slider = Slider()
+box1.children.append(slider)
 
 while Window.is_open:
 	if Window.is_focused:

@@ -99,6 +99,7 @@ LEVEL EDITOR UI
 		+ Cursor selects a tile, old selection still visible
 		+ Cursor graphics update with Window open/closes
 
+
 ! new UIBox standard
 	. communication, states, graphics
 	UI Elements are stacked using the same base.
@@ -106,7 +107,6 @@ LEVEL EDITOR UI
 
 	+ Box opens and closes
 	+ Box parents children, they open and close with it
-	=======================================
 
 	+ Buttons
 		+ state colors
@@ -115,9 +115,38 @@ LEVEL EDITOR UI
 			+ alpha
 		+ RED Cancel Button
 		+ GREEN Confirm Button
+	=======================================
 
 	! Slider
-	! BoxSlider
+		! Vertical Slider
+		! Horizontal Slider
+		
+		properties
+		* w/h
+		* lines
+		* value (from 0-100, snaps the cursor to it)
+
+
+		0-100 position
+		! GRAPHICS
+			! lines (set externally)
+			a line for each width interval
+				! baseline
+				! a line for each locked position
+
+			! block
+				! a box on the left
+				! set pos through value
+				(value is pecentage through width)
+
+		! LOGIC
+			! Cursor snaps to nearest value
+			(tween)
+
+			! IF: No lines, no snapping
+
+
+	! ScrollBox
 	! TextBox
 
 	! ToolBox
