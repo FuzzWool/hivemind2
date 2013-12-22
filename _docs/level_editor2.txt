@@ -130,15 +130,21 @@ LEVEL EDITOR UI
 		+ GRAPHICS
 			+ lines (set externally)
 			+ block
-	=======================================
+			
 		! LOGIC
 			+ Click, drag: Box follows cursor
-			! Drag, release: Box snaps to nearest line
-				(If no lines, no snapping)
+	=======================================
+			+ Drag, release: Box snaps to nearest line
+				+ (If no lines, no snapping)
+
+				! (optional) with tweening
+
+		! CLEAN
 
 
 	! ScrollBox
 	! TextBox
+	! TabBox
 
 	! ToolBox
 		! Shiny ToolIcon

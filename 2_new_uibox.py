@@ -276,15 +276,15 @@ class Slider(_UI): #horizontal
 		self._Box_controls(Mouse)
 
 	def draw(self, Window):
-		_UI.draw(self, Window)
-		#
 		self._create_baseLine()
 		self._create_Lines()
 		lines = self.Lines + [self.baseLine]
 		for line in lines: Window.draw(line)
 		#
-		self._position_Box()
+		self._parent_Box()
 		self.Box.draw(Window)
+		#
+		_UI.draw(self, Window)
 
 	####################
 
@@ -328,14 +328,18 @@ class Slider(_UI): #horizontal
 		self.Box = Button()
 		self.Box.text = " "
 		self.Box.size = 20,self.h
+		self.Box.x -= (self.Box.w/2)
+		self.Box.y -= self.Box.rise
 
-	def _position_Box(self):
-		w = (self.value/100)*self.w
-		w -= (self.Box.w/2)
-		self.Box.position = self.x+w, self.y
-		self.Box.y -= self.Box.old_rise
+	def _parent_Box(self):
+
+		#Follow parents' movement/alpha.
+		x_move = self.x - self.old_pos[0]
+		y_move = self.y - self.old_pos[1]
+		self.Box.x += x_move
+		self.Box.y += y_move
+		#
 		self.Box.alpha = self.alpha
-
 
 	### LOGIC
 	
@@ -348,12 +352,18 @@ class Slider(_UI): #horizontal
 			v = Mouse.x - self.x1
 			if v < 0: v = 0
 			if v > self.w: v = self.w
-			v = (float(v)/self.w)*100
-			self.value = v
 
-		#Let go: the cursor moves to the nearest line.
-		else:
-			self.value = 0
+			self.Box.x += (self.x1-self.Box.center[0])+v
+			self.value = (float(v)/self.w)*100
+
+		# #Unpressed: go to nearest line.
+		elif self.Box.selected:
+			if self.lines > 2:
+				w_chunk = float(self.w)/(self.lines-1)
+				x = self.x
+				while x < self.Box.x:
+					x += w_chunk
+				self.Box.center = x, self.Box.center[1]
 
 
 ##########################################
@@ -376,7 +386,7 @@ box3.y += (box1.h - box3.h) - box3.rise
 box1.children.append(box3)
 
 slider = Slider()
-slider.value = 100
+slider.lines = 3
 slider.center = box1.center
 slider.x -= box1.x; slider.y -= box1.y + 30
 box1.children.append(slider)
@@ -384,14 +394,14 @@ box1.children.append(slider)
 while Window.is_open:
 	if Window.is_focused:
 
-		if Key.ENTER.pressed():
-			print slider.value
-
-		# if box2.selected:
-		# 	box1.close()
-
 		# if Key.ENTER.pressed():
-		# 	box1.open()
+		# 	print slider.value
+
+		if box2.selected:
+			box1.close()
+
+		if Key.ENTER.pressed():
+			box1.open()
 
 		box1.controls(Key, Mouse, None)
 
