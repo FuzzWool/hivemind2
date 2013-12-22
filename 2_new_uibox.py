@@ -161,21 +161,28 @@ class Button(Box):
 
 	w,h = 50,20
 
-	def controls(self,*args):
+	def controls(self,Key, Mouse, Camera):
 		self._hover(Mouse)
 		self._select(Mouse)
 		self._held(Mouse)
 		self._color_states()
-		Box.controls(self,*args)
+		Box.controls(self,Key,Mouse,Camera)
+
+	def draw(self, Window):
+		Box.draw(self, Window)
+		self._draw_Text(Window)
 
 
+	####################
 	### STATE HANDLING
 
 	hovered = False
+	held = False
+	selected = False
+
 	def _hover(self, Mouse):
 		self.hovered = Mouse.inside(self)
 
-	held = False
 	def _held(self, Mouse):
 		if Mouse.left.pressed():
 			if self.hovered:
@@ -185,7 +192,6 @@ class Button(Box):
 			self.held = False
 			self.rise = self.old_rise
 
-	selected = False
 	def _select(self, Mouse):
 		self.selected = False
 		if not Mouse.left.held():
@@ -218,9 +224,7 @@ class Button(Box):
 	text = ""
 	_text = text
 
-	def draw(self, Window):
-		Box.draw(self, Window)
-		#
+	def _draw_Text(self, Window):
 		#update text
 		if self._text != self.text:
 			self._Text.write(self.text)
@@ -261,6 +265,7 @@ class Slider(_UI): #horizontal
 
 	w,h = 150,15
 	lines = 5
+	value = float(0) # to 100
 
 	def __init__(self):
 		_UI.__init__(self)
@@ -268,6 +273,7 @@ class Slider(_UI): #horizontal
 
 	def controls(self, Key, Mouse, Camera):
 		_UI.controls(self, Key, Mouse, Camera)
+		self._Box_controls(Mouse)
 
 	def draw(self, Window):
 		_UI.draw(self, Window)
@@ -283,7 +289,8 @@ class Slider(_UI): #horizontal
 	####################
 
 	### GRAPHICS
-	# WIP - create, pos/alpha, draw
+	# Creates measurement lines and a box.
+	# create, pos/alpha, draw
 	baseLine = None
 	Lines = []
 	Box = None
@@ -318,12 +325,36 @@ class Slider(_UI): #horizontal
 			self.Lines.append(line)
 
 	def _create_Box(self):
-		self.Box = Box()
-		self.Box.size = 10,10
+		self.Box = Button()
+		self.Box.text = " "
+		self.Box.size = 20,self.h
 
 	def _position_Box(self):
-		self.Box.position = self.position
+		w = (self.value/100)*self.w
+		w -= (self.Box.w/2)
+		self.Box.position = self.x+w, self.y
+		self.Box.y -= self.Box.old_rise
 		self.Box.alpha = self.alpha
+
+
+	### LOGIC
+	
+	def _Box_controls(self, Mouse):
+		self.Box.controls(None, Mouse, None)
+		#
+		
+		#Hold and drag: move the cursor.
+		if self.Box.held:
+			v = Mouse.x - self.x1
+			if v < 0: v = 0
+			if v > self.w: v = self.w
+			v = (float(v)/self.w)*100
+			self.value = v
+
+		#Let go: the cursor moves to the nearest line.
+		else:
+			self.value = 0
+
 
 ##########################################
 
@@ -345,23 +376,22 @@ box3.y += (box1.h - box3.h) - box3.rise
 box1.children.append(box3)
 
 slider = Slider()
-slider.position = 10,10
+slider.value = 100
+slider.center = box1.center
+slider.x -= box1.x; slider.y -= box1.y + 30
 box1.children.append(slider)
 
 while Window.is_open:
 	if Window.is_focused:
 
-		# if Key.ENTER.pressed():
-		# 	box1.tween.x -= 100
-
-		# if Key.BACKSPACE.pressed():
-		# 	box1.tween.x += 100
-
-		if box2.selected:
-			box1.close()
-
 		if Key.ENTER.pressed():
-			box1.open()
+			print slider.value
+
+		# if box2.selected:
+		# 	box1.close()
+
+		# if Key.ENTER.pressed():
+		# 	box1.open()
 
 		box1.controls(Key, Mouse, None)
 

@@ -115,7 +115,7 @@ LEVEL EDITOR UI
 			+ alpha
 		+ RED Cancel Button
 		+ GREEN Confirm Button
-	=======================================
+
 
 	! Slider
 		! Horizontal Slider
@@ -129,22 +129,12 @@ LEVEL EDITOR UI
 
 		+ GRAPHICS
 			+ lines (set externally)
-			+ a line for each width interval
-
 			+ block
-				+ a box on the left
-
-			+ set alpha
-
+	=======================================
 		! LOGIC
-			! set pos through value
-			(value is pecentage through width)
-
-			! Click, drag: Cursor snaps to nearest value
-			(tween)
-			(0-100 position)
-
-			! IF: No lines, no snapping
+			+ Click, drag: Box follows cursor
+			! Drag, release: Box snaps to nearest line
+				(If no lines, no snapping)
 
 
 	! ScrollBox
