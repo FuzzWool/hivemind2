@@ -117,7 +117,7 @@ LEVEL EDITOR UI
 		+ GREEN Confirm Button
 
 
-	! Slider
+	+ Slider
 		! Horizontal Slider
 		! Vertical Slider
 		
@@ -131,15 +131,18 @@ LEVEL EDITOR UI
 			+ lines (set externally)
 			+ block
 			
-		! LOGIC
+		+ LOGIC
 			+ Click, drag: Box follows cursor
-	=======================================
 			+ Drag, release: Box snaps to nearest line
 				+ (If no lines, no snapping)
-
-				! (optional) with tweening
+	=======================================
+				+ (optional) with tweening
+				+ work out the closest point
 
 		! CLEAN
+			! Move to UI
+			! Fix Button registering 'select' when unhovered
+
 
 
 	! ScrollBox

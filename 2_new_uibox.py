@@ -336,8 +336,8 @@ class Slider(_UI): #horizontal
 		#Follow parents' movement/alpha.
 		x_move = self.x - self.old_pos[0]
 		y_move = self.y - self.old_pos[1]
-		self.Box.x += x_move
-		self.Box.y += y_move
+		if x_move: self.Box.x += x_move
+		if y_move: self.Box.y += y_move
 		#
 		self.Box.alpha = self.alpha
 
@@ -356,14 +356,15 @@ class Slider(_UI): #horizontal
 			self.Box.x += (self.x1-self.Box.center[0])+v
 			self.value = (float(v)/self.w)*100
 
-		# #Unpressed: go to nearest line.
+		#Unpressed: go to nearest line.
 		elif self.Box.selected:
 			if self.lines > 2:
 				w_chunk = float(self.w)/(self.lines-1)
 				x = self.x
-				while x < self.Box.x:
+				midpoint = (w_chunk/2)-(self.Box.w/2)
+				while x + midpoint < self.Box.x:
 					x += w_chunk
-				self.Box.center = x, self.Box.center[1]
+				self.Box.tween.x = x-(self.Box.w/2)
 
 
 ##########################################
@@ -386,7 +387,7 @@ box3.y += (box1.h - box3.h) - box3.rise
 box1.children.append(box3)
 
 slider = Slider()
-slider.lines = 3
+slider.lines = 4
 slider.center = box1.center
 slider.x -= box1.x; slider.y -= box1.y + 30
 box1.children.append(slider)
@@ -397,7 +398,8 @@ while Window.is_open:
 		# if Key.ENTER.pressed():
 		# 	print slider.value
 
-		if box2.selected:
+		if box2.selected\
+		or Key.BACKSPACE.pressed():
 			box1.close()
 
 		if Key.ENTER.pressed():

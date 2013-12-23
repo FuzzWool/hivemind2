@@ -35,3 +35,13 @@ Goals:
 ****************************************
 DEMO #2 RELEASE - "Public Level Editor"
 ****************************************
+
+
+Unorganized
+-
+LEVEL
+	Weather Effects
+	w/ 1-3 Levels of Intensity
+		Rain
+		Snow
+		Fog
