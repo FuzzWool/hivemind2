@@ -130,15 +130,26 @@ LEVEL EDITOR UI
 				+ (optional) with tweening
 				+ work out the closest point
 
-	=======================================
 		! TYPES
 			+ Horizontal / Vertical Sliders
-			
-			! SliderBox
+	
+	=======================================
+	! SliderBox
+
+		! GRAPHICS
+			+ Box
+			+ Slider
+
+			! Box Contents
+				! Contains any UI Object (buttons, Sliders)
+				! Moves with Slider
+				! "actual" size being the contents size
+				! slider is sized to match contents size
 
 
 	! TextBox
 	! TabBox
+	! Dropdown
 
 	! ToolBox
 		! Shiny ToolIcon

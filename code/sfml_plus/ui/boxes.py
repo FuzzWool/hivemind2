@@ -45,7 +45,7 @@ class Box(TweenRectangle, _UI):
 	##### GRAPHICS
 	# Creates boxes each loop in order to position them.
 
-	w,h = 200,100
+	w,h = 300,200
 	box_fill = Color.WHITE
 	box_outline = Color.BLACK
 

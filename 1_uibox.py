@@ -6,6 +6,8 @@ from code.sfml_plus import Mouse
 from code.sfml_plus.ui import _UI, Button
 from sfml import RectangleShape, Color
 
+from code.sfml_plus.ui import Box
+
 class Slider(_UI): #horizontal
 # Logic
 # * A box goes back and forth a line, determining value.
@@ -170,6 +172,36 @@ class Vertical_Slider(Slider):
 	w,h = 15,150
 
 
+
+class SliderBox(_UI):
+	w = Box.w + Vertical_Slider.w
+	h = Box.h
+
+	def __init__(self):
+		_UI.__init__(self)
+		self._create_Box()
+		self._create_Slider()
+
+	def draw(self, Window):
+		_UI.draw(self, Window)
+
+	############################
+	# GRAPHICS
+	# Box, Slider
+
+	def _create_Box(self):
+		self.Box = Box()
+		self.Box.box_fill = Color(200,200,200)
+		self.children.append(self.Box)
+
+	def _create_Slider(self):
+		self.Slider = Vertical_Slider()
+		self.Slider.lines = 2
+		self.Slider.h = self.h
+		self.Slider.x += self.w
+		self.children.append(self.Slider)
+
+
 ##########################################
 
 from code.sfml_plus.ui import Box
@@ -180,6 +212,7 @@ Window = Window((1200,600), "Untitled")
 Mouse = Mouse(Window)
 
 box1 = Box()
+box1.w += 100; box1.h += 100
 box1.center = Window.center
 
 box2 = Accept_Button()
@@ -192,11 +225,11 @@ box3.x += box1.w - (box3.w*2)
 box3.y += (box1.h - box3.h) - box3.rise
 box1.children.append(box3)
 
-slider = Vertical_Slider()
-slider.lines = 4
-slider.center = box1.center
-slider.x -= box1.x; slider.y -= box1.y + 30
-box1.children.append(slider)
+sliderbox = SliderBox()
+sliderbox.center = box1.center
+sliderbox.x -= box1.x; sliderbox.y -= box1.y
+sliderbox.y -= 15
+box1.children.append(sliderbox)
 
 ##########################################
 
