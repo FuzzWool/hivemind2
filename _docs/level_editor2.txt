@@ -135,13 +135,28 @@ LEVEL EDITOR UI
 			+ Click, drag: Box follows cursor
 			+ Drag, release: Box snaps to nearest line
 				+ (If no lines, no snapping)
-	=======================================
 				+ (optional) with tweening
 				+ work out the closest point
 
-		! CLEAN
-			! Move to UI
-			! Fix Button registering 'select' when unhovered
+	=======================================
+	! CLEAN UI
+		~ Moved to sfml_plus.ui
+		
+		! Make graphics[] standard for Base UI	
+			Handles...
+				! proportional movement
+					! RectangleShape class for sfml_plus
+					Updates itself to meet size changes.
+				
+				! alpha
+					all graphics are rendered together,
+					only it's singular alpha is changed
+
+
+				! Update Box, Buttons, Slider
+
+		! Select/Cancel Buttons 'unselect' if not hovered,
+		  but 
 
 
 
