@@ -7,6 +7,10 @@ from code.sfml_plus.ui import _UI, Button
 from sfml import RectangleShape, Color
 
 class Slider(_UI): #horizontal
+# Logic
+# * A box goes back and forth a line, determining value.
+# * A line amount may be specified.
+#   The cursor automatically snaps to inbetween lines.
 # Graphics
 # * A variable amount of lines spanning the width.
 
@@ -41,10 +45,17 @@ class Slider(_UI): #horizontal
 	baseLine = None
 	Lines = []
 	Box = None
+	using = "x"
 
 	def _create_baseLine(self):
-		self.baseLine = RectangleShape((self.w,0))
-		self.baseLine.position = self.x, self.center[1]
+
+		if self.using == "x":
+			self.baseLine = RectangleShape((self.w,0))
+			self.baseLine.position = self.x,self.center[1]
+		if self.using == "y":
+			self.baseLine = RectangleShape((0,self.h))
+			self.baseLine.position = self.center[0],self.y
+
 		self.baseLine.outline_thickness = 1
 		self.baseLine.outline_color = Color(0,0,0)
 
@@ -57,11 +68,19 @@ class Slider(_UI): #horizontal
 		self.Lines = []
 
 		for i in range(self.lines):
-			w = float(self.w)/(self.lines-1)
 
-			line = RectangleShape((0,self.h))
-			x = self.x+(w*(i))
-			line.position = x, self.y
+			if self.using == "x":
+				w = float(self.w)/(self.lines-1)
+				line = RectangleShape((0,self.h))
+				x = self.x+(w*(i))
+				line.position = x, self.y
+			
+			if self.using == "y":
+				h = float(self.h)/(self.lines-1)
+				line = RectangleShape((self.w,0))
+				y = self.y+(h*(i))
+				line.position = self.x, y
+
 			line.outline_thickness = 1
 			line.outline_color = Color.BLACK
 
@@ -74,9 +93,15 @@ class Slider(_UI): #horizontal
 	def _create_Box(self):
 		self.Box = Button()
 		self.Box.text = " "
-		self.Box.size = 20,self.h
-		self.Box.x -= (self.Box.w/2)
-		self.Box.y -= self.Box.rise
+
+		if self.using == "x":
+			self.Box.size = 20,self.h
+			self.Box.x -= (self.Box.w/2)
+			self.Box.y -= self.Box.rise
+		if self.using == "y":
+			self.Box.size = self.w,20
+			self.Box.y -= (self.Box.h/2)
+			self.Box.y -= self.Box.rise
 
 	def _parent_Box(self):
 
@@ -96,22 +121,54 @@ class Slider(_UI): #horizontal
 		
 		#Hold and drag: move the cursor.
 		if self.Box.held:
-			v = Mouse.x - self.x1
-			if v < 0: v = 0
-			if v > self.w: v = self.w
 
-			self.Box.x += (self.x1-self.Box.center[0])+v
-			self.value = (float(v)/self.w)*100
+			if self.using == "x":
+				v = Mouse.x - self.x1
+				if v < 0: v = 0
+				if v > self.w: v = self.w
+
+				self.Box.x \
+				+= (self.x1-self.Box.center[0])+v
+				self.value = (float(v)/self.w)*100
+
+			if self.using == "y":
+				v = Mouse.y - self.y1
+				if v < 0: v = 0
+				if v > self.h: v = self.h
+
+				self.Box.y \
+				+= (self.y1-self.Box.center[1])+v
+				self.value = (float(v)/self.h)*100
 
 		#Unpressed: go to nearest line.
 		elif self.Box.selected:
 			if self.lines > 2:
-				w_chunk = float(self.w)/(self.lines-1)
-				x = self.x
-				midpoint = (w_chunk/2)-(self.Box.w/2)
-				while x + midpoint < self.Box.x:
-					x += w_chunk
-				self.Box.tween.x = x-(self.Box.w/2)
+
+				if self.using == "x":
+					w_chunk = float(self.w)/(self.lines-1)
+					x = self.x
+					midpoint = (w_chunk/2)-(self.Box.w/2)
+					while x + midpoint < self.Box.x:
+						x += w_chunk
+					self.Box.tween.x = x-(self.Box.w/2)
+				
+				if self.using == "y":
+					h_chunk = float(self.h)/(self.lines-1)
+					y = self.y
+					midpoint = (h_chunk/2)-(self.Box.h/2)
+					while y + midpoint < self.Box.y:
+						y += h_chunk
+					self.Box.tween.y = y-(self.Box.h/2)
+
+
+class Horizontal_Slider(Slider):
+	using = "x"
+	w,h = 150,15
+
+class Vertical_Slider(Slider):
+	using = "y"
+	w,h = 15,150
+
 
 ##########################################
 
@@ -135,7 +192,7 @@ box3.x += box1.w - (box3.w*2)
 box3.y += (box1.h - box3.h) - box3.rise
 box1.children.append(box3)
 
-slider = Slider()
+slider = Vertical_Slider()
 slider.lines = 4
 slider.center = box1.center
 slider.x -= box1.x; slider.y -= box1.y + 30

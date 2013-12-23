@@ -132,8 +132,9 @@ LEVEL EDITOR UI
 
 	=======================================
 		! TYPES
-			! Horizontal / Vertical Sliders
-				! SliderBox
+			+ Horizontal / Vertical Sliders
+			
+			! SliderBox
 
 
 	! TextBox
