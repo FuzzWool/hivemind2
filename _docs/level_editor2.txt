@@ -117,16 +117,8 @@ LEVEL EDITOR UI
 		+ GREEN Confirm Button
 
 
-	+ Slider
-		! Horizontal Slider
-		! Vertical Slider
+	! Slider
 		
-		properties
-		+ w/h
-		+ lines
-		! value (from 0-100, snaps the cursor to it)
-
-
 		+ GRAPHICS
 			+ lines (set externally)
 			+ block
@@ -139,28 +131,11 @@ LEVEL EDITOR UI
 				+ work out the closest point
 
 	=======================================
-	! CLEAN UI
-		~ Moved to sfml_plus.ui
-		
-		! Make graphics[] standard for Base UI	
-			Handles...
-				! proportional movement
-					! RectangleShape class for sfml_plus
-					Updates itself to meet size changes.
-				
-				! alpha
-					all graphics are rendered together,
-					only it's singular alpha is changed
+		! TYPES
+			! Horizontal / Vertical Sliders
+				! SliderBox
 
 
-				! Update Box, Buttons, Slider
-
-		! Select/Cancel Buttons 'unselect' if not hovered,
-		  but 
-
-
-
-	! ScrollBox
 	! TextBox
 	! TabBox
 

@@ -89,8 +89,6 @@ class Button(Box):
 		#draw
 		Window.draw(text)
 
-
-
 ####
 
 class Cancel_Button(Button):
