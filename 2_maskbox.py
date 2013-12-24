@@ -7,10 +7,44 @@ Mouse = Mouse(Window)
 
 ###################################
 from code.sfml_plus.ui import Box
-from code.sfml_plus.ui import Accept_Button, Cancel_Button
-# from code.sfml_plus.ui import Slider
+from sfml import RenderTexture
 
-box1 = Box()
+class MaskBox(Box):
+# Graphics
+# * Overrides Window drawing, replaces with Mask drawing.
+# * All the contents are masked and cannot exit the Box.
+
+	def __init__(self):
+		Box.__init__(self)
+		self._create_Mask()
+
+	def draw(self, Window):
+		self._play()
+		box = self.box()
+		shadow = self.shadow()
+		self._update_alpha(box,shadow)
+		Window.draw(box)
+		Window.draw(shadow)
+		#
+		self._draw_Mask()
+
+	###################################
+
+	def _create_Mask(self):
+		self.Mask = RenderTexture(*self.size)
+
+	def _draw_Mask(self):
+		self.Mask.clear(self.box_fill)
+
+		for child in self.children:
+			pass
+
+
+###################################
+from code.sfml_plus.ui import Accept_Button, Cancel_Button
+
+
+box1 = MaskBox()
 box1.w += 100; box1.h += 100
 box1.center = Window.center
 

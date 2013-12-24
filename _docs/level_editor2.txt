@@ -66,40 +66,6 @@ Create my own text class.
 LEVEL EDITOR UI
 ==========================================================
 
-! Tile Tool
-
-	+ UI Box
-	A window which handles all of the widgets.
-		#
-		+ points: Draw a box.
-		+ open/close: alpha, smooth x/y
-
-	+ Dropdown
-	A dropdown menu with cells and more dropdown menus.
-		#
-		* Model:
-			* Dropdown.root
-			* _Dropdown.parent > child
-		#
-		+ Dropdown creates cells from a list
-		+ Dropdown opens and closes
-		+ Dropdown selects a cell
-		+ Dropdown selects a Dropdown_Dropdown cell
-		+ Dropdown_Dropdowns close when others are opened
-		+ Dropdown's name is formatted: selected (hovered)
-
-
-	+ TileSelector
-		An image split into a gridded view.
-		Individual tiles from the grid may be selected.
-		Multiple tiles may be selected at once.
-
-		+ Tilemap with a Grid overlay (Grid class)
-		+ Cursor appears over the image
-		+ Cursor selects a tile, old selection still visible
-		+ Cursor graphics update with Window open/closes
-
-
 ! new UIBox standard
 	. communication, states, graphics
 	UI Elements are stacked using the same base.
@@ -133,6 +99,7 @@ LEVEL EDITOR UI
 		! TYPES
 			+ Horizontal / Vertical Sliders
 	
+
 	! SliderBox
 
 		! GRAPHICS
@@ -144,7 +111,11 @@ LEVEL EDITOR UI
 
 				! MaskBox
 					! Contents are drawn to a RenderTarget
+						! All objects have to be Drawables
+
 					! Position/Size Box + Mask
+
+				!! Consider a new Drawable-friendly standard
 
 				! Contains any UI Object (buttons, Sliders)
 					! they animate and function correctly
@@ -154,9 +125,6 @@ LEVEL EDITOR UI
 				! "actual" size being the contents size
 				! slider is sized to match contents size
 				! Moves with Slider
-
-			! Position/Size
-				! Move and change the Box
 
 	! TextBox
 	! TabBox
@@ -193,28 +161,9 @@ LEVEL EDITOR UI
 
 ***
 
-! New UIBox standard
-HUI (Hivemind User Interface)
-	! Research Windows Forms
+Problems with UI
+	Masking is awkward
+	Positioning is awkward
+	Alpha preservation is awkward
 
-	! Effects
-		! Opening/Closing (3D Dropdown Movement)
-			! 4 different directions (2 per axis)
-			! 3 different speeds
-		! States
-			! Hovering (Raises a D)
-
-	! Graphical Styles
-		! Background, Outline, Button Colors
-
-	! States
-		Hovering (raise a D)
-
-	! Tabs
-		For diving the UI Window into multiple sections.
-		Each room may use up to 3 different tilesets.
-
-	! Scrollers
-		! Contents inside of a box scroll...
-			! up and down
-			! left and right
+RenderTexture
