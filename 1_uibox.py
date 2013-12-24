@@ -7,6 +7,7 @@ from code.sfml_plus.ui import _UI, Button
 from sfml import RectangleShape, Color
 
 from code.sfml_plus.ui import Box
+from code.sfml_plus import Rectangle
 
 class Slider(_UI): #horizontal
 # Logic
@@ -174,6 +175,10 @@ class Vertical_Slider(Slider):
 
 
 class SliderBox(_UI):
+# Graphics
+# * A box and slider, side-by-side.
+# * WIP - Contains rows of UI objects.
+
 	w = Box.w + Vertical_Slider.w
 	h = Box.h
 
@@ -187,7 +192,7 @@ class SliderBox(_UI):
 
 	############################
 	# GRAPHICS
-	# Box, Slider
+	# Box, Slider, Mask
 
 	def _create_Box(self):
 		self.Box = Box()
@@ -200,7 +205,6 @@ class SliderBox(_UI):
 		self.Slider.h = self.h
 		self.Slider.x += self.w
 		self.children.append(self.Slider)
-
 
 ##########################################
 
@@ -230,6 +234,9 @@ sliderbox.center = box1.center
 sliderbox.x -= box1.x; sliderbox.y -= box1.y
 sliderbox.y -= 15
 box1.children.append(sliderbox)
+
+box4 = Accept_Button()
+sliderbox.children.append(box4)
 
 ##########################################
 

@@ -133,19 +133,30 @@ LEVEL EDITOR UI
 		! TYPES
 			+ Horizontal / Vertical Sliders
 	
-	=======================================
 	! SliderBox
 
 		! GRAPHICS
 			+ Box
 			+ Slider
+	=======================================
 
 			! Box Contents
+
+				! MaskBox
+					! Contents are drawn to a RenderTarget
+					! Position/Size Box + Mask
+
 				! Contains any UI Object (buttons, Sliders)
-				! Moves with Slider
+					! they animate and function correctly
+					! there is little stress
+					(if not, just use Static Sprites)
+
 				! "actual" size being the contents size
 				! slider is sized to match contents size
+				! Moves with Slider
 
+			! Position/Size
+				! Move and change the Box
 
 	! TextBox
 	! TabBox
