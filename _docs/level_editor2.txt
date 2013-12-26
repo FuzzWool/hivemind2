@@ -99,28 +99,18 @@ LEVEL EDITOR UI
 		! TYPES
 			+ Horizontal / Vertical Sliders
 	
+		+ bounds enlargements
 
-	! SliderBox
 
-		! GRAPHICS
-			+ Box
-			+ Slider
+	! PageBox
 
-			=================================================
 			! Box Contents
-				! Cursor
-					+ bounds enlargements
-					! the cursor enlarges based on space left
-					! if there's less than one page, don't show scroller
 				! Page
 					! new rows for w, new h for h
 				! Pages
 					! no more h for page, make a new page
-				! Cursor > Page
-					! scrolling to new value changes page
 
 	! TextBox
-	! TabBox
 	! Dropdown
 
 	! ToolBox
@@ -128,6 +118,48 @@ LEVEL EDITOR UI
 
 	! Disable inactive windows
 
+
+
+	=================================================
+
+! The 'MAP' UI
+New UI Standard (Mask, Alpha, Position)
+
+	---plan
+
+	. Old Problems, Fix Suggestions:
+
+		. Masking is awkward
+			drawing split: mask_draw, nomask_draw
+
+		. Positioning is awkward
+			. the extent of movement is stored (previous position)
+			. full rect, upper rect and lower rect are stored
+				split.top, split.bottom, split.offset
+
+		. Alpha preservation is awkward
+			a clear function for setting alpha
+
+	---test
+
+	! Test Masking
+		! Box renders a child UI in and out of itself
+			! mask doesn't show it
+			! nonmask shows it
+
+	! Test Positioning
+		! children is a public list which pops to a private class
+		!1 Children are a TweenRectangle class
+
+	! Test Alpha
+
+
+	---implement
+
+	! ScrollBox
+		! Scroller (Horizontal/Vertical)
+		!1 Mask movements (up/down, left/right)
+		! Scroller + Mask
 
 
 
@@ -158,5 +190,3 @@ Problems with UI
 	Masking is awkward
 	Positioning is awkward
 	Alpha preservation is awkward
-
-RenderTexture

@@ -208,28 +208,18 @@ class PageBox(_UI):
 	def __init__(self):
 		_UI.__init__(self)
 		self._create_Box()
-		self._create_Slider()
 
 	def draw(self, Window):
 		_UI.draw(self, Window)
 
 	############################
 	# GRAPHICS
-	# Box, Slider, Mask
+	# Box, Pages
 
 	def _create_Box(self):
 		self.Box = Box()
 		self.Box.box_fill = Color(200,200,200)
 		self.children.append(self.Box)
-
-	def _create_Slider(self):
-		self.Slider = Vertical_Slider()
-		self.Slider.lines = 2
-		self.Slider.h = self.h
-		self.Slider.Box.h = 100
-		self.Slider.x += self.w
-		self.children.append(self.Slider)
-
 	#
 
 ##########################################
@@ -255,19 +245,6 @@ box3.x += box1.w - (box3.w*2)
 box3.y += (box1.h - box3.h) - box3.rise
 box1.children.append(box3)
 
-# sliderbox = PageBox()
-# sliderbox.center = box1.center
-# sliderbox.x -= box1.x; sliderbox.y -= box1.y
-# sliderbox.y -= 15
-# box1.children.append(sliderbox)
-
-# box4 = Accept_Button()
-# sliderbox.children.append(box4)
-
-slider = Horizontal_Slider()
-slider.lines = 2
-slider.Box.w = 100
-box1.children.append(slider)
 
 ##########################################
 
