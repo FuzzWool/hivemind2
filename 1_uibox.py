@@ -93,6 +93,10 @@ class Slider(_UI): #horizontal
 
 			self.Lines.append(line)
 
+
+	### BOX
+	move_x, move_y = None, None
+
 	def _create_Box(self):
 		self.Box = Button()
 		self.Box.text = " "
@@ -106,18 +110,6 @@ class Slider(_UI): #horizontal
 			self.Box.y -= (self.Box.h/2)
 			self.Box.y -= self.Box.rise
 
-	def _parent_Box(self):
-
-		#Follow parents' movement/alpha.
-		x_move = self.x - self.old_pos[0]
-		y_move = self.y - self.old_pos[1]
-		if x_move: self.Box.x += x_move
-		if y_move: self.Box.y += y_move
-		#
-		self.Box.alpha = self.alpha
-
-	### LOGIC
-	
 	def _Box_controls(self, Mouse):
 		self.Box.controls(None, Mouse, None)
 		#
@@ -130,8 +122,7 @@ class Slider(_UI): #horizontal
 				if v < 0: v = 0
 				if v > self.w: v = self.w
 
-				self.Box.x \
-				+= (self.x1-self.Box.center[0])+v
+				self.move_x += (self.x1-self.Box.center[0])+v
 				self.value = (float(v)/self.w)*100
 
 			if self.using == "y":
@@ -139,8 +130,7 @@ class Slider(_UI): #horizontal
 				if v < 0: v = 0
 				if v > self.h: v = self.h
 
-				self.Box.y \
-				+= (self.y1-self.Box.center[1])+v
+				self.move_y += (self.y1-self.Box.center[1])+v
 				self.value = (float(v)/self.h)*100
 
 		#Unpressed: go to nearest line.
@@ -164,6 +154,39 @@ class Slider(_UI): #horizontal
 					self.Box.tween.y = y-(self.Box.h/2)
 
 
+	def _parent_Box(self):
+
+		#Parent Movements
+		x_move = self.x - self.old_pos[0]
+		y_move = self.y - self.old_pos[1]
+		if x_move: self.Box.x += x_move
+		if y_move: self.Box.y += y_move
+
+		#Parent Alpha
+		self.Box.alpha = self.alpha
+
+		#Control Movements
+		bounded = bool(self.lines <= 2)
+
+		if self.move_x != 0 and self.using == "x":
+			if self.move_x == None: self.move_x = 0
+			self.Box.x += self.move_x
+			if bounded:
+				if self.Box.x1 < self.x1: self.Box.x = self.x1
+				if self.Box.x2 > self.x2: self.Box.x = self.x2-self.Box.w
+
+		if self.move_y != 0 and self.using == "y":
+			if self.move_y == None: self.move_y = 0
+			self.Box.y += self.move_y
+			if bounded:
+				if self.Box.y1 < self.y1: self.Box.y = self.y1
+				if self.Box.y2 > self.y2: self.Box.y = self.y2-self.Box.h
+				self.Box.y += self.Box.rise_offset
+
+		self.move_x, self.move_y = 0,0
+
+
+
 class Horizontal_Slider(Slider):
 	using = "x"
 	w,h = 150,15
@@ -174,7 +197,7 @@ class Vertical_Slider(Slider):
 
 
 
-class SliderBox(_UI):
+class PageBox(_UI):
 # Graphics
 # * A box and slider, side-by-side.
 # * WIP - Contains rows of UI objects.
@@ -203,8 +226,11 @@ class SliderBox(_UI):
 		self.Slider = Vertical_Slider()
 		self.Slider.lines = 2
 		self.Slider.h = self.h
+		self.Slider.Box.h = 100
 		self.Slider.x += self.w
 		self.children.append(self.Slider)
+
+	#
 
 ##########################################
 
@@ -229,14 +255,19 @@ box3.x += box1.w - (box3.w*2)
 box3.y += (box1.h - box3.h) - box3.rise
 box1.children.append(box3)
 
-sliderbox = SliderBox()
-sliderbox.center = box1.center
-sliderbox.x -= box1.x; sliderbox.y -= box1.y
-sliderbox.y -= 15
-box1.children.append(sliderbox)
+# sliderbox = PageBox()
+# sliderbox.center = box1.center
+# sliderbox.x -= box1.x; sliderbox.y -= box1.y
+# sliderbox.y -= 15
+# box1.children.append(sliderbox)
 
-box4 = Accept_Button()
-sliderbox.children.append(box4)
+# box4 = Accept_Button()
+# sliderbox.children.append(box4)
+
+slider = Horizontal_Slider()
+slider.lines = 2
+slider.Box.w = 100
+box1.children.append(slider)
 
 ##########################################
 

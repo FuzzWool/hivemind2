@@ -106,10 +106,18 @@ LEVEL EDITOR UI
 			+ Box
 			+ Slider
 
+			=================================================
 			! Box Contents
-				! Divided into pages depending on room
+				! Cursor
+					+ bounds enlargements
+					! the cursor enlarges based on space left
+					! if there's less than one page, don't show scroller
+				! Page
 					! new rows for w, new h for h
-				! Cursor shrinks for additional pages
+				! Pages
+					! no more h for page, make a new page
+				! Cursor > Page
+					! scrolling to new value changes page
 
 	! TextBox
 	! TabBox
