@@ -1,5 +1,5 @@
 from animation import Animation
-from rectangle import Rectangle, TweenRectangle
+from rectangle import Rectangle, TweenRectangle, RectangleShape
 from sfml import Texture #for ease of use
 from mysprite import MySprite
 

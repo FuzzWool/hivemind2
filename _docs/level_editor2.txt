@@ -120,7 +120,6 @@ LEVEL EDITOR UI
 
 
 
-	=================================================
 
 ! The 'MAP' UI
 New UI Standard (Mask, Alpha, Position)
@@ -141,6 +140,9 @@ New UI Standard (Mask, Alpha, Position)
 			a clear function for setting alpha
 
 	---test
+
+	~ Rectangle-standard RectangleShape
+	=================================================
 
 	! Test Masking
 		! Box renders a child UI in and out of itself

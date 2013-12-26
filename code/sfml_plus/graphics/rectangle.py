@@ -5,6 +5,7 @@ from code.sfml_plus.constants import ROOM_HEIGHT as RY
 from code.sfml_plus.graphics import Animation
 from code.sfml_plus.graphics.animation import Magnet
 
+from sfml import RectangleShape as RS
 
 class Rectangle(object):
 
@@ -53,7 +54,7 @@ class Rectangle(object):
 	@property
 	def x2(self): return self.x + self.w
 	@x2.setter
-	def x2(self, x2): self.w = x2 - self.x
+	def x2(self, x2): self.x = x2 - self.x
 	#
 	#y2
 	@property
@@ -80,7 +81,9 @@ class Rectangle(object):
 		return self.x1,self.y1,self.x2,self.y2
 	@points.setter
 	def points(self,args):
-		self.x1,self.y1,self.x2,self.y2 = args
+		self.position = args[0:2]
+		self.w = args[2]-args[0]
+		self.h = args[3]-args[1]
 
 	#center
 	@property
@@ -439,3 +442,29 @@ class TweenRectangle(Rectangle):
 			self._.y += self.animation_y.play(self._.y)
 			self.x = old_x
 			self.y = old_y
+
+
+
+class RectangleShape(RS, Rectangle):
+# GRAPHICS
+# * Rectangle - Uses the Rectangle standard.
+	
+	#getters
+	@property
+	def x(self): return float(self.position[0])
+	@property
+	def y(self): return float(self.position[1])
+	@property
+	def w(self): return float(self.size[0])
+	@property
+	def h(self): return float(self.size[1])
+
+	#setters
+	@x.setter
+	def x(self, x): self.position = x, self.y
+	@y.setter
+	def y(self, y): self.position = self.x, y
+	@w.setter
+	def w(self, w): self.size = w, self.h
+	@h.setter
+	def h(self, h): self.size = self.w, h
