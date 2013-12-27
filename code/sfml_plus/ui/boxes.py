@@ -14,8 +14,9 @@ class Box(TweenRectangle, _UI):
 	alpha = 255
 	_alpha_move = 0
 
-	##### EVENTS
-	# Sets up movements and transparency for animation.
+	#################################
+	# PUBLIC
+
 
 	def open(self):
 		self.alpha = 0
@@ -39,10 +40,12 @@ class Box(TweenRectangle, _UI):
 		#
 		_UI.draw(self, target, states)
 
-	####################
+
+	#################################
+	# PRIVATE
 
 
-	##### GRAPHICS
+	# GRAPHICS
 	# Creates boxes each loop in order to position them.
 
 	w,h = 300,200
@@ -52,8 +55,6 @@ class Box(TweenRectangle, _UI):
 	rise = 5
 	@property
 	def rise_offset(self): return self.rise-self.old_rise
-
-	#
 
 	old_rise = rise
 	def box(self): #draw
@@ -73,7 +74,7 @@ class Box(TweenRectangle, _UI):
 		return b
 
 
-	##### ANIMATION
+	# ANIMATION
 	# Saves an alpha, forces the graphics to use it.
 	# The children refresh their positions to keep up.
 

@@ -196,32 +196,6 @@ class Vertical_Slider(Slider):
 	w,h = 15,150
 
 
-
-class PageBox(_UI):
-# Graphics
-# * A box and slider, side-by-side.
-# * WIP - Contains rows of UI objects.
-
-	w = Box.w + Vertical_Slider.w
-	h = Box.h
-
-	def __init__(self):
-		_UI.__init__(self)
-		self._create_Box()
-
-	def draw(self, Window):
-		_UI.draw(self, Window)
-
-	############################
-	# GRAPHICS
-	# Box, Pages
-
-	def _create_Box(self):
-		self.Box = Box()
-		self.Box.box_fill = Color(200,200,200)
-		self.children.append(self.Box)
-	#
-
 ##########################################
 
 from code.sfml_plus.ui import Box

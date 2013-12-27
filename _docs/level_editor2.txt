@@ -119,7 +119,6 @@ LEVEL EDITOR UI
 	! Disable inactive windows
 
 
-=================================================
 ! 'Fixing' the old UI
 	! Masking
 		+ Drawables
@@ -127,56 +126,11 @@ LEVEL EDITOR UI
 		It draws itself directly onto the provided Target.
 		Target may be intercepted to be a RenderTexture instead of Window.
 
-
-
-	! MaskedBox
-	Box supports scrolling objects.
-
-
-! The 'MAP' UI
-New UI Standard (Mask, Alpha, Position)
-
-	---plan
-
-	. Old Problems, Fix Suggestions:
-
-		. Masking is awkward
-			drawing split: mask_draw, nomask_draw
-
-		. Positioning is awkward
-			. the extent of movement is stored (previous position)
-			. full rect, upper rect and lower rect are stored
-				split.top, split.bottom, split.offset
-
-		. Alpha preservation is awkward
-			a clear function for setting alpha
-
-	---test
-
-	~ Rectangle-standard RectangleShape
-
-	! Test Masking
-		! Box renders a child UI in and out of itself
-			! create mask, update and test for...
-				! position
-				! size
-
-			! mask doesn't show it
-			! nonmask shows it
-
-	! Test Positioning
-		! children is a public list which pops to a private class
-		!1 Children are a TweenRectangle class
-
-	! Test Alpha
-
-
-	---implement
-
-	! ScrollBox
-		! Scroller (Horizontal/Vertical)
-		!1 Mask movements (up/down, left/right)
-		! Scroller + Mask
+		! MaskBox
+			+ Masking off-box objects
+=================================================
+			! Ignoring controls of completely off-screen objects
+			! Scrolling in any direction
 
 
 
