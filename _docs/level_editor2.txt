@@ -119,6 +119,16 @@ LEVEL EDITOR UI
 	! Disable inactive windows
 
 
+=================================================
+! 'Fixing' the old UI
+	! Masking
+		! Drawables
+		Every UI object is a Drawable type.
+		It draws itself directly onto the provided Target.
+		Target may be intercepted to be a RenderTexture instead of Window.
+
+	! MaskedBox
+	Box supports scrolling objects.
 
 
 ! The 'MAP' UI
@@ -142,10 +152,13 @@ New UI Standard (Mask, Alpha, Position)
 	---test
 
 	~ Rectangle-standard RectangleShape
-	=================================================
 
 	! Test Masking
 		! Box renders a child UI in and out of itself
+			! create mask, update and test for...
+				! position
+				! size
+
 			! mask doesn't show it
 			! nonmask shows it
 
