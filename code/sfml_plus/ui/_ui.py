@@ -1,6 +1,7 @@
 from code.sfml_plus import Rectangle
+from sfml import Drawable
 
-class _UI(Rectangle):
+class _UI(Drawable, Rectangle):
 # Communication
 
 	### LOGIC
@@ -13,11 +14,11 @@ class _UI(Rectangle):
 		for child in self.children:
 			child.controls(Key, Mouse, Camera)
 
-	def draw(self, Window):
+	def draw(self, target, states):
 		self._children_position()
 		self._children_alpha()
 		for child in self.children:
-			child.draw(Window)
+			target.draw(child)
 
 
 	### GRAPHICS

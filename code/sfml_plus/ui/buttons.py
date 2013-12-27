@@ -20,9 +20,9 @@ class Button(Box):
 		self._color_states()
 		Box.controls(self,Key,Mouse,Camera)
 
-	def draw(self, Window):
-		Box.draw(self, Window)
-		self._draw_Text(Window)
+	def draw(self, target, states):
+		Box.draw(self, target, states)
+		self._draw_Text(target, states)
 
 
 	####################
@@ -76,7 +76,7 @@ class Button(Box):
 	text = ""
 	_text = text
 
-	def _draw_Text(self, Window):
+	def _draw_Text(self, target, states):
 		#update text
 		if self._text != self.text:
 			self._Text.write(self.text)
@@ -87,7 +87,7 @@ class Button(Box):
 		text.center = self.center
 		text.y -= self.rise_offset
 		#draw
-		Window.draw(text)
+		target.draw(text)
 
 ####
 

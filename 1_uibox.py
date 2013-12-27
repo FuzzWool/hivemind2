@@ -29,16 +29,16 @@ class Slider(_UI): #horizontal
 		_UI.controls(self, Key, Mouse, Camera)
 		self._Box_controls(Mouse)
 
-	def draw(self, Window):
+	def draw(self, target, states):
 		self._create_baseLine()
 		self._create_Lines()
 		lines = self.Lines + [self.baseLine]
-		for line in lines: Window.draw(line)
+		for line in lines: target.draw(line)
 		#
 		self._parent_Box()
-		self.Box.draw(Window)
+		target.draw(self.Box)
 		#
-		_UI.draw(self, Window)
+		_UI.draw(self, target, states)
 
 	####################
 
@@ -245,15 +245,14 @@ box3.x += box1.w - (box3.w*2)
 box3.y += (box1.h - box3.h) - box3.rise
 box1.children.append(box3)
 
-
 ##########################################
 
 while Window.is_open:
 	if Window.is_focused:
 
-		if box2.selected\
-		or Key.BACKSPACE.pressed():
-			box1.close()
+		# if box2.selected\
+		# or Key.BACKSPACE.pressed():
+		# 	box1.close()
 
 		if Key.ENTER.pressed():
 			box1.open()
@@ -261,5 +260,5 @@ while Window.is_open:
 		box1.controls(Key, Mouse, None)
 
 	Window.clear((255,220,0))
-	box1.draw(Window)
+	Window.draw(box1)
 	Window.display(Mouse)

@@ -17,14 +17,14 @@ class Slider(_UI): #horizontal
 		_UI.controls(self, Key, Mouse, Camera)
 		self._Box_controls(Mouse)
 
-	def draw(self, Window):
+	def draw(self, target, states):
 		self._create_baseLine()
 		self._create_Lines()
 		lines = self.Lines + [self.baseLine]
-		for line in lines: Window.draw(line)
+		for line in lines: target.draw(line)
 		#
 		self._parent_Box()
-		self.Box.draw(Window)
+		target.draw(self.Box)
 		#
 		_UI.draw(self, Window)
 

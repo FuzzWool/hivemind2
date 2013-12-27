@@ -29,15 +29,15 @@ class Box(TweenRectangle, _UI):
 
 	#
 
-	def draw(self, Window):
+	def draw(self, target, states):
 		self._play()
 		box = self.box()
 		shadow = self.shadow()
 		self._update_alpha(box,shadow)
-		Window.draw(box)
-		Window.draw(shadow)
+		target.draw(box)
+		target.draw(shadow)
 		#
-		_UI.draw(self, Window)
+		_UI.draw(self, target, states)
 
 	####################
 
