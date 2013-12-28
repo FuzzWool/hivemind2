@@ -132,9 +132,11 @@ LEVEL EDITOR UI
 			+ Scrolling in any direction
 				+ offset (Rectangle) (movement/size)
 
-=================================================
 		! SliderBox
 			+ MaskBox, Slider
+=================================================
+			~ fixed control bugs
+
 			! Slider is sized to MaskBox.offset.size
 			! Slider moves MaskBox.offset
 

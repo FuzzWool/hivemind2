@@ -213,8 +213,15 @@ class SliderBox(_UI):
 		self._create_Slider()
 		self._update_rectangle()
 
+	def controls(self, Key, Mouse, Camera):
+		_UI.controls(self, Key, Mouse, Camera)
+		self.Slider.controls(Key, Mouse, Camera)
+		self.Box.controls(Key, Mouse, Camera)
+
 	def draw(self, target, states):
 		_UI.draw(self, target, states)
+		target.draw(self.Box)
+		target.draw(self.Slider)
 
 	#################################
 	# PRIVATE
@@ -253,10 +260,12 @@ box2.x += box1.w - box2.w
 box2.y += (box1.h - box2.h) - box2.rise
 box1.children.append(box2)
 
-box3 = Cancel_Button()
-box3.x += box1.w - (box3.w*2)
-box3.y += (box1.h - box3.h) - box3.rise
-box1.children.append(box3)
+# box3 = Cancel_Button()
+# box3.x += box1.w - (box3.w*2)
+# box3.y += (box1.h - box3.h) - box3.rise
+# box1.children.append(box3)
+
+#
 
 sliderbox = SliderBox()
 sliderbox.x += (box1.w/2) - (sliderbox.w/2)
@@ -264,14 +273,18 @@ sliderbox.y += (box1.h/2) - (sliderbox.h/2)
 sliderbox.y -= 20
 box1.children.append(sliderbox)
 
+sbox1 = Accept_Button()
+sbox1.x += 5; sbox1.y += 5
+sliderbox.Box.children.append(sbox1)
+
 ##########################################
 
 while Window.is_open:
 	if Window.is_focused:
 
-		# if box2.selected\
-		# or Key.BACKSPACE.pressed():
-		# 	box1.close()
+		if box2.selected\
+		or Key.BACKSPACE.pressed():
+			box1.close()
 
 		if Key.ENTER.pressed():
 			box1.open()

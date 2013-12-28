@@ -133,16 +133,16 @@ class MaskBox(Box):
 	# MASK
 	Mask = None
 
-	def _create_Mask(self): #init, update_mask
+	def _create_Mask(self): #init
 		self.Mask = RenderTexture(self.w+2, self.h+2+self.rise)
-		self.Mask.view.reset\
-		((self.x-1,self.y-1,self.w+2,self.h+2+self.rise))
 
 	def _update_Mask(self): #draw
 		if self.old_pos != self.position\
 		or self.old_size != self.size:
-			self._create_Mask()
-		self.Mask.clear(Color.WHITE)
+			self.Mask.view.reset\
+			((self.x-1,self.y-1,self.w+2,self.h+2+self.rise))
+		color = self.box_fill; color.a = 0
+		self.Mask.clear(color)
 
 	def _draw_Mask(self, target, states): #draw
 		Mask_sprite = Sprite(self.Mask.texture)
