@@ -113,25 +113,36 @@ class Slider(_UI): #horizontal
 	def _Box_controls(self, Mouse):
 		self.Box.controls(None, Mouse, None)
 		#
-		
+		bounded = bool(self.lines <= 2)
+
 		#Hold and drag: move the cursor.
 		if self.Box.held:
 
 			if self.using == "x":
-				v = Mouse.x - self.x1
+				if not bounded: max_w = self.w
+				if bounded: max_w = self.w-self.Box.w
+				v = Mouse.x - self.x - (self.Box.w/2)
+				v = (float(v)/max_w)*100
 				if v < 0: v = 0
-				if v > self.w: v = self.w
+				if v > 100: v = 100
+				self.value = v
 
-				self.move_x += (self.x1-self.Box.center[0])+v
-				self.value = (float(v)/self.w)*100
+				move = (float(max_w)/100)*v
+				self.move_x -= (self.Box.x-self.x)
+				self.move_x += move
 
 			if self.using == "y":
-				v = Mouse.y - self.y1
+				if not bounded: max_h = self.h
+				if bounded: max_h = self.h-self.Box.h
+				v = Mouse.y - self.y - (self.Box.h/2)
+				v = (float(v)/max_h)*100
 				if v < 0: v = 0
-				if v > self.h: v = self.h
+				if v > 100: v = 100
+				self.value = v
 
-				self.move_y += (self.y1-self.Box.center[1])+v
-				self.value = (float(v)/self.h)*100
+				move = (float(max_h)/100)*v
+				self.move_y -= (self.Box.y-self.y)
+				self.move_y += move
 
 		#Unpressed: go to nearest line.
 		elif self.Box.selected:
@@ -171,17 +182,11 @@ class Slider(_UI): #horizontal
 		if self.move_x != 0 and self.using == "x":
 			if self.move_x == None: self.move_x = 0
 			self.Box.x += self.move_x
-			if bounded:
-				if self.Box.x1 < self.x1: self.Box.x = self.x1
-				if self.Box.x2 > self.x2: self.Box.x = self.x2-self.Box.w
 
 		if self.move_y != 0 and self.using == "y":
 			if self.move_y == None: self.move_y = 0
+			self.Box.y += self.Box.rise_offset
 			self.Box.y += self.move_y
-			if bounded:
-				if self.Box.y1 < self.y1: self.Box.y = self.y1
-				if self.Box.y2 > self.y2: self.Box.y = self.y2-self.Box.h
-				self.Box.y += self.Box.rise_offset
 
 		self.move_x, self.move_y = 0,0
 
@@ -289,19 +294,25 @@ box1.children.append(box2)
 
 #
 
-sliderbox = SliderBox()
-sliderbox.x += (box1.w/2) - (sliderbox.w/2)
-sliderbox.y += (box1.h/2) - (sliderbox.h/2)
-sliderbox.y -= 20
-box1.children.append(sliderbox)
+# sliderbox = SliderBox()
+# sliderbox.x += (box1.w/2) - (sliderbox.w/2)
+# sliderbox.y += (box1.h/2) - (sliderbox.h/2)
+# sliderbox.y -= 20
+# box1.children.append(sliderbox)
 
-sbox1 = Accept_Button()
-sbox1.x += 5; sbox1.y += 5
-sliderbox.Box.children.append(sbox1)
+# sbox1 = Accept_Button()
+# sbox1.x += 5; sbox1.y += 5
+# sliderbox.Box.children.append(sbox1)
 
-sbox2 = Cancel_Button()
-sbox2.x += 5; sbox2.y += 400
-sliderbox.Box.children.append(sbox2)
+# sbox2 = Cancel_Button()
+# sbox2.x += 5; sbox2.y += 800
+# sliderbox.Box.children.append(sbox2)
+
+#
+
+slider = Horizontal_Slider()
+slider.lines = 2
+box1.children.append(slider)
 
 ##########################################
 
