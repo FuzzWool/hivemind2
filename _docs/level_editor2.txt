@@ -126,14 +126,20 @@ LEVEL EDITOR UI
 		It draws itself directly onto the provided Target.
 		Target may be intercepted to be a RenderTexture instead of Window.
 
-		! MaskBox
+		+ MaskBox
 			+ Masking off-box objects
-=================================================
 			+ Ignoring controls of completely off-screen objects
 			+ Scrolling in any direction
 				+ offset (Rectangle) (movement/size)
 
+=================================================
+		! SliderBox
+			! MaskBox, Slider
+			! Slider is sized to MaskBox.offset.size
+			! Slider moves MaskBox.offset
 
+
+! Suss out what Tools to build next
 
 ! use Grid in main's WorldMap
 ! Entity Tool
