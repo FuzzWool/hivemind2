@@ -103,11 +103,9 @@ class Slider(_UI): #horizontal
 
 		if self.using == "x":
 			self.Box.size = 20,self.h
-			self.Box.x -= (self.Box.w/2)
 			self.Box.y -= self.Box.rise
 		if self.using == "y":
 			self.Box.size = self.w,20
-			self.Box.y -= (self.Box.h/2)
 			self.Box.y -= self.Box.rise
 
 	def _Box_controls(self, Mouse):
@@ -121,7 +119,10 @@ class Slider(_UI): #horizontal
 			if self.using == "x":
 				if not bounded: max_w = self.w
 				if bounded: max_w = self.w-self.Box.w
-				v = Mouse.x - self.x - (self.Box.w/2)
+				if max_w == 0: return
+				
+				v = Mouse.x - self.x
+				if bounded: v -= (self.Box.w/2)
 				v = (float(v)/max_w)*100
 				if v < 0: v = 0
 				if v > 100: v = 100
@@ -129,12 +130,17 @@ class Slider(_UI): #horizontal
 
 				move = (float(max_w)/100)*v
 				self.move_x -= (self.Box.x-self.x)
+				if not bounded:
+					self.move_x -= (self.Box.w/2)
 				self.move_x += move
 
 			if self.using == "y":
 				if not bounded: max_h = self.h
 				if bounded: max_h = self.h-self.Box.h
-				v = Mouse.y - self.y - (self.Box.h/2)
+				if max_h == 0: return
+
+				v = Mouse.y - self.y
+				if bounded: v -= (self.Box.h/2)
 				v = (float(v)/max_h)*100
 				if v < 0: v = 0
 				if v > 100: v = 100
@@ -142,6 +148,8 @@ class Slider(_UI): #horizontal
 
 				move = (float(max_h)/100)*v
 				self.move_y -= (self.Box.y-self.y)
+				if not bounded:
+					self.move_y -= (self.Box.h/2)
 				self.move_y += move
 
 		#Unpressed: go to nearest line.
@@ -180,11 +188,15 @@ class Slider(_UI): #horizontal
 		bounded = bool(self.lines <= 2)
 
 		if self.move_x != 0 and self.using == "x":
-			if self.move_x == None: self.move_x = 0
+			if self.move_x == None:
+				if not bounded: self.move_x = -(self.Box.w/2)
+				if bounded: self.move_x = 0
 			self.Box.x += self.move_x
 
 		if self.move_y != 0 and self.using == "y":
-			if self.move_y == None: self.move_y = 0
+			if self.move_y == None:
+				if not bounded: self.move_y = -(self.Box.h/2)
+				if bounded: self.move_y = 0
 			self.Box.y += self.Box.rise_offset
 			self.Box.y += self.move_y
 
@@ -305,12 +317,12 @@ box1.children.append(box2)
 # sliderbox.Box.children.append(sbox1)
 
 # sbox2 = Cancel_Button()
-# sbox2.x += 5; sbox2.y += 800
+# sbox2.x += 5; sbox2.y += 0
 # sliderbox.Box.children.append(sbox2)
 
 #
 
-slider = Horizontal_Slider()
+slider = Vertical_Slider()
 slider.lines = 2
 box1.children.append(slider)
 

@@ -137,10 +137,13 @@ LEVEL EDITOR UI
 			~ Slider is sized to MaskBox.offset.size
 			! Slider moves MaskBox.offset
 				+ Slider value moves MaskBox.offset.h
-=================================================
 				+ Bounded Sliders have proper values
+=================================================
 
-
+				~ Fixed/Cleaned Slider
+					~ fixed /0 error
+					~ on init, automatically align Box with slider
+					~ center non bounded dragging
 
 ! Suss out what Tools to build next
 
