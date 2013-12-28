@@ -306,25 +306,25 @@ box1.children.append(box2)
 
 #
 
-# sliderbox = SliderBox()
-# sliderbox.x += (box1.w/2) - (sliderbox.w/2)
-# sliderbox.y += (box1.h/2) - (sliderbox.h/2)
-# sliderbox.y -= 20
-# box1.children.append(sliderbox)
+sliderbox = SliderBox()
+sliderbox.x += (box1.w/2) - (sliderbox.w/2)
+sliderbox.y += (box1.h/2) - (sliderbox.h/2)
+sliderbox.y -= 20
+box1.children.append(sliderbox)
 
-# sbox1 = Accept_Button()
-# sbox1.x += 5; sbox1.y += 5
-# sliderbox.Box.children.append(sbox1)
+sbox1 = Accept_Button()
+sbox1.x += 5; sbox1.y += 5
+sliderbox.Box.children.append(sbox1)
 
-# sbox2 = Cancel_Button()
-# sbox2.x += 5; sbox2.y += 0
-# sliderbox.Box.children.append(sbox2)
+sbox2 = Cancel_Button()
+sbox2.x += 5; sbox2.y += 50
+sliderbox.Box.children.append(sbox2)
 
 #
 
-slider = Vertical_Slider()
-slider.lines = 2
-box1.children.append(slider)
+# slider = Vertical_Slider()
+# slider.lines = 2
+# box1.children.append(slider)
 
 ##########################################
 

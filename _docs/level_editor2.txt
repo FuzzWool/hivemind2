@@ -119,31 +119,26 @@ LEVEL EDITOR UI
 	! Disable inactive windows
 
 
-! 'Fixing' the old UI
-	! Masking
++ 'Fixing' the old UI
+	+ Masking
 		+ Drawables
 		Every UI object is a Drawable type.
 		It draws itself directly onto the provided Target.
 		Target may be intercepted to be a RenderTexture instead of Window.
 
-		+ MaskBox
-			+ Masking off-box objects
-			+ Ignoring controls of completely off-screen objects
-			+ Scrolling in any direction
-				+ offset (Rectangle) (movement/size)
+	+ MaskBox
+		+ Masking off-box objects
+		+ Ignoring controls of completely off-screen objects
+		+ Scrolling in any direction
+			+ offset (Rectangle) (movement/size)
 
-		! SliderBox
-			+ MaskBox, Slider
-			~ Slider is sized to MaskBox.offset.size
-			! Slider moves MaskBox.offset
-				+ Slider value moves MaskBox.offset.h
-				+ Bounded Sliders have proper values
++ SliderBox
+	+ MaskBox, Slider
+	~ Slider is sized to MaskBox.offset.size
+	+ Slider moves MaskBox.offset
+		+ Slider value moves MaskBox.offset.h
+		+ Bounded Sliders have proper values
 =================================================
-
-				~ Fixed/Cleaned Slider
-					~ fixed /0 error
-					~ on init, automatically align Box with slider
-					~ center non bounded dragging
 
 ! Suss out what Tools to build next
 
