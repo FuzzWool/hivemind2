@@ -198,6 +198,45 @@ class Vertical_Slider(Slider):
 
 ##########################################
 
+from code.sfml_plus.ui import _UI
+from code.sfml_plus.ui import MaskBox
+
+class SliderBox(_UI):
+# A Slider controls a Maskbox's contents.
+
+	#################################
+	# PUBLIC
+
+	def __init__(self):
+		_UI.__init__(self)
+		self._create_Box()
+		self._create_Slider()
+		self._update_rectangle()
+
+	def draw(self, target, states):
+		_UI.draw(self, target, states)
+
+	#################################
+	# PRIVATE
+
+	def _create_Box(self):
+		self.Box = MaskBox()
+		self.children.append(self.Box)
+
+	def _create_Slider(self):
+		self.Slider = Vertical_Slider()
+		self.Slider.x += self.Box.w + (self.Slider.w/2)
+		self.Slider.h = self.Box.h-1
+		self.Slider.lines = 2
+		self.children.append(self.Slider)
+
+	def _update_rectangle(self):
+		self.w = self.Slider.x2 - self.Box.x1
+		self.h = self.Box.h
+
+
+##########################################
+
 from code.sfml_plus.ui import Box
 from code.sfml_plus.ui import Accept_Button, Cancel_Button
 # from code.sfml_plus.ui import Slider
@@ -218,6 +257,12 @@ box3 = Cancel_Button()
 box3.x += box1.w - (box3.w*2)
 box3.y += (box1.h - box3.h) - box3.rise
 box1.children.append(box3)
+
+sliderbox = SliderBox()
+sliderbox.x += (box1.w/2) - (sliderbox.w/2)
+sliderbox.y += (box1.h/2) - (sliderbox.h/2)
+sliderbox.y -= 20
+box1.children.append(sliderbox)
 
 ##########################################
 
