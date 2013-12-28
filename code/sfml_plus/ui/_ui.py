@@ -14,7 +14,8 @@ class _UI(Drawable, Rectangle):
 
 	def controls(self, Key, Mouse, Camera):
 		for child in self.children:
-			child.controls(Key, Mouse, Camera)
+			if child.inside(self):
+				child.controls(Key, Mouse, Camera)
 
 	def draw(self, target, states):
 		self._children_position()

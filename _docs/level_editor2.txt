@@ -129,8 +129,9 @@ LEVEL EDITOR UI
 		! MaskBox
 			+ Masking off-box objects
 =================================================
-			! Ignoring controls of completely off-screen objects
-			! Scrolling in any direction
+			+ Ignoring controls of completely off-screen objects
+			+ Scrolling in any direction
+				+ offset (Rectangle) (movement/size)
 
 
 
