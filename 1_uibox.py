@@ -221,6 +221,7 @@ class SliderBox(_UI):
 	def draw(self, target, states):
 		self._update_graphics()
 		_UI.draw(self, target, states)
+		self._resize_Slider()
 		target.draw(self.Box)
 		target.draw(self.Slider)
 
@@ -250,6 +251,13 @@ class SliderBox(_UI):
 		self.Box.x += move_x; self.Box.y += move_y
 		self.Slider.x += move_x; self.Slider.y += move_y
 
+	old_children_len = 0
+	def _resize_Slider(self): #draw)
+		if self.old_children_len != len(self.Box.children):
+			ratio = float(self.Box.offset.h) / float(self.Box.h)
+			self.Slider.Box.h = (self.Slider.h/ratio)
+
+		self.old_children_len = len(self.Box.children)
 
 ##########################################
 
@@ -283,7 +291,7 @@ sliderbox.y -= 20
 box1.children.append(sliderbox)
 
 sbox1 = Accept_Button()
-sbox1.x += 5; sbox1.y += 5
+sbox1.x += 5; sbox1.y += 1000
 sliderbox.Box.children.append(sbox1)
 
 ##########################################

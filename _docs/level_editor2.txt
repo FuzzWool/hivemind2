@@ -135,9 +135,7 @@ LEVEL EDITOR UI
 		! SliderBox
 			+ MaskBox, Slider
 =================================================
-			~ graphics update independantly
-
-			! Slider is sized to MaskBox.offset.size
+			~ Slider is sized to MaskBox.offset.size
 			! Slider moves MaskBox.offset
 
 
