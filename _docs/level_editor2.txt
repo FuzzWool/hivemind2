@@ -134,9 +134,12 @@ LEVEL EDITOR UI
 
 		! SliderBox
 			+ MaskBox, Slider
-=================================================
 			~ Slider is sized to MaskBox.offset.size
+=================================================
 			! Slider moves MaskBox.offset
+				+ Slider value moves MaskBox.offset.h
+				! Glitch: Slider value progresses even when snapped
+					! Slider value should be proportional to size
 
 
 ! Suss out what Tools to build next
