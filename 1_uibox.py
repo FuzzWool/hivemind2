@@ -219,6 +219,7 @@ class SliderBox(_UI):
 		self.Box.controls(Key, Mouse, Camera)
 
 	def draw(self, target, states):
+		self._update_graphics()
 		_UI.draw(self, target, states)
 		target.draw(self.Box)
 		target.draw(self.Slider)
@@ -228,18 +229,26 @@ class SliderBox(_UI):
 
 	def _create_Box(self):
 		self.Box = MaskBox()
-		self.children.append(self.Box)
 
 	def _create_Slider(self):
 		self.Slider = Vertical_Slider()
 		self.Slider.x += self.Box.w + (self.Slider.w/2)
 		self.Slider.h = self.Box.h-1
 		self.Slider.lines = 2
-		self.children.append(self.Slider)
 
 	def _update_rectangle(self):
 		self.w = self.Slider.x2 - self.Box.x1
 		self.h = self.Box.h
+
+	def _update_graphics(self): #draw
+		#alpha
+		self.Box.alpha = self.alpha
+		self.Slider.alpha = self.alpha
+		#move
+		move_x = self.x - self.old_pos[0]
+		move_y = self.y - self.old_pos[1]
+		self.Box.x += move_x; self.Box.y += move_y
+		self.Slider.x += move_x; self.Slider.y += move_y
 
 
 ##########################################
