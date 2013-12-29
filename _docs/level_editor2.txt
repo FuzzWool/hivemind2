@@ -102,23 +102,6 @@ LEVEL EDITOR UI
 		+ bounds enlargements
 
 
-	! PageBox
-
-			! Box Contents
-				! Page
-					! new rows for w, new h for h
-				! Pages
-					! no more h for page, make a new page
-
-	! TextBox
-	! Dropdown
-
-	! ToolBox
-		! Shiny ToolIcon
-
-	! Disable inactive windows
-
-
 + 'Fixing' the old UI
 	+ Masking
 		+ Drawables
@@ -140,20 +123,18 @@ LEVEL EDITOR UI
 		+ Bounded Sliders have proper values
 =================================================
 
-! Suss out what Tools to build next
+! Tile Tool
+	! Dropdown
+	! TileSelector
 
-! use Grid in main's WorldMap
+! ToolBox
+	! Icons
+
 ! Entity Tool
+	! Dropdown
+	+ SliderBox
 
-	! ScrollBox
-		A box with a scroller.
-		The contents of the box scroll with the scroller.
 
-	! SpriteSelector
-		A ScrollBox containing a list of images.
-		Images are loaded left-to-right,
-		and move down a row when there are too many.
-		A sprite may be clicked to be selected.
 
 ! Warning Message (example: an entity has an error)
 ! UI Box (Help dialogue for Tile)
