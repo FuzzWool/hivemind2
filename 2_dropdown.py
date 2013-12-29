@@ -6,15 +6,15 @@ from code.sfml_plus import Mouse
 
 from code.sfml_plus.ui import ToggleButton
 
-class Dropdown:
+class Dropdown(ToggleButton):
 #A dropdown menu which may contain cells.
 # LOGIC
 	# WIP - Toggle button. Opens and closes.
 	# WIP - Remembers the paths/names of selected/hovered cells.
 	# WIP - The root parent to Sub_Dropdowns and Cells.
 
-	pass
-
+	text = "Dropdown"
+	w = 125
 
 
 ##########################################
@@ -38,8 +38,10 @@ box1.children.append(box2)
 
 #
 
-toggle = ToggleButton()
-box1.children.append(toggle)
+dropdown = Dropdown()
+dropdown.y += 250
+dropdown.x += (box1.w/2) - (dropdown.w/2)
+box1.children.append(dropdown)
 
 #
 

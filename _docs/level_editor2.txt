@@ -123,9 +123,20 @@ LEVEL EDITOR UI
 		+ Bounded Sliders have proper values
 
 ! Tile Tool
-=================================================
 	+ ToggleButton
+=================================================
 	! Dropdown
+		! Held and Not-Held
+		! Held: opens cells inside
+		! Press: selects a cell
+			! change the Dropdown name to the cell
+			! close the Dropdown
+			! test: may select cell outside of window
+		! Hover: selects a sub-Dropdown
+			! opens sub-Dropdown contents
+			! hovering another Dropdown in that parent closes it
+			! selecting a cell inside of the Dropdown returns the path to root
+
 
 	! TileSelector
 
