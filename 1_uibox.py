@@ -43,10 +43,6 @@ sliderbox.Box.children.append(sbox2)
 
 #
 
-# slider = Vertical_Slider()
-# slider.lines = 2
-# box1.children.append(slider)
-
 ##########################################
 
 while Window.is_open:

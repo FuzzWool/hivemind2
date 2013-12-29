@@ -125,6 +125,8 @@ LEVEL EDITOR UI
 
 ! Tile Tool
 	! Dropdown
+		! prepare
+
 	! TileSelector
 
 ! ToolBox
