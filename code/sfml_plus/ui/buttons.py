@@ -91,6 +91,21 @@ class Button(Box):
 
 ####
 
+class ToggleButton(Button):
+# LOGIC
+	# * Remains held until pressed again.
+	def _held(self, Mouse):
+		if Mouse.left.pressed() and Mouse.inside(self):
+			if not self.held:
+				self.held = True
+				self.rise = 0
+			elif self.held:
+				self.held = False
+				self.rise = self.old_rise
+
+
+####
+
 class Cancel_Button(Button):
 # Graphics - colors/text
 

@@ -4,6 +4,7 @@ from code.sfml_plus import Mouse
 
 ##########################################
 
+from code.sfml_plus.ui import ToggleButton
 
 class Dropdown:
 #A dropdown menu which may contain cells.
@@ -37,6 +38,8 @@ box1.children.append(box2)
 
 #
 
+toggle = ToggleButton()
+box1.children.append(toggle)
 
 #
 

@@ -121,11 +121,11 @@ LEVEL EDITOR UI
 	+ Slider moves MaskBox.offset
 		+ Slider value moves MaskBox.offset.h
 		+ Bounded Sliders have proper values
-=================================================
 
 ! Tile Tool
+=================================================
+	+ ToggleButton
 	! Dropdown
-		! prepare
 
 	! TileSelector
 
