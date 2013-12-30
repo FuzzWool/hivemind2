@@ -8,6 +8,9 @@ from code.sfml_plus.ui import Box
 from code.sfml_plus import Texture, MySprite
 from code.sfml_plus import Rectangle
 from code.sfml_plus import Grid
+from code.sfml_plus.constants import TILE
+
+from sfml import Color
 
 class TileSelector(Box):
 	
@@ -19,12 +22,17 @@ class TileSelector(Box):
 		self.Sheet = self.Sheet("0.png")
 		self.size = self.Sheet.size
 		self.Grid = Grid(*self.size)
+		self.Cursor = self.Cursor()
+
+	def controls(self, Key, Mouse, Camera):
+		self.Cursor.controls(Key, Mouse, Camera)
 
 	def draw(self, target, states):
 		self._parent_Graphics()
 		Box.draw(self, target, states)
 		self.Sheet.draw(target, states)
 		target.draw(self.Grid)
+		self.Cursor.draw(target, states)
 
 	#################################
 	# PRIVATE
@@ -36,6 +44,12 @@ class TileSelector(Box):
 		#
 		self.Sheet.alpha = self.alpha
 		self.Sheet.position = self.position
+		#
+		c=self.Cursor.color;c.a=self.alpha;self.Cursor.color=c
+		x_move = self.x - self.old_pos[0]
+		y_move = self.y - self.old_pos[1]
+		self.Cursor.x += x_move
+		self.Cursor.y += y_move
 
 
 	# SHEET
@@ -66,6 +80,71 @@ class TileSelector(Box):
 
 
 
+	#CURSOR
+	class Cursor(Rectangle):
+		
+		#################################
+		# PUBLIC
+
+		snap = True
+		color = Color.WHITE
+
+		def __init__(self):
+			self._create_corners()
+			self.snap = True
+			self.color = Color.WHITE
+
+		def controls(self, Key, Mouse, Camera):
+			self._update_position(Mouse)
+
+		def draw(self, target, states):
+			self._update_corners_position()
+			self._update_corners_alpha()
+			self._draw_corners(target, states)
+
+		#################################
+		# PRIVATE
+
+		# Position
+		# snap
+		def _update_position(self, Mouse):
+			if self.snap:
+				self.tile_position = Mouse.tile_position
+
+		# Corners
+		# color
+		_corners = []
+
+		def _create_corners(self):
+			self._corners = []
+			t = Texture.from_file("assets/ui/cursor.png")
+			s1 = MySprite(t); s1.clip.set(8,8); s1.clip.use(0,0)
+			s2 = MySprite(t); s2.clip.set(8,8); s2.clip.use(2,0)
+			s3 = MySprite(t); s3.clip.set(8,8); s3.clip.use(0,2)
+			s4 = MySprite(t); s4.clip.set(8,8); s4.clip.use(2,2)
+			s2.origin = -TILE+8,0
+			s3.origin = 0,-TILE+8
+			s4.origin = -TILE+8,-TILE+8
+			self._corners = [[s1,s2],[s3,s4]]
+
+		def _update_corners_position(self):
+			self._corners[0][0].position = self.x1, self.y1
+			self._corners[0][1].position = self.x1, self.y2
+			self._corners[1][0].position = self.x2, self.y1
+			self._corners[1][1].position = self.x2, self.y2
+
+		def _update_corners_alpha(self):
+			for side in self._corners:
+				for edge in side:
+					edge.color = self.color
+
+		def _draw_corners(self, target, states):
+			for side in self._corners:
+				for edge in side:
+					target.draw(edge, states)
+
+
+
 ##########################################
 
 
@@ -85,7 +164,7 @@ box2.y += (box1.h - box2.h) - box2.rise
 box1.children.append(box2)
 
 tileselector = TileSelector()
-tileselector.x += 25; tileselector.y += 20
+tileselector.tile_x += 1; tileselector.tile_y += 1
 box1.children.append(tileselector)
 
 ##########################################
