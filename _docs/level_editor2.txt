@@ -139,7 +139,7 @@ LEVEL EDITOR UI
 			
 =================================================
 	! TileSelector
-		! Sheet
+		+ Sheet
 		! Grid
 		! Cursor
 		! Left release: select tiles, wipe previous tiles
