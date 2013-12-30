@@ -139,7 +139,11 @@ LEVEL EDITOR UI
 			
 =================================================
 	! TileSelector
-		pass
+		! Sheet
+		! Grid
+		! Cursor
+		! Left release: select tiles, wipe previous tiles
+		! Left hold (0.2 secs): adjust origin, add to previous tiles
 
 ! ToolBox
 	! Icons
