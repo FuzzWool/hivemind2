@@ -7,6 +7,7 @@ from code.sfml_plus import Mouse
 from code.sfml_plus.ui import Box
 from code.sfml_plus import Texture, MySprite
 from code.sfml_plus import Rectangle
+from code.sfml_plus import Grid
 
 class TileSelector(Box):
 	
@@ -17,26 +18,27 @@ class TileSelector(Box):
 		Box.__init__(self)
 		self.Sheet = self.Sheet("0.png")
 		self.size = self.Sheet.size
+		self.Grid = Grid(*self.size)
 
 	def draw(self, target, states):
-		self._parent_Sheet()
+		self._parent_Graphics()
 		Box.draw(self, target, states)
 		self.Sheet.draw(target, states)
+		target.draw(self.Grid)
 
 	#################################
 	# PRIVATE
 
-	# SHEET
-	def _parent_Sheet(self):
-		#alpha
+	# GRAPHICS
+	def _parent_Graphics(self):
+		c=self.Grid.color;c.a=self.alpha/4;self.Grid.color=c
+		self.Grid.position = self.position
+		#
 		self.Sheet.alpha = self.alpha
-		#move
-		x_move = self.x - self.old_pos[0]
-		y_move = self.y - self.old_pos[1]
-		self.Sheet.x += x_move
-		self.Sheet.y += y_move
+		self.Sheet.position = self.position
 
 
+	# SHEET
 	class Sheet(Rectangle):
 
 		def __init__(self, name):

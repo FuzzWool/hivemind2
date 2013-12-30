@@ -137,10 +137,10 @@ LEVEL EDITOR UI
 			+ selecting a cell inside of the Dropdown returns the path to root
 			+ names the box by the cell and it's paths
 			
-=================================================
 	! TileSelector
 		+ Sheet
-		! Grid
+=================================================
+		+ Grid
 		! Cursor
 		! Left release: select tiles, wipe previous tiles
 		! Left hold (0.2 secs): adjust origin, add to previous tiles
