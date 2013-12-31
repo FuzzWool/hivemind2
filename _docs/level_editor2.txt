@@ -141,10 +141,23 @@ LEVEL EDITOR UI
 		+ Sheet
 		+ Grid
 		+ Cursor
+		! Tie into ToolBox
+
+=======================================
+	! ToolBox
+		! 'Nothing' Tool
+		! Tile Tool
+			! Button Graphics
+			! Menu font
+			! Press ctrl: Tile Selector pops up
+
+	! Functionality
+		! Add tiles to the WorldMap
+		! Change tilesheet for Room
+		! Use up to 4 tilesheets at a time
+
 =================================================
-			+ expand
-		! Left release: select tiles, wipe previous tiles
-		! Left hold (0.2 secs): adjust origin, add to previous tiles
+
 
 ! ToolBox
 	! Icons

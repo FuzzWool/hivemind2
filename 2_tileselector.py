@@ -17,6 +17,7 @@ class TileSelector(Box):
 	#################################
 	# PUBLIC
 
+
 	def __init__(self):
 		Box.__init__(self)
 		self.Sheet = self.Sheet("0.png")
@@ -25,14 +26,14 @@ class TileSelector(Box):
 		self.Cursor = self.Cursor()
 
 	def controls(self, Key, Mouse, Camera):
-		self.Cursor.controls(Key, Mouse, Camera)
+		self._control_Cursor(Key, Mouse, Camera)
 
 	def draw(self, target, states):
 		self._parent_Graphics()
 		Box.draw(self, target, states)
 		self.Sheet.draw(target, states)
 		target.draw(self.Grid)
-		self.Cursor.draw(target, states)
+		self._draw_Cursor(target, states)
 
 	#################################
 	# PRIVATE
@@ -50,6 +51,20 @@ class TileSelector(Box):
 		y_move = self.y - self.old_pos[1]
 		self.Cursor.x += x_move
 		self.Cursor.y += y_move
+
+
+	# CURSOR
+
+	_inside_sheet = False
+
+	def _control_Cursor(self, Key, Mouse, Camera):
+		self._inside_sheet = Mouse.inside(self.Sheet)
+		if self._inside_sheet:
+			self.Cursor.controls(Key, Mouse, Camera)
+
+	def _draw_Cursor(self, target, states):
+		if self._inside_sheet:
+			self.Cursor.draw(target, states)
 
 
 	# SHEET
