@@ -8,6 +8,8 @@ class _UI(Drawable, Rectangle):
 	# PUBLIC
 	# The parent controls the children's controls.
 
+	children = []
+
 	def __init__(self):
 		self.children = []
 		self.previous = Rectangle()
