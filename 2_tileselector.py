@@ -82,20 +82,23 @@ class TileSelector(Box):
 
 	#CURSOR
 	class Cursor(Rectangle):
-		
+
 		#################################
 		# PUBLIC
 
-		snap = True
+		expand = True
 		color = Color.WHITE
 
 		def __init__(self):
 			self._create_corners()
 			self.snap = True
 			self.color = Color.WHITE
+			self.expand = True
 
 		def controls(self, Key, Mouse, Camera):
 			self._update_position(Mouse)
+			if self.expand:
+				self._expand(Mouse)
 
 		def draw(self, target, states):
 			self._update_corners_position()
@@ -106,10 +109,41 @@ class TileSelector(Box):
 		# PRIVATE
 
 		# Position
-		# snap
+		_selected = False
+
 		def _update_position(self, Mouse):
-			if self.snap:
+			if not self._selected:
 				self.tile_position = Mouse.tile_position
+				self.tile_size = 0,0
+
+
+		_start_anchor = 0,0
+		_finish_anchor = 0,0
+		def _expand(self, Mouse):
+			#LOGIC
+			#start
+			if Mouse.left.pressed() and not self._selected:
+				self._selected = True
+				self._start_anchor = Mouse.tile_position
+
+			#loop
+			if self._selected:
+				self._finish_anchor = Mouse.tile_position
+
+			#reset
+			if not Mouse.left.held():
+				self._selected = False
+				self._start_anchor = 0,0
+				self._finish_anchor = 0,0
+
+			#EFFECTS
+			if self._selected:
+				x1,y1,x2,y2 = self._start_anchor+self._finish_anchor
+				if x1 > x2: x2,x1 = x1,x2
+				if y1 > y2: y2,y1 = y1,y2
+				self.tile_position = x1,y1
+				self.tile_size = x2-x1,y2-y1
+
 
 		# Corners
 		# color
@@ -129,8 +163,8 @@ class TileSelector(Box):
 
 		def _update_corners_position(self):
 			self._corners[0][0].position = self.x1, self.y1
-			self._corners[0][1].position = self.x1, self.y2
-			self._corners[1][0].position = self.x2, self.y1
+			self._corners[0][1].position = self.x2, self.y1
+			self._corners[1][0].position = self.x1, self.y2
 			self._corners[1][1].position = self.x2, self.y2
 
 		def _update_corners_alpha(self):

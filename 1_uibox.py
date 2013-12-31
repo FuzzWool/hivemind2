@@ -46,17 +46,17 @@ sliderbox.Box.children.append(sbox2)
 ##########################################
 
 while Window.is_open:
-	if Window.is_focused:
+        if Window.is_focused:
 
-		if box2.selected\
-		or Key.BACKSPACE.pressed():
-			box1.close()
+                if box2.selected\
+                or Key.BACKSPACE.pressed():
+                        box1.close()
 
-		if Key.ENTER.pressed():
-			box1.open()
+                if Key.ENTER.pressed():
+                        box1.open()
 
-		box1.controls(Key, Mouse, None)
+                box1.controls(Key, Mouse, None)
 
-	Window.clear((255,220,0))
-	Window.draw(box1)
-	Window.display(Mouse)
+        Window.clear((255,220,0))
+        Window.draw(box1)
+        Window.display(Mouse)

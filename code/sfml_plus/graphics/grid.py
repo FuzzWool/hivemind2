@@ -28,7 +28,7 @@ class Grid(Drawable, Rectangle):
 	_columns = []
 
 	def _create_Lines(self):
-
+		
 		self._columns = []
 		for x in range(self.tile_w+1):
 			r = RectangleShape((1,self.h))
