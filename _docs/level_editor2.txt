@@ -152,11 +152,17 @@ LEVEL EDITOR UI
 =======================================
 				~ fixed: Every Button and Dropdown is called "Dropdown"
 				! Tile Tool Selector remains open when using another Tool
+					! Properly "force close" the Box
 
 			! Menu font
 			! Icon Graphic
 			! Selecting different tools
 				! Glow selected, fade unselected
+
+			#
+			! Windows are created right before they open
+			! Only one widget is active when Widgets overlap
+			! Text is a seperate widget from Button
 
 	! Functionality
 		! Add tiles to the WorldMap

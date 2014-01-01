@@ -45,9 +45,6 @@ class ToolBox(_UI, TweenRectangle):
 	# PRIVATE
 
 
-	# CONTROLS
-
-
 	# BAR
 	Bar = None
 
