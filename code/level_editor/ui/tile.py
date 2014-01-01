@@ -11,7 +11,6 @@ class TileSelector(Box):
 	#################################
 	# PUBLIC
 
-
 	def __init__(self):
 		Box.__init__(self)
 		self.Sheet = self.Sheet("0.png")

@@ -7,6 +7,10 @@ from code.sfml_plus.ui import _UI, Box, Button
 from code.sfml_plus import TweenRectangle
 from sfml import Color
 
+#Tile
+from code.sfml_plus.ui import Box, Dropdown
+from code.level_editor.ui import TileSelector
+
 class ToolBox(_UI, TweenRectangle):
 	
 	#################################
@@ -93,6 +97,10 @@ class _Tool(Button):
 
 	w,h = 80,80
 
+	def __init__(self):
+		Button.__init__(self)
+		self.text = ""
+
 	def active_controls(self, Key, Mouse, Camera):
 		pass
 
@@ -109,15 +117,42 @@ class Tile(_Tool):
 
 	def __init__(self):
 		_Tool.__init__(self)
+		self.Selector = self.Selector()
+		self.Selector.position = 300,150
+		self.Selector.y += 20
 
 	def active_controls(self, Key, Mouse, Camera):
-		print "Tile Tool active"
+		if Key.SPACE.held():
+			self.Selector.open()
+			self.Selector.controls(Key, Mouse, Camera)
+		else:
+			self.Selector.close()
+
+	def draw(self, target, states):
+		_Tool.draw(self, target, states)
+		target.draw(self.Selector)
 
 
 	#################################
 	# PRIVATE
 
-	pass
+	class Selector(Box):
+		#A window for editing tiles.
+		
+		def __init__(self):
+			Box.__init__(self)
+			self.size = 550,275
+			#
+			tileselector = TileSelector()
+			tileselector.tile_x += 1
+			tileselector.tile_y += 1
+			self.children.append(tileselector)
+			#
+			l = ["filler","filler"]
+			dropdown = Dropdown(l)
+			dropdown.center = self.center
+			dropdown.y = self.y2 - dropdown.h
+			self.children.append(dropdown)
 
 
 
@@ -134,7 +169,7 @@ while Window.is_open:
 	if Window.is_focused:
 		ToolBox.controls(Key, Mouse, Camera)
 		
-		if Key.ENTER.pressed(): ToolBox.toggle()
+		if Key.TAB.pressed(): ToolBox.toggle()
 
 	Window.clear((255,220,0))
 	Window.draw(ToolBox)

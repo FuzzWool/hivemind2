@@ -13,24 +13,19 @@ class Box(TweenRectangle, _UI):
 # Events
 # * Fancily opens and closes.
 
-	alpha = 255
+	alpha = 0
 	_alpha_move = 0
 
 	#################################
 	# PUBLIC
 
+	opened = False
 
-	def open(self):
+	def __init__(self):
+		_UI.__init__(self)
+		TweenRectangle.__init__(self)
+		self.opened = False
 		self.alpha = 0
-		self._alpha_move = +30
-		self.tween.y -= 20
-
-	def close(self):
-		self.alpha = 255
-		self._alpha_move = -30
-		self.tween.y += 20
-
-	#
 
 	def draw(self, target, states):
 		self._play()
@@ -46,6 +41,22 @@ class Box(TweenRectangle, _UI):
 
 	def draw_children(self, target, states):
 		_UI.draw(self, target, states)
+
+	#
+
+	def open(self):
+		if self.opened == False:
+			self.opened = True
+			self.alpha = 0
+			self._alpha_move = +30
+			self.tween.y -= 20
+
+	def close(self):
+		if self.opened == True:
+			self.opened = False
+			self.alpha = 255
+			self._alpha_move = -30
+			self.tween.y += 20
 
 
 	#################################
@@ -84,10 +95,6 @@ class Box(TweenRectangle, _UI):
 	# ANIMATION
 	# Saves an alpha, forces the graphics to use it.
 	# The children refresh their positions to keep up.
-
-	def __init__(self):
-		_UI.__init__(self)
-		TweenRectangle.__init__(self)
 
 	def _play(self): #draw
 		self.tween.play()

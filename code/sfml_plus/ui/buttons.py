@@ -19,6 +19,7 @@ class Button(Box):
 		self._held(Mouse)
 		self._color_states()
 		Box.controls(self,Key,Mouse,Camera)
+		self.text = ""
 
 	def draw(self, target, states):
 		Box.draw(self, target, states)

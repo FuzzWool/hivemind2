@@ -148,12 +148,15 @@ LEVEL EDITOR UI
 		+ Toggle
 		+ 'Nothing' Tool
 		! Tile Tool
-			+ selecting different tools
 =======================================
-			~ moved TileSelector to level_editor.ui
-			! Press ctrl: Tile Selector pops up
+			! Hold space: Tile Selector pops up
+				! Every Button and Dropdown is called "Dropdown"
+				! Tile Tool Selector remains open when using another Tool
+
 			! Menu font
 			! Icon Graphic
+			! Selecting different tools
+				! Glow selected, fade unselected
 
 	! Functionality
 		! Add tiles to the WorldMap
