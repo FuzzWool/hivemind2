@@ -148,9 +148,9 @@ LEVEL EDITOR UI
 		+ Toggle
 		+ 'Nothing' Tool
 		! Tile Tool
-=======================================
 			! Hold space: Tile Selector pops up
-				! Every Button and Dropdown is called "Dropdown"
+=======================================
+				~ fixed: Every Button and Dropdown is called "Dropdown"
 				! Tile Tool Selector remains open when using another Tool
 
 			! Menu font

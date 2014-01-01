@@ -7,10 +7,10 @@ class _Dropdown(ToggleButton):
 	# PUBLIC
 	# * Makes cells by taking a list of cell names.
 
-	text = "Untitled Dropdown"
-	w = 125
 
 	def __init__(self, cell_names):
+		self.w = 125
+		
 		self.child = self.child()
 		ToggleButton.__init__(self)
 		self._create_cells(cell_names)

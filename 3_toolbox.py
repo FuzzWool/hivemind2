@@ -142,13 +142,18 @@ class Tile(_Tool):
 		def __init__(self):
 			Box.__init__(self)
 			self.size = 550,275
+			self._add_widgets()
+
+		#
+		
+		def _add_widgets(self):
 			#
 			tileselector = TileSelector()
 			tileselector.tile_x += 1
 			tileselector.tile_y += 1
 			self.children.append(tileselector)
 			#
-			l = ["filler","filler"]
+			l = ["filler1","filler2"]
 			dropdown = Dropdown(l)
 			dropdown.center = self.center
 			dropdown.y = self.y2 - dropdown.h

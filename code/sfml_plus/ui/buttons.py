@@ -13,13 +13,16 @@ class Button(Box):
 
 	w,h = 50,20
 
+	def __init__(self):
+		Box.__init__(self)
+		self._init_Text()
+		
 	def controls(self,Key, Mouse, Camera):
 		self._hover(Mouse)
 		self._select(Mouse)
 		self._held(Mouse)
 		self._color_states()
 		Box.controls(self,Key,Mouse,Camera)
-		self.text = ""
 
 	def draw(self, target, states):
 		Box.draw(self, target, states)
@@ -72,10 +75,11 @@ class Button(Box):
 
 	### TEXT (Optional)
 	# Create, pos/alpha, draw
-
-	_Text = Text(Font("speech"))
-	text = ""
-	_text = text
+	
+	def _init_Text(self):
+		self.text = ""
+		self._Text = Text(Font("speech"))
+		self._text = self.text
 
 	def _draw_Text(self, target, states):
 		#update text
@@ -107,8 +111,8 @@ class ToggleButton(Button):
 
 ####
 
-class Cancel_Button(Button):
 # Graphics - colors/text
+class Cancel_Button(Button):
 
 	hovered_color = Color(255,150,150)
 	held_color = Color.RED
