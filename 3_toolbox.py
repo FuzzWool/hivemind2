@@ -9,7 +9,6 @@ from sfml import Color
 
 class ToolBox(_UI, TweenRectangle):
 	
-
 	#################################
 	# PUBLIC
 
@@ -22,6 +21,8 @@ class ToolBox(_UI, TweenRectangle):
 
 	def controls(self, Key, Mouse, Camera):
 		_UI.controls(self, Key, Mouse, Camera)
+		self._select_Tool(Key, Mouse, Camera)
+		self._control_Tool(Key, Mouse, Camera)
 
 	def draw(self, target, states):
 		TweenRectangle.draw(self)
@@ -39,6 +40,10 @@ class ToolBox(_UI, TweenRectangle):
 	#################################
 	# PRIVATE
 
+
+	# CONTROLS
+
+
 	# BAR
 	Bar = None
 
@@ -47,24 +52,15 @@ class ToolBox(_UI, TweenRectangle):
 		self.Bar.size = w, 20
 		self.children.append(self.Bar)
 
-	# TOOL
-	_Tools = []
 
+	# TOOLS
+	_Tools = []
+	
 	def _create_Tools(self):
-		Nothing = self.Tool()
-		#
-		Tile = self.Tool()
-		Tile.box_fill = Color(255,100,100)
-		Tile.old_fill = Tile.box_fill
-		Tile.hovered_color = Color(255,50,50)
-		Tile.held_color = Color(255,0,0)
-		#
-		Camera = self.Tool()
-		#
-		self._Tools = [Nothing, Tile, Camera]
+		#create
+		self._Tools = [_Tool(), Tile()]
 
 		#move
-		Nothing.x += 500
 		last_tool = None
 		for tool in self._Tools:
 			if last_tool: tool.x = last_tool.x2+1
@@ -73,8 +69,57 @@ class ToolBox(_UI, TweenRectangle):
 		#add
 		for tool in self._Tools: self.children.append(tool)
 
-	class Tool(Button):
-		w,h = 50,50
+
+	_selected_Tool = None
+	def _select_Tool(self, Key, Mouse, Camera):
+		if Mouse.left.pressed():
+			for tool in self._Tools:
+				if Mouse.inside(tool):
+					self._selected_Tool = tool
+
+	def _control_Tool(self, Key, Mouse, Camera):
+		if self._selected_Tool != None:
+			self._selected_Tool.active_controls(Key, Mouse, Camera)
+
+
+#
+
+class _Tool(Button):
+# GRAPHICS
+	# * A tile-shape.
+# LOGIC
+	# * 'Selected' state controlled externally.
+	#	 Has special 'active' controls for it.
+
+	w,h = 80,80
+
+	def active_controls(self, Key, Mouse, Camera):
+		pass
+
+
+class Tile(_Tool):
+
+	#################################
+	# PUBLIC
+
+	box_fill = Color(255,100,100)
+	old_fill = box_fill
+	hovered_color = Color(255,50,50)
+	held_color = Color(255,0,0)
+
+	def __init__(self):
+		_Tool.__init__(self)
+
+	def active_controls(self, Key, Mouse, Camera):
+		print "Tile Tool active"
+
+
+	#################################
+	# PRIVATE
+
+	pass
+
+
 
 
 ##########################################

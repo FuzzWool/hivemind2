@@ -143,14 +143,15 @@ LEVEL EDITOR UI
 		+ Cursor
 		! Tie into ToolBox
 
-=======================================
 	! ToolBox
 		+ Top Strip
 		+ Toggle
 		+ 'Nothing' Tool
 		! Tile Tool
-			! Button Graphics
+=======================================
+			+ selecting different tools
 			! Menu font
+			! Icon Graphic
 			! Press ctrl: Tile Selector pops up
 
 	! Functionality
