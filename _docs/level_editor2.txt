@@ -148,11 +148,12 @@ LEVEL EDITOR UI
 		+ Toggle
 		+ 'Nothing' Tool
 		! Tile Tool
-=======================================
 			+ selecting different tools
+=======================================
+			~ moved TileSelector to level_editor.ui
+			! Press ctrl: Tile Selector pops up
 			! Menu font
 			! Icon Graphic
-			! Press ctrl: Tile Selector pops up
 
 	! Functionality
 		! Add tiles to the WorldMap
