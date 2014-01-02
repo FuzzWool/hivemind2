@@ -48,7 +48,7 @@ class ToolBox(_UI, TweenRectangle):
 	# BAR
 	Bar = None
 
-	def _create_Bar(self, w,h):
+	def _create_Bar(self, w,h): #init
 		self.Bar = Box()
 		self.Bar.size = w, 20
 		self.children.append(self.Bar)
@@ -57,7 +57,7 @@ class ToolBox(_UI, TweenRectangle):
 	# TOOLS
 	_Tools = []
 	
-	def _create_Tools(self):
+	def _create_Tools(self): #init
 		#create
 		self._Tools = [_Tool(), Tile()]
 
@@ -71,14 +71,25 @@ class ToolBox(_UI, TweenRectangle):
 		for tool in self._Tools: self.children.append(tool)
 
 
+	_old_Tool = None
 	_selected_Tool = None
-	def _select_Tool(self, Key, Mouse, Camera):
+	def _select_Tool(self, Key, Mouse, Camera): #controls
+		#tool selected
 		if Mouse.left.pressed():
 			for tool in self._Tools:
 				if Mouse.inside(tool):
 					self._selected_Tool = tool
+		#tool changed
+		if self._old_Tool != None\
+		and self._old_Tool != self._selected_Tool:
+			self._old_Tool.close()
 
-	def _control_Tool(self, Key, Mouse, Camera):
+		self._old_Tool = self._selected_Tool
+
+
+
+
+	def _control_Tool(self, Key, Mouse, Camera): #controls
 		if self._selected_Tool != None:
 			self._selected_Tool.active_controls(Key, Mouse, Camera)
 
@@ -98,8 +109,16 @@ class _Tool(Button):
 		Button.__init__(self)
 		self.text = ""
 
+	#
+
 	def active_controls(self, Key, Mouse, Camera):
+	#Controls the tool uses only while active.
 		pass
+
+	def close(self):
+	#Close all Windows the Tool has opened.
+		pass
+
 
 
 class Tile(_Tool):
@@ -124,6 +143,9 @@ class Tile(_Tool):
 			self.Selector.controls(Key, Mouse, Camera)
 		else:
 			self.Selector.close()
+
+	def close(self):
+		self.Selector.close()
 
 	def draw(self, target, states):
 		_Tool.draw(self, target, states)
