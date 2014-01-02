@@ -148,20 +148,15 @@ LEVEL EDITOR UI
 		+ Toggle
 		+ 'Nothing' Tool
 		! Tile Tool
-			! Hold space: Tile Selector pops up
+			+ Hold space: Tile Selector pops up
 =======================================
-				~ fixed: Every Button and Dropdown is called "Dropdown"
-				~ fixed: Properly "force close" the Box
+			! Selecting different tools
+				~ activity set to open/close
+				! Glow selected, fade unselected
 
 			! Menu font
 			! Icon Graphic
-			! Selecting different tools
-				! Glow selected, fade unselected
 
-			#
-			! Windows are created right before they open
-			! Only one widget is active when Widgets overlap
-			! Text is a seperate widget from Button
 
 	! Functionality
 		! Add tiles to the WorldMap

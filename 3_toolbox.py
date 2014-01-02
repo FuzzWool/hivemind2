@@ -26,7 +26,6 @@ class ToolBox(_UI, TweenRectangle):
 	def controls(self, Key, Mouse, Camera):
 		_UI.controls(self, Key, Mouse, Camera)
 		self._select_Tool(Key, Mouse, Camera)
-		self._control_Tool(Key, Mouse, Camera)
 
 	def draw(self, target, states):
 		TweenRectangle.draw(self)
@@ -79,19 +78,13 @@ class ToolBox(_UI, TweenRectangle):
 			for tool in self._Tools:
 				if Mouse.inside(tool):
 					self._selected_Tool = tool
+					self._selected_Tool.open()
 		#tool changed
 		if self._old_Tool != None\
 		and self._old_Tool != self._selected_Tool:
 			self._old_Tool.close()
 
 		self._old_Tool = self._selected_Tool
-
-
-
-
-	def _control_Tool(self, Key, Mouse, Camera): #controls
-		if self._selected_Tool != None:
-			self._selected_Tool.active_controls(Key, Mouse, Camera)
 
 
 #
@@ -103,22 +96,49 @@ class _Tool(Button):
 	# * 'Selected' state controlled externally.
 	#	 Has special 'active' controls for it.
 
+
+	#################################
+	# PUBLIC
+
 	w,h = 80,80
+	active = False
 
 	def __init__(self):
 		Button.__init__(self)
 		self.text = ""
+		self.active = False
+
+	def draw(self, target, states):
+		self._apply_coloring()
+		Button.draw(self, target, states)
 
 	#
 
-	def active_controls(self, Key, Mouse, Camera):
-	#Controls the tool uses only while active.
-		pass
+	def open(self):
+	#Create all Windows for the Tool.
+		self.active = True
 
 	def close(self):
-	#Close all Windows the Tool has opened.
+	#Close all windows for the Tool.
+		self.active = False
+
+
+	#################################
+	# PRIVATE
+
+	# Color
+	def _init_coloring(self):
 		pass
 
+	def _apply_coloring(self):
+		if not self.active:
+			self.box_fill = Color.WHITE
+
+	class deactive_colors:
+		pass
+
+	class active_colors:
+		pass
 
 
 class Tile(_Tool):
@@ -126,36 +146,46 @@ class Tile(_Tool):
 	#################################
 	# PUBLIC
 
+	active = False
+
 	box_fill = Color(255,100,100)
 	old_fill = box_fill
 	hovered_color = Color(255,50,50)
 	held_color = Color(255,0,0)
 
+
 	def __init__(self):
 		_Tool.__init__(self)
-		self.Selector = self.Selector()
+		self.Selector = self._Selector()
 		self.Selector.position = 300,150
 		self.Selector.y += 20
-
-	def active_controls(self, Key, Mouse, Camera):
-		if Key.SPACE.held():
-			self.Selector.open()
-			self.Selector.controls(Key, Mouse, Camera)
-		else:
-			self.Selector.close()
-
-	def close(self):
-		self.Selector.close()
 
 	def draw(self, target, states):
 		_Tool.draw(self, target, states)
 		target.draw(self.Selector)
 
+	#
+
+	def controls(self, Key, Mouse, Camera):
+		_Tool.controls(self, Key, Mouse, Camera)
+		if self.active:
+			if Key.SPACE.held():
+				self.Selector.open()
+				self.Selector.controls(Key, Mouse, Camera)
+			else:
+				self.Selector.close()
+
+	def open(self):
+		_Tool.open(self)
+
+	def close(self):
+		_Tool.close(self)
+		self.Selector.close()
 
 	#################################
 	# PRIVATE
 
-	class Selector(Box):
+	class _Selector(Box):
 		#A window for editing tiles.
 		
 		def __init__(self):
