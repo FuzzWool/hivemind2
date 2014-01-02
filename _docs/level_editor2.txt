@@ -149,10 +149,10 @@ LEVEL EDITOR UI
 		+ 'Nothing' Tool
 		! Tile Tool
 			+ Hold space: Tile Selector pops up
-=======================================
-			! Selecting different tools
+			
+			+ Selecting different tools
 				~ activity set to open/close
-				! Glow selected, fade unselected
+				+ active_colors, deactive_colors
 
 			! Menu font
 			! Icon Graphic

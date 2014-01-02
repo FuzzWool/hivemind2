@@ -58,7 +58,9 @@ class ToolBox(_UI, TweenRectangle):
 	
 	def _create_Tools(self): #init
 		#create
-		self._Tools = [_Tool(), Tile()]
+		self._Tools = [TileTool(), CameraTool()]
+		self._selected_Tool = self._Tools[0]
+		self._selected_Tool.active = True
 
 		#move
 		last_tool = None
@@ -103,6 +105,20 @@ class _Tool(Button):
 	w,h = 80,80
 	active = False
 
+	class deactive_colors:
+		normal_color = Color(240,240,240)
+		hovered_color = Color(255,255,255)
+		held_color = hovered_color
+		selected_color = hovered_color
+
+	class active_colors:
+		normal_color = Color(240,240,240)
+		hovered_color = Color(255,255,255)
+		held_color = hovered_color
+		selected_color = hovered_color
+
+	#
+
 	def __init__(self):
 		Button.__init__(self)
 		self.text = ""
@@ -128,31 +144,36 @@ class _Tool(Button):
 
 	# Color
 	def _init_coloring(self):
-		pass
+		self.active_colors = self.active_colors()
+		self.deactive_colors = self.deactive_colors()
 
 	def _apply_coloring(self):
-		if not self.active:
-			self.box_fill = Color.WHITE
+		if self.active: group = self.active_colors
+		if not self.active: group = self.deactive_colors
+		#
+		self.box_fill = group.normal_color
+		if self.hovered:
+			self.box_fill = group.hovered_color
+		if self.held:
+			self.box_fill = group.held_color
+		if self.selected:
+			self.box_fill = group.selected_color
 
-	class deactive_colors:
-		pass
 
-	class active_colors:
-		pass
-
-
-class Tile(_Tool):
+class TileTool(_Tool):
 
 	#################################
 	# PUBLIC
 
 	active = False
 
-	box_fill = Color(255,100,100)
-	old_fill = box_fill
-	hovered_color = Color(255,50,50)
-	held_color = Color(255,0,0)
+	class active_colors:
+		normal_color = Color(255,0,0)
+		hovered_color = Color(255,100,100)
+		held_color = hovered_color
+		selected_color = hovered_color
 
+	#
 
 	def __init__(self):
 		_Tool.__init__(self)
@@ -209,6 +230,17 @@ class Tile(_Tool):
 			self.children.append(dropdown)
 
 
+class CameraTool(_Tool):
+
+	#################################
+	# PUBLIC
+
+	active = False
+	class active_colors:
+		normal_color = Color(100,100,100)
+		hovered_color = Color(150,150,150)
+		held_color = hovered_color
+		selected_color = hovered_color
 
 
 ##########################################
