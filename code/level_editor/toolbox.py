@@ -135,7 +135,10 @@ class _Tool(Button):
 
 	def controls(self, Key, Mouse, Camera):
 		Button.controls(self, Key, Mouse, Camera)
-	
+		self._Key = Key
+		self._Mouse = Mouse
+		self._Camera = Camera
+
 	def add_controls(self, WorldMap):
 		pass
 
@@ -225,25 +228,23 @@ class TileTool(_Tool):
 
 	#
 
-	def controls(self, Key, Mouse, Camera):
-		_Tool.controls(self, Key, Mouse, Camera)
-		if self.active:
-
-			#Selector
-			if Key.SPACE.held():
-				self.Selector.open()
-				self.Selector.controls(Key, Mouse, Camera)
-			else:
-				self.Selector.close()
-
-			#Cursor
-			if not self.Selector.opened:
-				self.Cursor.controls(Key, Mouse, Camera)
-
 	def add_controls(self, WorldMap):
 		if not self.active: return
-		
-		pass
+		Key, Mouse, Camera = self._Key, self._Mouse, self._Camera
+
+		#Selector
+		if Key.SPACE.held():
+			self.Selector.open()
+			self.Selector.controls(Key, Mouse, Camera)
+		else:
+			self.Selector.close()
+
+		#Cursor
+		if not self.Selector.opened:
+			self.Cursor.controls(Key, Mouse, Camera)
+			if Mouse.left.pressed():
+				self._change_tile(WorldMap)
+
 
 	def open(self):
 		_Tool.open(self)
@@ -256,6 +257,17 @@ class TileTool(_Tool):
 	# PRIVATE
 
 
+	#Events
+	def _change_tile(self, WorldMap):
+		#pos
+		x = self._Mouse.tile_x + self._Camera.tile_x
+		y = self._Mouse.tile_y + self._Camera.tile_y
+		if not(0 <= x < WorldMap.tile_w): return
+		if not(0 <= y < WorldMap.tile_h): return
+		print x,y
+
+
+	#Selector
 	class _Selector(Box):
 		#A window for editing tiles.
 		

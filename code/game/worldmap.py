@@ -6,6 +6,10 @@ from code.sfml_plus.constants import TILE
 class WorldMap(_WorldMap):
 # * contains all of the Rooms, which then contain Tiles.
 
+	tiles = [] #@property
+
+	#
+
 	#Start
 	def __init__(self, w,h):
 		self.room_size = w,h
