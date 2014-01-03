@@ -7,6 +7,9 @@ from code.sfml_plus.ui import _UI, Box, Button
 from code.sfml_plus import TweenRectangle
 from sfml import Color
 
+#Tool
+from code.sfml_plus import Texture, MySprite
+
 #Tile
 from code.sfml_plus.ui import Box, Dropdown
 from code.level_editor.ui import TileSelector
@@ -58,11 +61,12 @@ class ToolBox(_UI, TweenRectangle):
 	
 	def _create_Tools(self): #init
 		#create
-		self._Tools = [TileTool(), CameraTool()]
+		self._Tools = [TileTool(), CameraTool(), EntityTool()]
 		self._selected_Tool = self._Tools[0]
 		self._selected_Tool.active = True
 
 		#move
+		self._Tools[0].x += 400
 		last_tool = None
 		for tool in self._Tools:
 			if last_tool: tool.x = last_tool.x2+1
@@ -102,8 +106,9 @@ class _Tool(Button):
 	#################################
 	# PUBLIC
 
-	w,h = 80,80
+	w,h = 80,50
 	active = False
+	texture_clip = 0
 
 	class deactive_colors:
 		normal_color = Color(240,240,240)
@@ -123,10 +128,12 @@ class _Tool(Button):
 		Button.__init__(self)
 		self.text = ""
 		self.active = False
+		self._init_sprite()
 
 	def draw(self, target, states):
 		self._apply_coloring()
 		Button.draw(self, target, states)
+		self._draw_sprite(target, states)
 
 	#
 
@@ -159,6 +166,19 @@ class _Tool(Button):
 		if self.selected:
 			self.box_fill = group.selected_color
 
+	#Sprite
+	def _init_sprite(self):
+		texture = Texture.from_file("assets/ui/tools.png")
+		self.sprite = MySprite(texture)
+		self.sprite.clip.set(80,50)
+		self.sprite.clip.use(self.texture_clip, 0)
+
+	def _draw_sprite(self, target, states):
+		self.sprite.center = self.center
+		self.sprite.y -= self.rise_offset
+		target.draw(self.sprite, states)
+
+
 
 class TileTool(_Tool):
 
@@ -166,6 +186,7 @@ class TileTool(_Tool):
 	# PUBLIC
 
 	active = False
+	texture_clip = 0
 
 	class active_colors:
 		normal_color = Color(255,0,0)
@@ -236,9 +257,26 @@ class CameraTool(_Tool):
 	# PUBLIC
 
 	active = False
+	texture_clip = 1
+
 	class active_colors:
 		normal_color = Color(100,100,100)
 		hovered_color = Color(150,150,150)
+		held_color = hovered_color
+		selected_color = hovered_color
+
+
+class EntityTool(_Tool):
+
+	#################################
+	# PUBLIC
+
+	active = False
+	texture_clip = 2
+
+	class active_colors:
+		normal_color = Color(0,255,0)
+		hovered_color = Color(100,255,100)
 		held_color = hovered_color
 		selected_color = hovered_color
 

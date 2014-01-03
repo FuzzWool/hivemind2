@@ -153,9 +153,8 @@ LEVEL EDITOR UI
 			+ Selecting different tools
 				~ activity set to open/close
 				+ active_colors, deactive_colors
-
-			! Menu font
-			! Icon Graphic
+			===========================================
+			+ Icon Graphic
 
 
 	! Functionality
