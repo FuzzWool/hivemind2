@@ -40,5 +40,6 @@ class LevelEditor:
 		self.Background.draw(Window, Camera)
 
 	def draw_objects(self, Window, Camera):
-		self.ToolBox.position = Camera.position
+		Window.view = Window.default_view
 		Window.draw(self.ToolBox)
+		Window.view = Camera

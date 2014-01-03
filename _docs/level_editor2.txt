@@ -157,8 +157,8 @@ LEVEL EDITOR UI
 
 			============================================
 
-			! Move the ToolBox to level_editor.ui, use in main
-				! Fix ToolBox positioning problems
+			~ Move the ToolBox to level_editor.ui, use in main
+				~ Fix ToolBox positioning problems
 			! Adding/Removing WorldMap tiles
 			! Add multiple tiles to the WorldMap
 			! Change Room tilesheet
