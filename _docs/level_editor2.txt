@@ -153,14 +153,13 @@ LEVEL EDITOR UI
 			+ Selecting different tools
 				~ activity set to open/close
 				+ active_colors, deactive_colors
-			===========================================
 			+ Icon Graphic
 
-
-	! Functionality
-		! Add tiles to the WorldMap
-		! Change tilesheet for Room
-		! Use up to 4 tilesheets at a time
+			! Move the ToolBox to leveleditor.ui
+			! Adding/Removing WorldMap tiles
+			! Add multiple tiles to the WorldMap
+			! Change Room tilesheet
+			! Use up to 4 tilesheets at a time
 
 =================================================
 
