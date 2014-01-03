@@ -25,6 +25,7 @@ class ToolBox(_UI, TweenRectangle):
 		_UI.controls(self, Key, Mouse, Camera)
 		self._select_Tool(Key, Mouse, Camera)
 
+
 	def draw(self, target, states):
 		_UI.draw(self, target, states)
 		TweenRectangle.draw(self)
@@ -202,12 +203,12 @@ class TileTool(_Tool):
 		self.Cursor.expand = False
 
 	def draw(self, target, states):
-		_Tool.draw(self, target, states)
 		#Cursor
-		if not self.Selector.opened:
+		if not self.Selector.opened and self.active:
 			self.Cursor.draw(target, states)
 		#Selector
 		target.draw(self.Selector, states)
+		_Tool.draw(self, target, states)
 
 	#
 

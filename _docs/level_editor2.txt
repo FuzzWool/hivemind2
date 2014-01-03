@@ -158,8 +158,8 @@ LEVEL EDITOR UI
 
 			~ Move the ToolBox to level_editor.ui, use in main
 			! Adding/Removing WorldMap tiles
-			============================================
 				+ WorldMap Cursor
+			============================================
 				! Cursor changes Map tiles
 
 			! Priority for focus: ToolBar > Tool 
