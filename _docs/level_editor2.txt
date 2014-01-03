@@ -155,7 +155,10 @@ LEVEL EDITOR UI
 				+ active_colors, deactive_colors
 			+ Icon Graphic
 
-			! Move the ToolBox to leveleditor.ui
+			============================================
+
+			! Move the ToolBox to level_editor.ui, use in main
+				! Fix ToolBox positioning problems
 			! Adding/Removing WorldMap tiles
 			! Add multiple tiles to the WorldMap
 			! Change Room tilesheet
