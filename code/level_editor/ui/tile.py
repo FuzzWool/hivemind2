@@ -16,7 +16,7 @@ class TileSelector(Box):
 		self.Sheet = self.Sheet("0.png")
 		self.size = self.Sheet.size
 		self.Grid = Grid(*self.size)
-		self.Cursor = self.Cursor()
+		self.Cursor = Cursor()
 
 	def controls(self, Key, Mouse, Camera):
 		self._control_Cursor(Key, Mouse, Camera)
@@ -88,101 +88,104 @@ class TileSelector(Box):
 
 
 
-	#CURSOR
-	class Cursor(Rectangle):
-
-		#################################
-		# PUBLIC
-
-		expand = True
-		color = Color.WHITE
-
-		def __init__(self):
-			self._create_corners()
-			self.snap = True
-			self.color = Color.WHITE
-			self.expand = True
-
-		def controls(self, Key, Mouse, Camera):
-			self._update_position(Mouse)
-			if self.expand:
-				self._expand(Mouse)
-
-		def draw(self, target, states):
-			self._update_corners_position()
-			self._update_corners_alpha()
-			self._draw_corners(target, states)
-
-		#################################
-		# PRIVATE
-
-		# Position
-		_selected = False
-
-		def _update_position(self, Mouse):
-			if not self._selected:
-				self.tile_position = Mouse.tile_position
-				self.tile_size = 0,0
 
 
-		_start_anchor = 0,0
-		_finish_anchor = 0,0
-		def _expand(self, Mouse):
-			#LOGIC
-			#start
-			if Mouse.left.pressed() and not self._selected:
-				self._selected = True
-				self._start_anchor = Mouse.tile_position
-
-			#loop
-			if self._selected:
-				self._finish_anchor = Mouse.tile_position
-
-			#reset
-			if not Mouse.left.held():
-				self._selected = False
-				self._start_anchor = 0,0
-				self._finish_anchor = 0,0
-
-			#EFFECTS
-			if self._selected:
-				x1,y1,x2,y2 = self._start_anchor+self._finish_anchor
-				if x1 > x2: x2,x1 = x1,x2
-				if y1 > y2: y2,y1 = y1,y2
-				self.tile_position = x1,y1
-				self.tile_size = x2-x1,y2-y1
 
 
-		# Corners
-		# color
-		_corners = []
+class Cursor(Rectangle):
 
-		def _create_corners(self):
-			self._corners = []
-			t = Texture.from_file("assets/ui/cursor.png")
-			s1 = MySprite(t); s1.clip.set(8,8); s1.clip.use(0,0)
-			s2 = MySprite(t); s2.clip.set(8,8); s2.clip.use(2,0)
-			s3 = MySprite(t); s3.clip.set(8,8); s3.clip.use(0,2)
-			s4 = MySprite(t); s4.clip.set(8,8); s4.clip.use(2,2)
-			s2.origin = -TILE+8,0
-			s3.origin = 0,-TILE+8
-			s4.origin = -TILE+8,-TILE+8
-			self._corners = [[s1,s2],[s3,s4]]
+	#################################
+	# PUBLIC
 
-		def _update_corners_position(self):
-			self._corners[0][0].position = self.x1, self.y1
-			self._corners[0][1].position = self.x2, self.y1
-			self._corners[1][0].position = self.x1, self.y2
-			self._corners[1][1].position = self.x2, self.y2
+	expand = True
+	color = Color(255,255,255,255)
 
-		def _update_corners_alpha(self):
-			for side in self._corners:
-				for edge in side:
-					edge.color = self.color
+	def __init__(self):
+		self._create_corners()
+		self.snap = True
+		self.color = Color(255,255,255,255)
+		self.expand = True
 
-		def _draw_corners(self, target, states):
-			for side in self._corners:
-				for edge in side:
-					target.draw(edge, states)
+	def controls(self, Key, Mouse, Camera):
+		self._update_position(Mouse)
+		if self.expand:
+			self._expand(Mouse)
+
+	def draw(self, target, states):
+		self._update_corners_position()
+		self._update_corners_alpha()
+		self._draw_corners(target, states)
+
+	#################################
+	# PRIVATE
+
+	# Position
+	_selected = False
+
+	def _update_position(self, Mouse):
+		if not self._selected:
+			self.tile_position = Mouse.tile_position
+			self.tile_size = 0,0
+
+
+	_start_anchor = 0,0
+	_finish_anchor = 0,0
+	def _expand(self, Mouse):
+		#LOGIC
+		#start
+		if Mouse.left.pressed() and not self._selected:
+			self._selected = True
+			self._start_anchor = Mouse.tile_position
+
+		#loop
+		if self._selected:
+			self._finish_anchor = Mouse.tile_position
+
+		#reset
+		if not Mouse.left.held():
+			self._selected = False
+			self._start_anchor = 0,0
+			self._finish_anchor = 0,0
+
+		#EFFECTS
+		if self._selected:
+			x1,y1,x2,y2 = self._start_anchor+self._finish_anchor
+			if x1 > x2: x2,x1 = x1,x2
+			if y1 > y2: y2,y1 = y1,y2
+			self.tile_position = x1,y1
+			self.tile_size = x2-x1,y2-y1
+
+
+	# Corners
+	# color
+	_corners = []
+
+	def _create_corners(self):
+		self._corners = []
+		t = Texture.from_file("assets/ui/cursor.png")
+		s1 = MySprite(t); s1.clip.set(8,8); s1.clip.use(0,0)
+		s2 = MySprite(t); s2.clip.set(8,8); s2.clip.use(2,0)
+		s3 = MySprite(t); s3.clip.set(8,8); s3.clip.use(0,2)
+		s4 = MySprite(t); s4.clip.set(8,8); s4.clip.use(2,2)
+		s2.origin = -TILE+8,0
+		s3.origin = 0,-TILE+8
+		s4.origin = -TILE+8,-TILE+8
+		self._corners = [[s1,s2],[s3,s4]]
+
+	def _update_corners_position(self):
+		self._corners[0][0].position = self.x1, self.y1
+		self._corners[0][1].position = self.x2, self.y1
+		self._corners[1][0].position = self.x1, self.y2
+		self._corners[1][1].position = self.x2, self.y2
+
+	def _update_corners_alpha(self):
+		for side in self._corners:
+			for edge in side:
+				edge.color = self.color
+
+	def _draw_corners(self, target, states):
+		for side in self._corners:
+			for edge in side:
+				target.draw(edge, states)
 
 

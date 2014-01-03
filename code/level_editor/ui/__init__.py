@@ -1,1 +1,1 @@
-from tile import TileSelector
+from tile import TileSelector, Cursor

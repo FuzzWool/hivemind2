@@ -7,7 +7,7 @@ from code.sfml_plus import Texture, MySprite
 
 #Tile
 from code.sfml_plus.ui import Box, Dropdown
-from code.level_editor.ui import TileSelector
+from code.level_editor.ui import TileSelector, Cursor
 
 class ToolBox(_UI, TweenRectangle):
 	
@@ -26,8 +26,8 @@ class ToolBox(_UI, TweenRectangle):
 		self._select_Tool(Key, Mouse, Camera)
 
 	def draw(self, target, states):
-		TweenRectangle.draw(self)
 		_UI.draw(self, target, states)
+		TweenRectangle.draw(self)
 
 	#
 
@@ -193,24 +193,38 @@ class TileTool(_Tool):
 
 	def __init__(self):
 		_Tool.__init__(self)
+		#Selector
 		self.Selector = self._Selector()
 		self.Selector.position = 300,150
 		self.Selector.y += 20
+		#Cursor
+		self.Cursor = Cursor()
+		self.Cursor.expand = False
 
 	def draw(self, target, states):
 		_Tool.draw(self, target, states)
-		target.draw(self.Selector)
+		#Cursor
+		if not self.Selector.opened:
+			self.Cursor.draw(target, states)
+		#Selector
+		target.draw(self.Selector, states)
 
 	#
 
 	def controls(self, Key, Mouse, Camera):
 		_Tool.controls(self, Key, Mouse, Camera)
 		if self.active:
+
+			#Selector
 			if Key.SPACE.held():
 				self.Selector.open()
 				self.Selector.controls(Key, Mouse, Camera)
 			else:
 				self.Selector.close()
+
+			#Cursor
+			if not self.Selector.opened:
+				self.Cursor.controls(Key, Mouse, Camera)
 
 	def open(self):
 		_Tool.open(self)
@@ -221,6 +235,7 @@ class TileTool(_Tool):
 
 	#################################
 	# PRIVATE
+
 
 	class _Selector(Box):
 		#A window for editing tiles.
