@@ -19,6 +19,7 @@ LevelEditor = LevelEditor(Window)
 while Window.is_open:
 	if Window.is_focused:
 		LevelEditor.controls(Key, Mouse, Camera)
+		LevelEditor.add_controls(WorldMap)
 
 	Camera.smooth.play()
 

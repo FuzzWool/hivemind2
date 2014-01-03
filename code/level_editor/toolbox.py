@@ -25,6 +25,9 @@ class ToolBox(_UI, TweenRectangle):
 		_UI.controls(self, Key, Mouse, Camera)
 		self._select_Tool(Key, Mouse, Camera)
 
+	def add_controls(self, WorldMap):
+		self._add_controls(WorldMap)
+
 
 	def draw(self, target, states):
 		_UI.draw(self, target, states)
@@ -88,6 +91,10 @@ class ToolBox(_UI, TweenRectangle):
 
 		self._old_Tool = self._selected_Tool
 
+	def _add_controls(self, WorldMap):
+		for tool in self._Tools:
+			tool.add_controls(WorldMap)
+
 
 #
 
@@ -125,6 +132,12 @@ class _Tool(Button):
 		self.text = ""
 		self.active = False
 		self._init_sprite()
+
+	def controls(self, Key, Mouse, Camera):
+		Button.controls(self, Key, Mouse, Camera)
+	
+	def add_controls(self, WorldMap):
+		pass
 
 	def draw(self, target, states):
 		self._apply_coloring()
@@ -226,6 +239,11 @@ class TileTool(_Tool):
 			#Cursor
 			if not self.Selector.opened:
 				self.Cursor.controls(Key, Mouse, Camera)
+
+	def add_controls(self, WorldMap):
+		if not self.active: return
+		
+		pass
 
 	def open(self):
 		_Tool.open(self)

@@ -36,6 +36,9 @@ class LevelEditor:
 		if Key.E.pressed(): Camera.smooth.zoom *= 2
 
 
+	def add_controls(self, WorldMap):
+		self.ToolBox.add_controls(WorldMap)
+
 	def draw_background(self, Window, Camera):
 		self.Background.draw(Window, Camera)
 

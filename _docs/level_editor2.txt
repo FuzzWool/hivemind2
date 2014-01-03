@@ -161,6 +161,7 @@ LEVEL EDITOR UI
 				+ WorldMap Cursor
 			============================================
 				! Cursor changes Map tiles
+					~ add_controls(WorldMap)
 
 			! Priority for focus: ToolBar > Tool 
 
