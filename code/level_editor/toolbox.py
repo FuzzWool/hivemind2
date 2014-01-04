@@ -242,8 +242,10 @@ class TileTool(_Tool):
 		#Cursor
 		if not self.Selector.opened:
 			self.Cursor.controls(Key, Mouse, Camera)
-			if Mouse.left.pressed():
+			if Mouse.left.held():
 				self._change_tile(WorldMap)
+			elif Mouse.right.held():
+				self._change_tile(WorldMap, force="____")
 
 
 	def open(self):
@@ -258,13 +260,17 @@ class TileTool(_Tool):
 
 
 	#Events
-	def _change_tile(self, WorldMap):
+	def _change_tile(self, WorldMap, force=None):
 		#pos
 		x = self._Mouse.tile_x + self._Camera.tile_x
 		y = self._Mouse.tile_y + self._Camera.tile_y
 		if not(0 <= x < WorldMap.tile_w): return
 		if not(0 <= y < WorldMap.tile_h): return
-		print x,y
+		
+		#change
+		new_data = "0000"
+		if force: new_data = force
+		WorldMap.tiles[x][y].data = new_data
 
 
 	#Selector

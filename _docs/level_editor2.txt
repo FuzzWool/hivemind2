@@ -163,10 +163,12 @@ LEVEL EDITOR UI
 					~ add_controls(WorldMap)
 					~ _change_tile
 					~ public, private format for WorldMap
-			============================================
 					~ manually change a tile
+			============================================
+					+ tile tool adds/removes tiles
+					! lag upon changing many tiles w/ moving
 
-
+			! Choose a Tile from TileSelector
 			! Priority for focus: ToolBar > Tool 
 
 			! Add multiple tiles to the WorldMap
