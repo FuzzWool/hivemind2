@@ -94,6 +94,8 @@ class Room(Rectangle):
 		self.size = ROOM_WIDTH, ROOM_HEIGHT
 		self._init_tiles()
 		self._load_tiles(Tile)
+
+		self._init_render()
 		self._render_tiles()
 
 	def draw(self, window):
@@ -122,11 +124,16 @@ class Room(Rectangle):
 				tile = TileClass(x+ox, y+oy, self.child)
 				self.tiles[x][y] = tile
 
-	def _render_tiles(self): #init
 
+	#
+
+	def _init_render(self):
 		s = PrimitiveType.QUADS
 		self.vertex_array = VertexArray(s)
-		
+
+	def _render_tiles(self): #init
+		self.vertex_array.clear()
+
 		for column in self.tiles:
 			for tile in column:
 				tile.render()

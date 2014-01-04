@@ -155,19 +155,18 @@ LEVEL EDITOR UI
 				+ active_colors, deactive_colors
 			+ Icon Graphic
 
-
 			~ Move the ToolBox to level_editor.ui, use in main
-			! Adding/Removing WorldMap tiles
+			+ Adding/Removing WorldMap tiles
 				+ WorldMap Cursor
-				! Cursor changes Map tiles
+				+ Cursor changes Map tiles
 					~ add_controls(WorldMap)
 					~ _change_tile
 					~ public, private format for WorldMap
 					~ manually change a tile
-			============================================
 					+ tile tool adds/removes tiles
-					! lag upon changing many tiles w/ moving
+					~ fixed: lag upon changing many tiles w/ moving
 
+			============================================
 			! Choose a Tile from TileSelector
 			! Priority for focus: ToolBar > Tool 
 
