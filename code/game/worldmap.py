@@ -89,6 +89,7 @@ class Room(Rectangle):
 	# PUBLIC
 
 	def __init__(self, x,y):
+		self.child = self.child()
 		self.room_position = x,y
 		self.size = ROOM_WIDTH, ROOM_HEIGHT
 		self._init_tiles()
@@ -96,6 +97,7 @@ class Room(Rectangle):
 		self._render_tiles()
 
 	def draw(self, window):
+		self._parent_tiles()
 		self._draw_tiles(window)
 
 
@@ -117,7 +119,7 @@ class Room(Rectangle):
 		ox, oy = self.tile_position
 		for x, column in enumerate(self.tiles):
 			for y, _tile in enumerate(column):
-				tile = TileClass(x+ox, y+oy)
+				tile = TileClass(x+ox, y+oy, self.child)
 				self.tiles[x][y] = tile
 
 	def _render_tiles(self): #init
@@ -143,6 +145,15 @@ class Room(Rectangle):
 	def _draw_tiles(self, window): #WorldMap.draw
 		window.draw(self.vertex_array, self.render_states)
 
+	
+	#Parenting
+	def _parent_tiles(self):
+		if self.child.render_request: self._render_tiles()
+		self.child.render_request = False
+
+	class child:
+		render_request = False
+
 
 
 class Tile(Rectangle):
@@ -153,7 +164,8 @@ class Tile(Rectangle):
 	# PUBLIC
 
 	#Start
-	def __init__(self, x,y):
+	def __init__(self, x,y, parent):
+		self.parent = parent
 		self.data = "0000"
 
 		self.tile_position = x,y
@@ -164,6 +176,17 @@ class Tile(Rectangle):
 
 	#################################
 	# PRIVATE
+
+
+	#Child-ing
+	_data = "0000"
+	@property
+	def data(self): return self._data
+	@data.setter
+	def data(self,d):
+		self._data = d
+		self.parent.render_request = True
+
 
 	# Start-up Sequence
 	def _create_vertices(self): #Room.render

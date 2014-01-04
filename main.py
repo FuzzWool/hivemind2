@@ -7,12 +7,13 @@ Mouse = Mouse(Window)
 
 ################################################
 from code.game import WorldMap
-WorldMap = WorldMap(4,4)
-
 from code.sfml_plus import SmoothCamera
-Camera = SmoothCamera(Window)
-
 from code.level_editor import LevelEditor
+
+WorldMap = WorldMap(1,1)
+WorldMap.tiles[0][0].data = "____"
+
+Camera = SmoothCamera(Window)
 LevelEditor = LevelEditor(Window)
 ################################################
 

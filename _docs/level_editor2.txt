@@ -162,9 +162,9 @@ LEVEL EDITOR UI
 				! Cursor changes Map tiles
 					~ add_controls(WorldMap)
 					~ _change_tile
-			============================================
 					~ public, private format for WorldMap
-					! manually change a tile
+			============================================
+					~ manually change a tile
 
 
 			! Priority for focus: ToolBar > Tool 
