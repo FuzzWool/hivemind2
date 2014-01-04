@@ -25,7 +25,7 @@ while Window.is_open:
 
 	Window.clear((255,255,255))
 	Window.view = Camera
-
+   
 	LevelEditor.draw_background(Window, Camera)
 	WorldMap.draw(Window, Camera)
 	LevelEditor.draw_objects(Window, Camera)

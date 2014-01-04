@@ -167,7 +167,10 @@ LEVEL EDITOR UI
 					~ fixed: lag upon changing many tiles w/ moving
 
 			============================================
-			! Choose a Tile from TileSelector
+			+ Choose a Tile from TileSelector
+				+ arrow keys move rooms
+				! old cursor position for TileSelector UI
+
 			! Priority for focus: ToolBar > Tool 
 
 			! Add multiple tiles to the WorldMap

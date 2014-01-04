@@ -14,23 +14,17 @@ class LevelEditor:
 		self.ToolBox.controls(Key, Mouse, Camera)
 		if Key.TAB.pressed(): self.ToolBox.toggle()
 
-		#general
-		if Key.SPACE.pressed():
-			Camera.smooth.room_center =\
-			Camera.smooth.room_center
+		#General
+		if Key.LEFT.pressed(): Camera.smooth.room_x -= 1
+		if Key.RIGHT.pressed(): Camera.smooth.room_x += 1
+		if Key.UP.pressed(): Camera.smooth.room_y -= 1
+		if Key.DOWN.pressed(): Camera.smooth.room_y += 1
 
-		if Key.SPACE.held():
-			if Key.A.pressed(): Camera.smooth.room_x -= 1
-			if Key.D.pressed(): Camera.smooth.room_x += 1
-			if Key.W.pressed(): Camera.smooth.room_y -= 1
-			if Key.S.pressed(): Camera.smooth.room_y += 1
-
-		else:
-			amt = 25
-			if Key.A.held(): Camera.smooth.x -= amt
-			if Key.D.held(): Camera.smooth.x += amt
-			if Key.W.held(): Camera.smooth.y -= amt
-			if Key.S.held(): Camera.smooth.y += amt
+		amt = 25
+		if Key.A.held(): Camera.smooth.x -= amt
+		if Key.D.held(): Camera.smooth.x += amt
+		if Key.W.held(): Camera.smooth.y -= amt
+		if Key.S.held(): Camera.smooth.y += amt
 
 		if Key.Q.pressed(): Camera.smooth.zoom /= 2
 		if Key.E.pressed(): Camera.smooth.zoom *= 2

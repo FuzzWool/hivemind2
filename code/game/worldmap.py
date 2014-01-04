@@ -9,12 +9,12 @@ from sfml import Vertex
 from sfml import Color
 
 
-def Key(self, x,y): #unused
+def Key(x,y): #unused
 #data format for positioning.
 	x,y = str(x),str(y)
-	if len(x) == 1: "0"+x
-	if len(y) == 1: "0"+y
-	return x,y
+	if len(x) == 1: x = "0"+x
+	if len(y) == 1: y = "0"+y
+	return x+y
 
 
 

@@ -243,7 +243,8 @@ class TileTool(_Tool):
 		if not self.Selector.opened:
 			self.Cursor.controls(Key, Mouse, Camera)
 			if Mouse.left.held():
-				self._change_tile(WorldMap)
+				force = self.Selector.selected_tiles[0][0]
+				self._change_tile(WorldMap, force)
 			elif Mouse.right.held():
 				self._change_tile(WorldMap, force="____")
 
@@ -259,7 +260,7 @@ class TileTool(_Tool):
 	# PRIVATE
 
 
-	#Events
+	#WorldMap
 	def _change_tile(self, WorldMap, force=None):
 		#pos
 		x = self._Mouse.tile_x + self._Camera.tile_x
@@ -277,6 +278,11 @@ class TileTool(_Tool):
 	class _Selector(Box):
 		#A window for editing tiles.
 		
+		@property
+		def selected_tiles(self):
+			return self.children[0].selected_tiles
+
+
 		def __init__(self):
 			Box.__init__(self)
 			self.size = 550,275

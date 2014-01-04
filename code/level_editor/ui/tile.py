@@ -4,6 +4,8 @@ from code.sfml_plus import Rectangle
 from code.sfml_plus import Grid
 from code.sfml_plus.constants import TILE
 
+from code.game.worldmap import Key as MapKey
+
 from sfml import Color
 
 class TileSelector(Box):
@@ -11,7 +13,11 @@ class TileSelector(Box):
 	#################################
 	# PUBLIC
 
+	selected_tiles = [["0000"]]
+
 	def __init__(self):
+		self.selected_tiles = [["0000"]]
+		#
 		Box.__init__(self)
 		self.Sheet = self.Sheet("0.png")
 		self.size = self.Sheet.size
@@ -54,6 +60,14 @@ class TileSelector(Box):
 		self._inside_sheet = Mouse.inside(self.Sheet)
 		if self._inside_sheet:
 			self.Cursor.controls(Key, Mouse, Camera)
+
+			#select tiles
+			if self.Cursor.selected:
+				x = self.Cursor.tile_x - self.tile_x
+				y = self.Cursor.tile_y - self.tile_y
+				self.selected_tiles = [[MapKey(x,y)]]
+
+
 
 	def _draw_Cursor(self, target, states):
 		if self._inside_sheet:
@@ -99,14 +113,18 @@ class Cursor(Rectangle):
 
 	expand = True
 	color = Color(255,255,255,255)
+	selected = False
 
 	def __init__(self):
 		self._create_corners()
 		self.snap = True
 		self.color = Color(255,255,255,255)
 		self.expand = True
+		self.selected = False
 
 	def controls(self, Key, Mouse, Camera):
+		self.selected = False
+		if Mouse.left.released(): self.selected = True
 		self._update_position(Mouse)
 		if self.expand:
 			self._expand(Mouse)
