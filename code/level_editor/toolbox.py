@@ -17,13 +17,17 @@ class ToolBox(_UI, TweenRectangle):
 	def __init__(self, w,h):
 		_UI.__init__(self)
 		TweenRectangle.__init__(self)
+		#
 		self._create_Bar(w,h)
 		self._create_Tools()
+		self._init_states()
+		#
 		self.size = w,h
 
 	def controls(self, Key, Mouse, Camera):
 		_UI.controls(self, Key, Mouse, Camera)
 		self._select_Tool(Key, Mouse, Camera)
+		self._state_handling(Key, Mouse, Camera)
 
 	def add_controls(self, WorldMap):
 		self._add_controls(WorldMap)
@@ -42,8 +46,28 @@ class ToolBox(_UI, TweenRectangle):
 		if self.opened == False: self.tween.y = -80
 
 
+
 	#################################
 	# PRIVATE
+
+	_Tools = []
+
+
+	# STATES
+	class states:
+		hovered = False
+
+	def _init_states(self):
+		self.states = self.states()
+		for tool in self._Tools:
+			tool.parent_states = self.states
+
+	def _state_handling(self, Key, Mouse, Camera):
+		#hovered
+		self.states.hovered = False
+		for tool in self._Tools:
+			if Mouse.inside(tool):
+				self.states.hovered = True
 
 
 	# BAR
@@ -55,9 +79,7 @@ class ToolBox(_UI, TweenRectangle):
 		self.children.append(self.Bar)
 
 
-	# TOOLS
-	_Tools = []
-	
+	# TOOLS	
 	def _create_Tools(self): #init
 		#create
 		self._Tools = [TileTool(), CameraTool(), EntityTool()]
@@ -108,6 +130,8 @@ class _Tool(Button):
 
 	#################################
 	# PUBLIC
+
+	parent_states = None
 
 	w,h = 80,50
 	active = False
@@ -197,7 +221,6 @@ class TileTool(_Tool):
 	#################################
 	# PUBLIC
 
-	active = False
 	texture_clip = 0
 
 	class active_colors:
@@ -220,7 +243,8 @@ class TileTool(_Tool):
 
 	def draw(self, target, states):
 		#Cursor
-		if not self.Selector.opened and self.active:
+		if not self.Selector.opened and self.active\
+		and not self.parent_states.hovered:
 			self.Cursor.draw(target, states)
 		#Selector
 		target.draw(self.Selector, states)
@@ -231,8 +255,9 @@ class TileTool(_Tool):
 	def add_controls(self, WorldMap):
 		if not self.active: return
 		Key, Mouse, Camera = self._Key, self._Mouse, self._Camera
+		if not self.parent_states.hovered:
+			self._control_Cursor(Key, Mouse, Camera, WorldMap)
 		self._control_Selector(Key, Mouse, Camera)
-		self._control_Cursor(Key, Mouse, Camera, WorldMap)
 
 
 	def open(self):
@@ -263,9 +288,10 @@ class TileTool(_Tool):
 		self.Cursor.tile_h = h
 
 
+	_old_points = -1,-1,-1,-1
 	def _change_tile(self, WorldMap, erase=False):
-		
-		#pos+size fit
+
+		#fits in map?
 		x = self._Mouse.tile_x + self._Camera.tile_x
 		y = self._Mouse.tile_y + self._Camera.tile_y
 		w = len(self.Selector.selected_tiles)
@@ -273,7 +299,7 @@ class TileTool(_Tool):
 		if not(0 <= x and x+w <= WorldMap.tile_w): return
 		if not(0 <= y and y+h <= WorldMap.tile_h): return
 		
-		#choose
+		#select or erase
 		if erase: all_data = [["____"]*h]*w
 		else: all_data = self.Selector.selected_tiles
 

@@ -173,11 +173,12 @@ LEVEL EDITOR UI
 				+ (selector) grabbing multiple tiles
 				+ (cursor) applying multiple tiles
 					+ (cursor) widens erasing, too
-			=====================================
 				+ (cursor g) widens cursor
 				~ fixed oob glitches
 
-			! Priority for focus: ToolBar > Tool 
+			==============================================
+			+ ToolBar hovered, disable cursor
+				+ (states > parent_states)
 
 			! Change Room tilesheet
 			! Use up to 4 tilesheets at a time

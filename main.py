@@ -10,7 +10,7 @@ from code.game import WorldMap
 from code.sfml_plus import SmoothCamera
 from code.level_editor import LevelEditor
 
-WorldMap = WorldMap(1,1)
+WorldMap = WorldMap(3,3)
 
 Camera = SmoothCamera(Window)
 LevelEditor = LevelEditor(Window)
