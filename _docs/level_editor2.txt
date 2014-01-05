@@ -181,12 +181,13 @@ LEVEL EDITOR UI
 
 			! Change Room tilesheet
 				+ (os) grab tilesheet items
-			==============================================
-				! (Selector) grab tilesheet items (folders, files)
+				+ (Selector) grab tilesheet items (folders, files)
 					+ update dropdown
-					! update sheet sprite
-						! respond to changes
-						! grab first item
+			==============================================
+					+ update sheet sprite
+						+ grab first item
+						+ respond to changes
+
 				! (WorldMap) change room texture
 					! when room is highlighted...
 						! change dropdown name

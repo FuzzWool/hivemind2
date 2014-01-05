@@ -324,14 +324,10 @@ class TileTool(_Tool):
 
 	class _Selector(Box):
 		#A window for editing tiles.
-	
-		# @property
-		# def selected_tilemap(self):
-		# 	return self.dropdown.tilemap
-		# @selected_tilemap.setter
-		# def selected_tilemap(tilemap):
-		# 	self.dropdown.text = tilemap
-		# 	# self.tileselector.tilemap
+
+
+		#################################
+		# PUBLIC
 
 		@property
 		def selected_tiles(self):
@@ -341,10 +337,15 @@ class TileTool(_Tool):
 			Box.__init__(self)
 			self.size = 550,275
 			self._add_widgets()
-
-		#
 		
-		def _add_widgets(self):
+		def controls(self, Key, Mouse, Camera):
+			Box.controls(self, Key, Mouse, Camera)
+			self._change_tilesheet()
+
+		#################################
+		# PRIVATE
+
+		def _add_widgets(self): #init
 			
 			#dropdown
 			#grab
@@ -367,13 +368,24 @@ class TileTool(_Tool):
 			dropdown.center = self.center
 			dropdown.y = self.y2 - dropdown.h
 			self.children.append(dropdown)
+			self._dropdown = dropdown
 
 			#tileselector
-			tileselector = TileSelector("0.png")
+			tileselector = TileSelector(dropdown.text+".png")
 			tileselector.tile_x += 1
 			tileselector.tile_y += 1
 			self.children.append(tileselector)
-			
+			self._tileselector = tileselector
+
+		#
+
+		_old_text = ""
+		def _change_tilesheet(self): #controls
+			if self._old_text != self._dropdown.text:
+				self._tileselector.load(self._dropdown.text+".png")
+			self._old_text = self._dropdown.text
+
+
 
 class CameraTool(_Tool):
 

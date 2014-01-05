@@ -103,6 +103,7 @@ class Dropdown(_Dropdown):
 	def __init__(self, cell_names):
 		self.root = self.root()
 		_Dropdown.__init__(self, cell_names)
+		self._rename()
 
 	def controls(self, Key, Mouse, Camera):
 		_Dropdown.controls(self, Key, Mouse, Camera)
@@ -123,6 +124,15 @@ class Dropdown(_Dropdown):
 	
 	# CONTROLS
 	def _rename(self):
+		#init
+		if self.text == "":
+			cell = self.cells[0]
+			while type(cell) == Dropdown_Dropdown:
+				self.text = self.text + cell.text
+				cell = cell.cells[0]
+			self.text = self.text + cell.text
+
+		#select
 		if self.root.selected_cell:
 			name = self.root.selected_cell.text
 			#path name

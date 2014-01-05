@@ -141,9 +141,9 @@ class Room(Rectangle):
 					self.vertex_array.append(point)
 
 		if self.room_position in [(0,0),(1,1)]:
-			t = Texture.from_file("assets/tilesheets/0.png")
+			t = Texture.from_file("assets/tilesheets/_default/0.png")
 		else:
-			t = Texture.from_file("assets/tilesheets/1.png")
+			t = Texture.from_file("assets/tilesheets/_default/1.png")
 		self.render_states = RenderStates()
 		self.render_states.texture = t
 

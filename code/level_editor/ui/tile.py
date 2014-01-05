@@ -41,7 +41,7 @@ class TileSelector(Box):
 	#
 
 	def load(self,texture):
-		self.Sheet.texture = texture
+		self.Sheet.change_sprite("assets/tilesheets/"+texture)
 
 	#################################
 	# PRIVATE
@@ -102,6 +102,9 @@ class TileSelector(Box):
 	# SHEET
 	class Sheet(Rectangle):
 
+		#################################
+		# PUBLIC
+
 		def __init__(self, name):
 			Rectangle.__init__(self)
 			self._create_sprite(name)
@@ -110,6 +113,12 @@ class TileSelector(Box):
 			self._parent_sprite()
 			self._draw_sprite(target, states)
 		#
+
+		def change_sprite(self, texture):
+			self._sprite.texture = Texture.from_file(texture)
+
+		#################################
+		# PRIVATE
 
 		_sprite = None
 		def _create_sprite(self, name):
