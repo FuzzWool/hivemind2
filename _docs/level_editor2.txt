@@ -176,13 +176,13 @@ LEVEL EDITOR UI
 				+ (cursor g) widens cursor
 				~ fixed oob glitches
 
-			==============================================
 			+ ToolBar hovered, disable cursor
 				+ (states > parent_states)
 
+			==============================================
 			! Change Room tilesheet
-			! Use up to 4 tilesheets at a time
-			! Gradient effects for UI
+
+			! Grid Toggle Button
 
 =================================================
 
