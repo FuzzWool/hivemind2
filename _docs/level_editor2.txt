@@ -155,7 +155,6 @@ LEVEL EDITOR UI
 				+ active_colors, deactive_colors
 			+ Icon Graphic
 
-			~ Move the ToolBox to level_editor.ui, use in main
 			+ Adding/Removing WorldMap tiles
 				+ WorldMap Cursor
 				+ Cursor changes Map tiles
@@ -170,15 +169,13 @@ LEVEL EDITOR UI
 				+ arrow keys move rooms
 				+ old cursor position for TileSelector UI
 
-			============================================
-			! Add multiple tiles to the WorldMap
+			+ Multi-tile placement
 				+ (selector) grabbing multiple tiles
 				+ (cursor) applying multiple tiles
 					+ (cursor) widens erasing, too
-
-				! (cursor g) widens cursor
-				! check for oob glitches
-
+			=====================================
+				+ (cursor g) widens cursor
+				~ fixed oob glitches
 
 			! Priority for focus: ToolBar > Tool 
 

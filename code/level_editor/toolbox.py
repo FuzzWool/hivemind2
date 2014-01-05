@@ -247,12 +247,20 @@ class TileTool(_Tool):
 
 	#Cursor
 	def _control_Cursor(self, Key, Mouse, Camera, WorldMap):
+
+		#change tiles
 		if not self.Selector.opened:
 			self.Cursor.controls(Key, Mouse, Camera)
 			if Mouse.left.held():
 				self._change_tile(WorldMap)
 			elif Mouse.right.held():
 				self._change_tile(WorldMap, erase=True)
+
+		#widen
+		w = len(self.Selector.selected_tiles)-1
+		h = len(self.Selector.selected_tiles[0])-1
+		self.Cursor.tile_w = w
+		self.Cursor.tile_h = h
 
 
 	def _change_tile(self, WorldMap, erase=False):
@@ -262,9 +270,8 @@ class TileTool(_Tool):
 		y = self._Mouse.tile_y + self._Camera.tile_y
 		w = len(self.Selector.selected_tiles)
 		h = len(self.Selector.selected_tiles[0])
-		if not(0 < x+w <= WorldMap.tile_w): return
-		if not(0 < y+h <= WorldMap.tile_h): return
-		
+		if not(0 <= x and x+w <= WorldMap.tile_w): return
+		if not(0 <= y and y+h <= WorldMap.tile_h): return
 		
 		#choose
 		if erase: all_data = [["____"]*h]*w

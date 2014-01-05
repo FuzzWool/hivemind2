@@ -85,7 +85,6 @@ class TileSelector(Box):
 					self.selected_tiles.append([])
 					for y in range(y1,y2+1):
 						self.selected_tiles[-1].append(MapKey(x,y))
-				print self.selected_tiles
 
 
 
