@@ -23,9 +23,13 @@ class TileSelector(Box):
 		self.size = self.Sheet.size
 		self.Grid = Grid(*self.size)
 		self.Cursor = Cursor()
+		self.Old_Cursor = Cursor()
 
 	def controls(self, Key, Mouse, Camera):
 		self._control_Cursor(Key, Mouse, Camera)
+		if self.Cursor.selected:
+			self.Old_Cursor.position = self.Cursor.position
+			self.Old_Cursor.size = self.Cursor.size
 
 	def draw(self, target, states):
 		self._parent_Graphics()
@@ -45,12 +49,16 @@ class TileSelector(Box):
 		self.Sheet.alpha = self.alpha
 		self.Sheet.position = self.position
 		#
-		c=self.Cursor.color;c.a=self.alpha;self.Cursor.color=c
-		x_move = self.x - self.old_pos[0]
-		y_move = self.y - self.old_pos[1]
-		self.Cursor.x += x_move
-		self.Cursor.y += y_move
 
+		def update_cursors(cursor, div=1):
+			c=cursor.color;c.a=self.alpha/div;cursor.color=c
+			x_move = self.x - self.old_pos[0]
+			y_move = self.y - self.old_pos[1]
+			cursor.x += x_move
+			cursor.y += y_move
+		#
+		update_cursors(self.Cursor, 1)
+		update_cursors(self.Old_Cursor, 2)
 
 	# CURSOR
 
@@ -72,6 +80,7 @@ class TileSelector(Box):
 	def _draw_Cursor(self, target, states):
 		if self._inside_sheet:
 			self.Cursor.draw(target, states)
+		self.Old_Cursor.draw(target, states)
 
 
 	# SHEET
@@ -113,7 +122,7 @@ class Cursor(Rectangle):
 
 	expand = True
 	color = Color(255,255,255,255)
-	selected = False
+	selected = False #readonly
 
 	def __init__(self):
 		self._create_corners()
@@ -123,8 +132,6 @@ class Cursor(Rectangle):
 		self.selected = False
 
 	def controls(self, Key, Mouse, Camera):
-		self.selected = False
-		if Mouse.left.released(): self.selected = True
 		self._update_position(Mouse)
 		if self.expand:
 			self._expand(Mouse)
@@ -145,6 +152,9 @@ class Cursor(Rectangle):
 			self.tile_position = Mouse.tile_position
 			self.tile_size = 0,0
 
+			if not Mouse.left.released():
+				self.selected = False
+
 
 	_start_anchor = 0,0
 	_finish_anchor = 0,0
@@ -160,7 +170,9 @@ class Cursor(Rectangle):
 			self._finish_anchor = Mouse.tile_position
 
 		#reset
+		self.selected = False
 		if not Mouse.left.held():
+			if self._selected: self.selected = True
 			self._selected = False
 			self._start_anchor = 0,0
 			self._finish_anchor = 0,0
@@ -172,6 +184,7 @@ class Cursor(Rectangle):
 			if y1 > y2: y2,y1 = y1,y2
 			self.tile_position = x1,y1
 			self.tile_size = x2-x1,y2-y1
+
 
 
 	# Corners
