@@ -335,12 +335,15 @@ class TileTool(_Tool):
 		#
 		
 		def _add_widgets(self):
-			#
+			
+			#tileselector
 			tileselector = TileSelector()
 			tileselector.tile_x += 1
 			tileselector.tile_y += 1
 			self.children.append(tileselector)
-			#
+			
+			#dropdown
+			print __file__
 			l = ["filler1","filler2"]
 			dropdown = Dropdown(l)
 			dropdown.center = self.center

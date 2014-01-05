@@ -181,6 +181,12 @@ LEVEL EDITOR UI
 
 			==============================================
 			! Change Room tilesheet
+				+ (os) grab tilesheet items
+				! (Selector) grab tilesheet items (folders, files)
+					! update dropdown
+					! update sheet sprite
+				! (WorldMap) change room texture
+				! (sheet changed) remove old texture, use default texture
 
 			! Grid Toggle Button
 
