@@ -325,8 +325,10 @@ class TileTool(_Tool):
 		if not(0 <= x < WorldMap.room_w): return
 		if not(0 <= y < WorldMap.room_h): return
 		
-		pass
-
+		#update Selector's name.
+		if self.Selector.text != WorldMap.rooms[x][y].tilesheet: 
+			self.Selector.text = WorldMap.rooms[x][y].tilesheet
+			print "Selector text changed for WorldMap"
 
 
 	#Selector
@@ -346,6 +348,8 @@ class TileTool(_Tool):
 		#################################
 		# PUBLIC
 
+		text = None
+
 		@property
 		def selected_tiles(self):
 			return self.children[1].selected_tiles
@@ -361,6 +365,13 @@ class TileTool(_Tool):
 
 		#################################
 		# PRIVATE
+
+		@property
+		def text(self): return self._dropdown.text
+		@text.setter
+		def text(self, t): self._dropdown.text = t
+
+		#
 
 		def _add_widgets(self): #init
 			#dropdown

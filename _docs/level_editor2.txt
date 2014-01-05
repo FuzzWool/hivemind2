@@ -183,16 +183,18 @@ LEVEL EDITOR UI
 				+ (os) grab tilesheet items
 				+ (Selector) grab tilesheet items (folders, files)
 			==============================================
-				! Hover Room. Change tilesheet.
+				+ hover room. change tilesheet.
 					(+ Room.tilesheet)
-					! Selector
-						! change dropdown name
-						! change sheet sprite
 
 				! Select a new sheet. Change Room.
 
 
 				! (error: sheet removed) remove old texture, use default texture
+			
+
+			! Room render amount (stress test with kune and jerky)
+				! FPS Counter (test by lagging self)
+
 
 			! Grid Toggle Button
 
