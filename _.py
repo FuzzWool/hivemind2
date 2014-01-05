@@ -1,1 +1,3 @@
-#Masking Sprites.
+#List generation
+
+print [["____"]*5]*10

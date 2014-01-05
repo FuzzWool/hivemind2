@@ -231,22 +231,8 @@ class TileTool(_Tool):
 	def add_controls(self, WorldMap):
 		if not self.active: return
 		Key, Mouse, Camera = self._Key, self._Mouse, self._Camera
-
-		#Selector
-		if Key.SPACE.held():
-			self.Selector.open()
-			self.Selector.controls(Key, Mouse, Camera)
-		else:
-			self.Selector.close()
-
-		#Cursor
-		if not self.Selector.opened:
-			self.Cursor.controls(Key, Mouse, Camera)
-			if Mouse.left.held():
-				force = self.Selector.selected_tiles[0][0]
-				self._change_tile(WorldMap, force)
-			elif Mouse.right.held():
-				self._change_tile(WorldMap, force="____")
+		self._control_Selector(Key, Mouse, Camera)
+		self._control_Cursor(Key, Mouse, Camera, WorldMap)
 
 
 	def open(self):
@@ -259,29 +245,54 @@ class TileTool(_Tool):
 	#################################
 	# PRIVATE
 
+	#Cursor
+	def _control_Cursor(self, Key, Mouse, Camera, WorldMap):
+		if not self.Selector.opened:
+			self.Cursor.controls(Key, Mouse, Camera)
+			if Mouse.left.held():
+				self._change_tile(WorldMap)
+			elif Mouse.right.held():
+				self._change_tile(WorldMap, erase=True)
 
-	#WorldMap
-	def _change_tile(self, WorldMap, force=None):
-		#pos
+
+	def _change_tile(self, WorldMap, erase=False):
+		
+		#pos+size fit
 		x = self._Mouse.tile_x + self._Camera.tile_x
 		y = self._Mouse.tile_y + self._Camera.tile_y
-		if not(0 <= x < WorldMap.tile_w): return
-		if not(0 <= y < WorldMap.tile_h): return
+		w = len(self.Selector.selected_tiles)
+		h = len(self.Selector.selected_tiles[0])
+		if not(0 < x+w <= WorldMap.tile_w): return
+		if not(0 < y+h <= WorldMap.tile_h): return
 		
-		#change
-		new_data = "0000"
-		if force: new_data = force
-		WorldMap.tiles[x][y].data = new_data
+		
+		#choose
+		if erase: all_data = [["____"]*h]*w
+		else: all_data = self.Selector.selected_tiles
+
+		#change multi
+		for ox in range(w):
+			for oy in range(h):
+				data = all_data[ox][oy]
+				WorldMap.tiles[x+ox][y+oy].data = data
 
 
 	#Selector
+	def _control_Selector(self, Key, Mouse, Camera):
+
+		if Key.SPACE.held():
+			self.Selector.open()
+			self.Selector.controls(Key, Mouse, Camera)
+		else:
+			self.Selector.close()
+
+
 	class _Selector(Box):
 		#A window for editing tiles.
 		
 		@property
 		def selected_tiles(self):
 			return self.children[0].selected_tiles
-
 
 		def __init__(self):
 			Box.__init__(self)

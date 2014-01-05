@@ -171,9 +171,17 @@ LEVEL EDITOR UI
 				+ old cursor position for TileSelector UI
 
 			============================================
+			! Add multiple tiles to the WorldMap
+				+ (selector) grabbing multiple tiles
+				+ (cursor) applying multiple tiles
+					+ (cursor) widens erasing, too
+
+				! (cursor g) widens cursor
+				! check for oob glitches
+
+
 			! Priority for focus: ToolBar > Tool 
 
-			! Add multiple tiles to the WorldMap
 			! Change Room tilesheet
 			! Use up to 4 tilesheets at a time
 			! Gradient effects for UI

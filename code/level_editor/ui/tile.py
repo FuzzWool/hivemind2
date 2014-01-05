@@ -71,9 +71,21 @@ class TileSelector(Box):
 
 			#select tiles
 			if self.Cursor.selected:
-				x = self.Cursor.tile_x - self.tile_x
-				y = self.Cursor.tile_y - self.tile_y
-				self.selected_tiles = [[MapKey(x,y)]]
+				x1 = self.Cursor.tile_x1 - self.tile_x
+				y1 = self.Cursor.tile_y1 - self.tile_y
+				x2 = self.Cursor.tile_x2 - self.tile_x
+				y2 = self.Cursor.tile_y2 - self.tile_y
+
+				#single
+				# self.selected_tiles = [[MapKey(x1,y1)]]
+
+				#multi
+				self.selected_tiles = []
+				for x in range(x1,x2+1):
+					self.selected_tiles.append([])
+					for y in range(y1,y2+1):
+						self.selected_tiles[-1].append(MapKey(x,y))
+				print self.selected_tiles
 
 
 
