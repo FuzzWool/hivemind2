@@ -8,6 +8,8 @@ from code.sfml_plus import Texture, MySprite
 #Tile
 from code.sfml_plus.ui import Box, Dropdown
 from code.level_editor.ui import TileSelector, Cursor
+import os
+
 
 class ToolBox(_UI, TweenRectangle):
 	
@@ -322,10 +324,18 @@ class TileTool(_Tool):
 
 	class _Selector(Box):
 		#A window for editing tiles.
-		
+	
+		# @property
+		# def selected_tilemap(self):
+		# 	return self.dropdown.tilemap
+		# @selected_tilemap.setter
+		# def selected_tilemap(tilemap):
+		# 	self.dropdown.text = tilemap
+		# 	# self.tileselector.tilemap
+
 		@property
 		def selected_tiles(self):
-			return self.children[0].selected_tiles
+			return self.children[1].selected_tiles
 
 		def __init__(self):
 			Box.__init__(self)
@@ -336,20 +346,34 @@ class TileTool(_Tool):
 		
 		def _add_widgets(self):
 			
-			#tileselector
-			tileselector = TileSelector()
-			tileselector.tile_x += 1
-			tileselector.tile_y += 1
-			self.children.append(tileselector)
-			
 			#dropdown
-			print __file__
-			l = ["filler1","filler2"]
+			#grab
+			def grab_list(directory):
+				os.chdir(directory)
+				l = []
+				for files in os.listdir("."):
+					if files.endswith(".png"):
+						l.append(files[:-4])
+					else:
+						l.append([files]+grab_list(directory+"/"+files))
+				return l
+
+			old_dir = os.getcwd()
+			l = grab_list(os.getcwd()+"/assets/tilesheets/")
+			os.chdir(old_dir)
+			#
+
 			dropdown = Dropdown(l)
 			dropdown.center = self.center
 			dropdown.y = self.y2 - dropdown.h
 			self.children.append(dropdown)
 
+			#tileselector
+			tileselector = TileSelector("0.png")
+			tileselector.tile_x += 1
+			tileselector.tile_y += 1
+			self.children.append(tileselector)
+			
 
 class CameraTool(_Tool):
 

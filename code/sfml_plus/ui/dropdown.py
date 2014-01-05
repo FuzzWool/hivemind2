@@ -192,10 +192,10 @@ class Dropdown_Dropdown(_Dropdown):
 
 	def __init__(self, cell_names, root, parent):
 		if len(cell_names) == 0: raise "needs name and cells"
-		self.text = cell_names[0]+"/"
 		self.root = root
 		self.parent = parent
 		_Dropdown.__init__(self, cell_names[1:])
+		self.text = cell_names[0]+"/"
 
 	def controls(self, Key, Mouse, Camera):
 		_Dropdown.controls(self, Key, Mouse, Camera)

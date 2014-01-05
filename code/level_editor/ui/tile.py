@@ -15,11 +15,11 @@ class TileSelector(Box):
 
 	selected_tiles = [["0000"]]
 
-	def __init__(self):
+	def __init__(self,texture):
 		self.selected_tiles = [["0000"]]
 		#
 		Box.__init__(self)
-		self.Sheet = self.Sheet("0.png")
+		self.Sheet = self.Sheet(texture)
 		self.size = self.Sheet.size
 		self.Grid = Grid(*self.size)
 		self.Cursor = Cursor()
@@ -37,6 +37,11 @@ class TileSelector(Box):
 		self.Sheet.draw(target, states)
 		target.draw(self.Grid)
 		self._draw_Cursor(target, states)
+
+	#
+
+	def load(self,texture):
+		self.Sheet.texture = texture
 
 	#################################
 	# PRIVATE
