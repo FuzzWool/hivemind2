@@ -9,9 +9,9 @@ Mouse = Mouse(Window)
 from code.game import WorldMap
 from code.sfml_plus import SmoothCamera
 from code.level_editor import LevelEditor
+from sfml import Texture
 
 WorldMap = WorldMap(3,3)
-
 Camera = SmoothCamera(Window)
 LevelEditor = LevelEditor(Window)
 ################################################

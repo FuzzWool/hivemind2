@@ -88,6 +88,8 @@ class Room(Rectangle):
 	#################################
 	# PUBLIC
 
+	tilesheet = ""
+
 	def __init__(self, x,y):
 		self.child = self.child()
 		self.room_position = x,y
@@ -105,6 +107,23 @@ class Room(Rectangle):
 
 	#################################
 	# PRIVATE
+
+	render_states = None
+	
+	#Tilesheet (Texture)
+
+	_tilesheet = ""
+	@property
+	def tilesheet(self):
+		return self._tilesheet
+	@tilesheet.setter
+	def tilesheet(self, t):
+		self._tilesheet = t
+		self.render_states = RenderStates()
+		self.render_states.texture\
+		 = Texture.from_file("assets/tilesheets/"+t+".png")
+
+	#Tiles
 
 	def _init_tiles(self): #init
 		tiles = []
@@ -141,12 +160,9 @@ class Room(Rectangle):
 					self.vertex_array.append(point)
 
 		if self.room_position in [(0,0),(1,1)]:
-			t = Texture.from_file("assets/tilesheets/_default/0.png")
+			self.tilesheet = "_default/0"
 		else:
-			t = Texture.from_file("assets/tilesheets/_default/1.png")
-		self.render_states = RenderStates()
-		self.render_states.texture = t
-
+			self.tilesheet = "_default/1"
 	#
 
 	def _draw_tiles(self, window): #WorldMap.draw

@@ -9,7 +9,7 @@ from code.sfml_plus import Texture, MySprite
 from code.sfml_plus.ui import Box, Dropdown
 from code.level_editor.ui import TileSelector, Cursor
 import os
-
+from code.sfml_plus.constants import ROOM_WIDTH, ROOM_HEIGHT
 
 class ToolBox(_UI, TweenRectangle):
 	
@@ -289,9 +289,15 @@ class TileTool(_Tool):
 		self.Cursor.tile_w = w
 		self.Cursor.tile_h = h
 
+		#change texture
+		if not self.Selector.opened:
+			self._change_texture(WorldMap)
+
+
 
 	_old_points = -1,-1,-1,-1
 	def _change_tile(self, WorldMap, erase=False):
+		#Change WorldMap tiles.
 
 		#fits in map?
 		x = self._Mouse.tile_x + self._Camera.tile_x
@@ -310,6 +316,17 @@ class TileTool(_Tool):
 			for oy in range(h):
 				data = all_data[ox][oy]
 				WorldMap.tiles[x+ox][y+oy].data = data
+
+
+	def _change_texture(self, WorldMap):
+		#Change the textures in WorldMap Rooms.
+		x = int((self._Mouse.x+self._Camera.center[0])/ROOM_WIDTH)-1
+		y = int((self._Mouse.y+self._Camera.center[1])/ROOM_HEIGHT)-1
+		if not(0 <= x < WorldMap.room_w): return
+		if not(0 <= y < WorldMap.room_h): return
+		
+		pass
+
 
 
 	#Selector
@@ -346,7 +363,6 @@ class TileTool(_Tool):
 		# PRIVATE
 
 		def _add_widgets(self): #init
-			
 			#dropdown
 			#grab
 			def grab_list(directory):
