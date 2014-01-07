@@ -186,9 +186,8 @@ LEVEL EDITOR UI
 			==============================================
 
 				! Multiple tilesheets per room
-					! Rooms are initialized on the fly
-					! Room render amount (stress test with kune and jerky)
-						! FPS Counter (test by lagging self)
+					! Render Arrays for every tilesheet
+					! 5 Room Renders
 
 
 			! (Alt) Eyedropper Tool
@@ -202,6 +201,29 @@ LEVEL EDITOR UI
 
 			! Grid Toggle Button
 			! Fix Tile Cursor graphics/logic for Zooming
+
+
+
+		! Entity Tool
+
+
+		! Level Tool
+		A Level is a a collection of Rooms seperated from the WorldMap for loading.
+		Sets loading for all of the Level's tiles and entities.
+		All Rooms are unloaded. Unloaded, They are generic boxes.
+		When loaded, they become editable.
+
+			! Get: Rooms are (un)loaded.
+				! (Click) A level is loaded/unloaded.
+					! Up to 5 levels may be loaded at one time.
+
+			! Set: Rooms are set to be batched in a Level.
+				! (Space+Click) A Room is assigned to a Level.
+					! Up to 50(?) rooms may be in a level.
+
+			! Entity loading/limits
+
+
 
 =================================================
 
