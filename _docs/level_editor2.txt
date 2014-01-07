@@ -183,12 +183,15 @@ LEVEL EDITOR UI
 				+ (os) grab tilesheet items
 				+ (Selector) grab tilesheet items (folders, files)
 
-			==============================================
 
 				! Multiple tilesheets per room
-					! Render Arrays for every tilesheet
-						~ tile.data format changed (sheet/xx/yy)
-					! 5 Room Renders
+					~ tile.data format changed (sheet/xx/yy)
+=====================================================================
+					~ lists of _render_arrays and _render_states
+					
+					! Adding new textures from Selector.
+						! Select a new texture. Add to room if space.
+						! Error for going over sheet limit (5) per room 
 
 
 			! (Alt) Eyedropper Tool
@@ -213,6 +216,9 @@ LEVEL EDITOR UI
 		Sets loading for all of the Level's tiles and entities.
 		All Rooms are unloaded. Unloaded, They are generic boxes.
 		When loaded, they become editable.
+
+			! Recycling textures. Loads in advance for Level to cut stress.
+			(Texture limit per Level: 40(?))
 
 			! Get: Rooms are (un)loaded.
 				! (Click) A level is loaded/unloaded.

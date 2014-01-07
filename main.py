@@ -21,7 +21,6 @@ while Window.is_open:
 		LevelEditor.controls(Key, Mouse, Camera)
 		LevelEditor.add_controls(WorldMap)
 
-
 	Camera.smooth.play()
 
 	Window.clear((255,255,255))

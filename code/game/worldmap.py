@@ -88,7 +88,8 @@ class Room(Rectangle):
 	#################################
 	# PUBLIC
 
-	tilesheet = ""
+	tilesheets = [] 
+	TILESHEET_CAP = 5
 
 	def __init__(self, x,y):
 		self.child = self.child()
@@ -108,22 +109,9 @@ class Room(Rectangle):
 	#################################
 	# PRIVATE
 
-	render_states = None
-	
-	#Tilesheet (Texture)
 
-	_tilesheet = ""
-	@property
-	def tilesheet(self):
-		return self._tilesheet
-	@tilesheet.setter
-	def tilesheet(self, t):
-		self._tilesheet = t
-		self.render_states = RenderStates()
-		self.render_states.texture\
-		 = Texture.from_file("assets/tilesheets/"+t+".png")
-
-	#Tiles
+	###
+	#TILES
 
 	def _init_tiles(self): #init
 		tiles = []
@@ -144,31 +132,62 @@ class Room(Rectangle):
 				self.tiles[x][y] = tile
 
 
-	#
+	###
+	#RENDERING
+
+	_vertex_arrays = []
+	_render_states = []
 
 	def _init_render(self):
+
+		#init arrays
+		self._vertex_arrays = []
 		s = PrimitiveType.QUADS
-		self.vertex_array = VertexArray(s)
+		for i in range(self.TILESHEET_CAP):
+			self._vertex_arrays.append(VertexArray(s))
+
+		#init states
+		self._render_states = []
+		for i in range(self.TILESHEET_CAP):
+			self._render_states.append(RenderStates())
+			s = "_default/%s.png" % str(i)
+			t = Texture.from_file("assets/tilesheets/"+s)
+			self._render_states[-1].texture = t
+
 
 	def _render_tiles(self): #init
-		self.vertex_array.clear()
+		
+		#clear arrays
+		for array in self._vertex_arrays:
+			array.clear()
 
+		#append arrays
 		for column in self.tiles:
 			for tile in column:
 				tile.render()
 				for point in tile.vertices:
-					self.vertex_array.append(point)
+					
+					#choose array (texture)
+					if tile.data[0] == "_":
+						pass
+					else:
+						no = int(tile.data[0])
+						if tile.tile_y < 5: no = tile.tile_y 
+						self._vertex_arrays[no].append(point)
 
-		if self.room_position in [(0,0),(1,1)]:
-			self.tilesheet = "_default/0"
-		else:
-			self.tilesheet = "_default/1"
-	#
+
+		# #change states (texture)
+		# for tilesheet in self.tilesheets:
+		# 	tilesheet = "_default/0"
+
 
 	def _draw_tiles(self, window): #WorldMap.draw
-		window.draw(self.vertex_array, self.render_states)
+		for i, _s in enumerate(self._vertex_arrays):
+			window.draw(self._vertex_arrays[i], self._render_states[i])
 
-	
+	#
+
+
 	#Parenting
 	def _parent_tiles(self):
 		if self.child.render_request: self._render_tiles()
