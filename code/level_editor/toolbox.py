@@ -319,15 +319,16 @@ class TileTool(_Tool):
 
 
 	def _change_texture(self, WorldMap):
-		#Change the textures in WorldMap Rooms.
-		x = int((self._Mouse.x+self._Camera.center[0])/ROOM_WIDTH)-1
-		y = int((self._Mouse.y+self._Camera.center[1])/ROOM_HEIGHT)-1
-		if not(0 <= x < WorldMap.room_w): return
-		if not(0 <= y < WorldMap.room_h): return
+		pass
+		# #Change the textures in WorldMap Rooms.
+		# x = int((self._Mouse.x+self._Camera.center[0])/ROOM_WIDTH)-1
+		# y = int((self._Mouse.y+self._Camera.center[1])/ROOM_HEIGHT)-1
+		# if not(0 <= x < WorldMap.room_w): return
+		# if not(0 <= y < WorldMap.room_h): return
 		
-		#update Selector's name.
-		if self.Selector.text != WorldMap.rooms[x][y].tilesheet: 
-			self.Selector.text = WorldMap.rooms[x][y].tilesheet
+		# #update Selector's name.
+		# if self.Selector.text != WorldMap.rooms[x][y].tilesheet: 
+		# 	self.Selector.text = WorldMap.rooms[x][y].tilesheet
 
 
 	#Selector

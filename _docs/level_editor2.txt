@@ -182,17 +182,11 @@ LEVEL EDITOR UI
 			! Change Room tilesheet
 				+ (os) grab tilesheet items
 				+ (Selector) grab tilesheet items (folders, files)
-				+ hover room. change tilesheet.
-					(+ Room.tilesheet)
-				! Select a new sheet. Change Room.
 
 			==============================================
 
-				! Clean
-					! remove hover room, change tileset
-
 				! Multiple tilesheets per room
-					! Initializing rooms on the fly
+					! Rooms are initialized on the fly
 					! Room render amount (stress test with kune and jerky)
 						! FPS Counter (test by lagging self)
 
