@@ -187,6 +187,7 @@ LEVEL EDITOR UI
 
 				! Multiple tilesheets per room
 					! Render Arrays for every tilesheet
+						~ tile.data format changed (sheet/xx/yy)
 					! 5 Room Renders
 
 

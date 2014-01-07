@@ -308,13 +308,14 @@ class TileTool(_Tool):
 		if not(0 <= y and y+h <= WorldMap.tile_h): return
 		
 		#select or erase
-		if erase: all_data = [["____"]*h]*w
+		if erase: all_data = [["_____"]*h]*w
 		else: all_data = self.Selector.selected_tiles
 
 		#change multi
 		for ox in range(w):
 			for oy in range(h):
 				data = all_data[ox][oy]
+				if len(data) < 5: data = "0"+data #texture debug
 				WorldMap.tiles[x+ox][y+oy].data = data
 
 

@@ -189,7 +189,7 @@ class Tile(Rectangle):
 	#Start
 	def __init__(self, x,y, parent):
 		self.parent = parent
-		self.data = "0000"
+		self.data = "00000" #tilesheet/position
 
 		self.tile_position = x,y
 		self.size = TILE, TILE
@@ -202,7 +202,7 @@ class Tile(Rectangle):
 
 
 	#Child-ing
-	_data = "0000"
+	_data = "00000"
 	@property
 	def data(self): return self._data
 	@data.setter
@@ -231,9 +231,14 @@ class Tile(Rectangle):
 
 		#clip
 		data = self.data
-		if not data == "____":
-			clip_x = int(data[0:2])
-			clip_y = int(data[2:4])
+		if data == "_____":
+			for point in points:
+				point.tex_coords = 0,0
+				point.color = Color(0,0,0,0)
+		else:
+			# sheet = int(data[0])
+			clip_x = int(data[1:3])
+			clip_y = int(data[3:5])
 
 			x1 = (clip_x+0)*TILE
 			y1 = (clip_y+0)*TILE
@@ -244,11 +249,6 @@ class Tile(Rectangle):
 			point2.tex_coords = x2,y1
 			point3.tex_coords = x2,y2
 			point4.tex_coords = x1,y2
-
-		else:
-			for point in points:
-				point.tex_coords = 0,0
-				point.color = Color(0,0,0,0)
 
 		for point in points:
 			self.vertices.append(point)
