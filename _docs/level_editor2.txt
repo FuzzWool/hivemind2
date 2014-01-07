@@ -186,13 +186,17 @@ LEVEL EDITOR UI
 
 				! Multiple tilesheets per room
 					~ tile.data format changed (sheet/xx/yy)
-=====================================================================
 					~ lists of _render_arrays and _render_states
+=====================================================================
 					
 					! Adding new textures from Selector.
 						! Select a new texture. Add to room if space.
 						! Error for going over sheet limit (5) per room 
 
+
+			! Stress Testing
+				! Loading times - Amount of Rooms in a Level. (WorldMap it)
+				! Lag (check CPU usage) - Amount of render layers per Room.
 
 			! (Alt) Eyedropper Tool
 				For selecting tiles on the WorldMap.

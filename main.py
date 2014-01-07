@@ -11,7 +11,7 @@ from code.sfml_plus import SmoothCamera
 from code.level_editor import LevelEditor
 from sfml import Texture
 
-WorldMap = WorldMap(2,2)
+WorldMap = WorldMap(5,5)
 Camera = SmoothCamera(Window)
 LevelEditor = LevelEditor(Window)
 ################################################
