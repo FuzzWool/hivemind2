@@ -328,7 +328,6 @@ class TileTool(_Tool):
 		#update Selector's name.
 		if self.Selector.text != WorldMap.rooms[x][y].tilesheet: 
 			self.Selector.text = WorldMap.rooms[x][y].tilesheet
-			print "Selector text changed for WorldMap"
 
 
 	#Selector

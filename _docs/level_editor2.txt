@@ -182,22 +182,31 @@ LEVEL EDITOR UI
 			! Change Room tilesheet
 				+ (os) grab tilesheet items
 				+ (Selector) grab tilesheet items (folders, files)
-			==============================================
 				+ hover room. change tilesheet.
 					(+ Room.tilesheet)
-
 				! Select a new sheet. Change Room.
 
+			==============================================
 
+				! Clean
+					! remove hover room, change tileset
+
+				! Multiple tilesheets per room
+					! Initializing rooms on the fly
+					! Room render amount (stress test with kune and jerky)
+						! FPS Counter (test by lagging self)
+
+
+			! (Alt) Eyedropper Tool
+				For selecting tiles on the WorldMap.
+				! (Click) selects a single tile
+				! (Click, drag) Selects multiple tiles
+
+			! Tile Saving
 				! (error: sheet removed) remove old texture, use default texture
-			
-
-			! Room render amount (stress test with kune and jerky)
-				! FPS Counter (test by lagging self)
 
 
 			! Grid Toggle Button
-
 			! Fix Tile Cursor graphics/logic for Zooming
 
 =================================================
