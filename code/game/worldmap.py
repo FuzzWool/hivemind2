@@ -84,6 +84,7 @@ class WorldMap(Rectangle):
 class Room(Rectangle):
 # * contains all of the Tiles.
 # * Graphic - in charge of generating a vertex array.
+# * Logic - communicates rendering and texturing requests with Tiles.
 
 	#################################
 	# PUBLIC
@@ -91,7 +92,9 @@ class Room(Rectangle):
 	tiles = []
 
 	def __init__(self, x,y):
-		self.child = self.child()
+		self.child_listen = self.child_listen()
+		self.child_tell = self.child_tell()
+
 		self.room_position = x,y
 		self.size = ROOM_WIDTH, ROOM_HEIGHT
 		self._init_tiles()
@@ -102,7 +105,7 @@ class Room(Rectangle):
 		self._render_tiles()
 
 	def draw(self, window):
-		self._parent_tiles()
+		self._child_listening()
 		self._draw_tiles(window)
 
 
@@ -112,6 +115,7 @@ class Room(Rectangle):
 
 	TILESHEET_CAP = 5
 	_render_states = []
+	_texture_slots = [None, None, None, None, None]
 
 
 	###
@@ -132,7 +136,8 @@ class Room(Rectangle):
 		ox, oy = self.tile_position
 		for x, column in enumerate(self.tiles):
 			for y, _tile in enumerate(column):
-				tile = TileClass(x+ox, y+oy, self.child)
+				tile = TileClass(x+ox, y+oy,
+						self.child_tell, self.child_listen)
 				self.tiles[x][y] = tile
 
 
@@ -162,9 +167,7 @@ class Room(Rectangle):
 				for point in tile.vertices:
 					
 					#choose array (texture)
-					if tile.data[0] == "_":
-						pass
-					else:
+					if tile.texture != None:
 						no = int(tile.data[0])
 						self._vertex_arrays[no].append(point)
 
@@ -178,20 +181,19 @@ class Room(Rectangle):
 	###
 	# Textures
 
-	_texture_slots = [None, None, None, None, None]
+	#! child_tell.texture_slots dependancy
 
 	def _init_textures(self): #init
 		self._render_states = []
 		for i in range(self.TILESHEET_CAP):
 			self._render_states.append(RenderStates())
-			s = "_default/%s.png" % str(i)
-			t = Texture.from_file("assets/tilesheets/"+s)
-			self._render_states[-1].texture = t
 
 		self._texture_slots = [None for i in range(self.TILESHEET_CAP)]
+		self._texture_slots[0] = "_default/0"
+		self.child_tell.texture_slots = self._texture_slots
 
 
-	def _update_textures(self): #_init_textures, parent_tiles
+	def _update_textures(self): #_child_listening
 
 		#Find all current textures.
 		textures = []
@@ -224,32 +226,39 @@ class Room(Rectangle):
 				if not slot_found:
 					raise "No space for a new texture!"
 
-
 		#Update state textures for drawing.
-		pass
+		for i in range(self.TILESHEET_CAP):
+			texture = self._texture_slots[i]
+			if texture != None:
+				t = "assets/tilesheets/"+texture+".png"
+				self._render_states[i].texture = Texture.from_file(t)
+
+		#Tell children, for their data, what slot their texture uses.
+		self.child_listen.texture_slots = self._texture_slots
 
 
-		if self.position == (0,0):
-			print textures
-			print self._texture_slots
-
-
+		# #testing
+		# if self.position == (0,0):
+		# 	print textures
+		# 	print self._texture_slots
 
 
 	###
-	# Parent
+	# Child Listening/Telling
 
-
-	def _parent_tiles(self):
-		if self.child.render_request: self._render_tiles()
-		self.child.render_request = False
+	def _child_listening(self):
+		if self.child_listen.texture_request: self._update_textures()
+		self.child_listen.texture_request = False
 		#
-		if self.child.texture_request: self._update_textures()
-		self.child.texture_request = False
+		if self.child_listen.render_request: self._render_tiles()
+		self.child_listen.render_request = False
 
-	class child:
+	class child_listen:
 		render_request = False
 		texture_request = False
+
+	class child_tell:
+		texture_slots = [None,None,None,None,None]
 
 
 
@@ -263,13 +272,15 @@ class Tile(Rectangle):
 	# clip = 0,0
 	texture = ""
 
-	def __init__(self, x,y, parent):
-		self.parent = parent
-		self.data = "00000" #tilesheet/position
-
+	def __init__(self, x,y, parent_listen, parent_tell):
+		self.parent_listen = parent_listen
+		self.parent_tell = parent_tell
 		self.tile_position = x,y
 		self.size = TILE, TILE
+
+		#testing
 		self.texture = "_default/0"
+		self.clip = 0,0
 
 	def render(self): self._create_vertices()
 
@@ -279,29 +290,40 @@ class Tile(Rectangle):
 
 
 	###
-	# Parent
+	# Tile Data (Parent tell, listen)
 
 	_texture = ""
+	_clip = 0,0
+	
 	@property
 	def texture(self): return self._texture
 	@texture.setter
 	def texture(self, texture):
-		self._texture = texture
-		self.parent.texture_request = True
+		if self._texture != texture:
+			self._texture = texture
+			self.parent_tell.texture_request = True
+			self.parent_tell.render_request = True
 
-
-	_data = "00000"
 	@property
-	def data(self): return self._data
-	@data.setter
-	def data(self,d):
-		self._data = d
-		self.parent.render_request = True
+	def clip(self): return self._clip
+	@clip.setter
+	def clip(self, pos):
+		if self._clip != pos:
+			self._clip = pos
+			self.parent_tell.render_request = True
+	
+	@property
+	def data(self):
+		t = str(self.parent_listen.texture_slots.index(self._texture))
+		x,y = str(self.clip[0]),str(self.clip[1])
+		if len(x) == 1: x = "0"+x
+		if len(y) == 1: y = "0"+y
+		return t+x+y
 
 
 
 	###
-	# Init
+	# Draw Position, Texture
 
 	def _create_vertices(self): #Room.render
 		self.vertices = []
@@ -321,15 +343,12 @@ class Tile(Rectangle):
 		point4.position = x1,y2
 
 		#clip
-		data = self.data
-		if data == "_____":
+		if self.texture == None:
 			for point in points:
 				point.tex_coords = 0,0
 				point.color = Color(0,0,0,0)
 		else:
-			# sheet = int(data[0])
-			clip_x = int(data[1:3])
-			clip_y = int(data[3:5])
+			clip_x, clip_y = self.clip
 
 			x1 = (clip_x+0)*TILE
 			y1 = (clip_y+0)*TILE

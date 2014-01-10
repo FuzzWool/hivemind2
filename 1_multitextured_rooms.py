@@ -23,35 +23,8 @@ while Window.is_open:
 
 		if Key.ENTER.pressed():
 
-			#remove test (SUCCESS, completely wiped)
-			# for column in WorldMap.rooms[0][0].tiles:
-			# 	for tile in column:
-			# 		tile.texture = None
-
-			#replace test (SUCCESS, takes on new slot)
-			# for column in WorldMap.rooms[0][0].tiles:
-			# 	for tile in column:
-			# 		tile.texture = "_default/2"
-
-			# #fill test (SUCCESS, error caught)
-			# WorldMap.rooms[0][0].tiles[0][0].texture = "_default/1"
-			# WorldMap.rooms[0][0].tiles[0][1].texture = "_default/2"
-			# WorldMap.rooms[0][0].tiles[0][2].texture = "_default/3"
-			# WorldMap.rooms[0][0].tiles[0][3].texture = "_default/4"
-			# WorldMap.rooms[0][0].tiles[0][4].texture = "_default/5"
-
-			#replace, replace, replace test (SUCCESS, no problems)
-			for column in WorldMap.rooms[0][0].tiles:
-				for tile in column:
-					tile.texture = "_default/1"
-			for column in WorldMap.rooms[0][0].tiles:
-				for tile in column:
-					tile.texture = "_default/2"
-			for column in WorldMap.rooms[0][0].tiles:
-				for tile in column:
-					tile.texture = "_default/1"
-
-
+			#tilesheet change test
+			WorldMap.tiles[0][0].texture = "_default/4"
 
 	Camera.smooth.play()
 

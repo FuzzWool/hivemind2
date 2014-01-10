@@ -1,3 +1,3 @@
 
-for i in range(5):
-	pass
+fruits = ["apple", "orange", "pear"]
+print fruits.index("pear")

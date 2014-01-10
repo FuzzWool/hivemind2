@@ -187,17 +187,22 @@ LEVEL EDITOR UI
 				! Multiple tilesheets per room
 					~ tile.data format changed (sheet/xx/yy)
 					~ lists of _render_arrays and _render_states
-=====================================================================
 
 					+ pure logic (tested)
 						+ Adding: chooses new slot, error on leak
 						+ Replacing: cleanly chooses new slot
 						+ Removing: old textures are removed
 						
-					! graphics updating
-						! change state textures
+					+ graphics updating
+						+ texture, clip for Tile, no _data
+							~ child_listen, parent_tell model
+							+ child_tell, parent_listen for texture_slots
+						+ change state textures
+
+=====================================================================
 
 					! Adding new textures from Selector
+
 
 
 			! Stress Testing
