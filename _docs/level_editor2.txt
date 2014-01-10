@@ -188,10 +188,16 @@ LEVEL EDITOR UI
 					~ tile.data format changed (sheet/xx/yy)
 					~ lists of _render_arrays and _render_states
 =====================================================================
-					
-					! Adding new textures from Selector.
-						! Select a new texture. Add to room if space.
-						! Error for going over sheet limit (5) per room 
+
+					+ pure logic (tested)
+						+ Adding: chooses new slot, error on leak
+						+ Replacing: cleanly chooses new slot
+						+ Removing: old textures are removed
+						
+					! graphics updating
+						! change state textures
+
+					! Adding new textures from Selector
 
 
 			! Stress Testing
