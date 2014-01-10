@@ -199,10 +199,18 @@ LEVEL EDITOR UI
 							+ child_tell, parent_listen for texture_slots
 						+ change state textures
 						
-=====================================================================
 					+ Adding new textures from Selector
 
+=====================================================================
 
+			! Fix Tile Cursor graphics/logic for Zooming
+				~ logic
+				! graphics
+
+				! Cursor scale
+					! updates every corner's size
+
+			! Grid Toggle Button
 
 			! Stress Testing
 				! Loading times - Amount of Rooms in a Level. (WorldMap it)
@@ -219,9 +227,6 @@ LEVEL EDITOR UI
 			! Error Box
 				! (error: 5 textures in to a Room, can't add more)
 
-
-			! Grid Toggle Button
-			! Fix Tile Cursor graphics/logic for Zooming
 
 
 

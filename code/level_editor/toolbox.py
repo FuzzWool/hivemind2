@@ -296,25 +296,23 @@ class TileTool(_Tool):
 		#Change WorldMap tiles.
 
 		#fits in map?
-		x = self._Mouse.tile_x + self._Camera.tile_x
-		y = self._Mouse.tile_y + self._Camera.tile_y
+		x = int(self._Mouse.tile_x/self._Camera.zoom)
+		y = int(self._Mouse.tile_y/self._Camera.zoom)
+		x += self._Camera.tile_x
+		y += self._Camera.tile_y
 		w = len(self.Selector.selected_tiles)
 		h = len(self.Selector.selected_tiles[0])
 		if not(0 <= x and x+w <= WorldMap.tile_w): return
 		if not(0 <= y and y+h <= WorldMap.tile_h): return
 
-		all_data = self.Selector.selected_tiles
-
 		#select or erase
-		if erase:
-			texture = None
-		else:
-			texture = self.Selector.text
+		if erase: texture = None
+		else: texture = self.Selector.text
 
 		#change multi
 		for ox in range(w):
 			for oy in range(h):
-				data = all_data[ox][oy]
+				data = self.Selector.selected_tiles[ox][oy]
 				cx,cy = int(data[:2]), int(data[2:])
 				WorldMap.tiles[x+ox][y+oy].clip = cx,cy
 				WorldMap.tiles[x+ox][y+oy].texture = texture

@@ -237,12 +237,6 @@ class Room(Rectangle):
 		self.child_listen.texture_slots = self._texture_slots
 
 
-		# #testing
-		# if self.position == (0,0):
-		# 	print textures
-		# 	print self._texture_slots
-
-
 	###
 	# Child Listening/Telling
 
@@ -269,7 +263,7 @@ class Tile(Rectangle):
 	#################################
 	# PUBLIC
 
-	# clip = 0,0
+	clip = 0,0
 	texture = ""
 
 	def __init__(self, x,y, parent_listen, parent_tell):
