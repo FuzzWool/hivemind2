@@ -184,7 +184,7 @@ LEVEL EDITOR UI
 				+ (Selector) grab tilesheet items (folders, files)
 
 
-				! Multiple tilesheets per room
+				+ Multiple tilesheets per room
 					~ tile.data format changed (sheet/xx/yy)
 					~ lists of _render_arrays and _render_states
 
@@ -198,10 +198,9 @@ LEVEL EDITOR UI
 							~ child_listen, parent_tell model
 							+ child_tell, parent_listen for texture_slots
 						+ change state textures
-
+						
 =====================================================================
-
-					! Adding new textures from Selector
+					+ Adding new textures from Selector
 
 
 
@@ -216,6 +215,9 @@ LEVEL EDITOR UI
 
 			! Tile Saving
 				! (error: sheet removed) remove old texture, use default texture
+
+			! Error Box
+				! (error: 5 textures in to a Room, can't add more)
 
 
 			! Grid Toggle Button

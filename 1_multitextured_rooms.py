@@ -22,9 +22,7 @@ while Window.is_open:
 		LevelEditor.add_controls(WorldMap)
 
 		if Key.ENTER.pressed():
-
-			#tilesheet change test
-			WorldMap.tiles[0][0].texture = "_default/4"
+			pass
 
 	Camera.smooth.play()
 
