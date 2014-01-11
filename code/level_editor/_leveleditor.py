@@ -10,6 +10,8 @@ class LevelEditor:
 		self.ToolBox = ToolBox(*window.size)
 
 	def camera_controls(self, Key, Mouse, Camera):
+		Camera.smooth.speed = 2.5
+		
 		#Move (per Room)
 		if Key.LEFT.pressed(): Camera.smooth.room_x -= 1
 		if Key.RIGHT.pressed(): Camera.smooth.room_x += 1

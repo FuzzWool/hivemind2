@@ -208,13 +208,20 @@ LEVEL EDITOR UI
 					+ Cursor has a (normal) absolute position and size
 					(is currently statically drawn)
 
-=====================================================================
 			~ fixed: cursor following nastiness
 				~ fixed: camera being a step behind
 				~ fixed: spazzy cursor while zooming
 				~ fixed: spazzy cursor while following
+=====================================================================
+			
+			~ Camera sped up
 
 			! Grid Toggle Button
+
+			! Help Box (right-click Tool)
+
+			! Error Box
+				! (error: 5 textures in to a Room, can't add more)
 
 			! Stress Testing
 				! Loading times - Amount of Rooms in a Level. (WorldMap it)
@@ -227,9 +234,6 @@ LEVEL EDITOR UI
 
 			! Tile Saving
 				! (error: sheet removed) remove old texture, use default texture
-
-			! Error Box
-				! (error: 5 textures in to a Room, can't add more)
 
 
 

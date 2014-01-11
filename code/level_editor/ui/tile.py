@@ -181,8 +181,8 @@ class Cursor(Rectangle):
 			if self.absolute:
 				self.tile_x = int(self.tile_x/Camera.zoom)
 				self.tile_y = int(self.tile_y/Camera.zoom)
-				self.tile_x += Camera.smooth.tile_x
-				self.tile_y += Camera.smooth.tile_y
+				self.tile_x += Camera.tile_x
+				self.tile_y += Camera.tile_y
 
 			if not Mouse.left.released():
 				self.selected = False

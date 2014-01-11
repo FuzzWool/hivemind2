@@ -68,6 +68,9 @@ class SmoothCamera(Camera):
 
 
 class Smooth(Rectangle):
+
+	speed = 5
+
 	def __init__(self, Camera):
 		self._ = Camera
 		self._pos_init()
@@ -107,7 +110,7 @@ class Smooth(Rectangle):
 		self.y = 0
 
 	def _pos_play(self): #play
-		d = 5
+		d = self.speed
 		current_x, current_y = self._.center
 		end_x, end_y = self.center
 
