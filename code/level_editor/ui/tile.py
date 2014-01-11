@@ -4,8 +4,8 @@ from code.sfml_plus import Rectangle
 from code.sfml_plus import Grid
 from code.sfml_plus.constants import TILE
 
+#Tile
 from code.game.worldmap import Key as MapKey
-
 from sfml import Color
 
 class TileSelector(Box):
@@ -145,6 +145,7 @@ class Cursor(Rectangle):
 	#################################
 	# PUBLIC
 
+	absolute = False
 	expand = True
 	color = Color(255,255,255,255)
 	selected = False #readonly
@@ -155,11 +156,12 @@ class Cursor(Rectangle):
 		self.color = Color(255,255,255,255)
 		self.expand = True
 		self.selected = False
+		self.absolute = False
 
 	def controls(self, Key, Mouse, Camera):
-		self._update_position(Mouse)
+		self._update_position(Mouse, Camera)
 		if self.expand:
-			self._expand(Mouse)
+			self._expand(Mouse, Camera)
 
 	def draw(self, target, states):
 		self._update_corners_position()
@@ -172,10 +174,15 @@ class Cursor(Rectangle):
 	# Position
 	_selected = False
 
-	def _update_position(self, Mouse):
+	def _update_position(self, Mouse, Camera):
 		if not self._selected:
 			self.tile_position = Mouse.tile_position
 			self.tile_size = 0,0
+			if self.absolute:
+				self.tile_x = int(self.tile_x/Camera.smooth.zoom)
+				self.tile_y = int(self.tile_y/Camera.smooth.zoom)
+				self.tile_x += Camera.tile_x
+				self.tile_y += Camera.tile_y
 
 			if not Mouse.left.released():
 				self.selected = False
@@ -183,16 +190,22 @@ class Cursor(Rectangle):
 
 	_start_anchor = 0,0
 	_finish_anchor = 0,0
-	def _expand(self, Mouse):
+	def _expand(self, Mouse, Camera):
 		#LOGIC
 		#start
 		if Mouse.left.pressed() and not self._selected:
 			self._selected = True
 			self._start_anchor = Mouse.tile_position
+			if self.absolute:
+				self._start_anchor[0] += Camera.tile_x
+				self._start_anchor[1] += Camera.tile_y
 
 		#loop
 		if self._selected:
 			self._finish_anchor = Mouse.tile_position
+			if self.absolute:
+				self._finish_anchor[0] += Camera.tile_x
+				self._finish_anchor[1] += Camera.tile_y
 
 		#reset
 		self.selected = False

@@ -201,14 +201,15 @@ LEVEL EDITOR UI
 						
 					+ Adding new textures from Selector
 
-=====================================================================
 
-			! Fix Tile Cursor graphics/logic for Zooming
+			~ fixed: tile cursor not being absolute
 				~ logic
-				! graphics
+=====================================================================
+				~ graphics
+					+ Cursor has a (normal) absolute position and size
+					(is currently statically drawn)
 
-				! Cursor scale
-					! updates every corner's size
+			! speed up Level Editor's Camera
 
 			! Grid Toggle Button
 

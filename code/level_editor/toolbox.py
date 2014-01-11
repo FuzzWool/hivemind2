@@ -35,9 +35,19 @@ class ToolBox(_UI, TweenRectangle):
 		self._add_controls(WorldMap)
 
 
-	def draw(self, target, states):
+	#
+
+	def normal_draw(self, target, states):
+		for child in self.children:
+			try: child.normal_draw(target, states)
+			except: pass
+
+	def static_draw(self, target, states):
 		_UI.draw(self, target, states)
 		TweenRectangle.draw(self)
+		for child in self.children:
+			try: child.static_draw(target, states)
+			except: pass
 
 	#
 
@@ -168,7 +178,10 @@ class _Tool(Button):
 	def add_controls(self, WorldMap):
 		pass
 
-	def draw(self, target, states):
+	def normal_draw(self, target, states):
+		pass
+
+	def static_draw(self, target, states):
 		self._apply_coloring()
 		Button.draw(self, target, states)
 		self._draw_sprite(target, states)
@@ -242,15 +255,18 @@ class TileTool(_Tool):
 		#Cursor
 		self.Cursor = Cursor()
 		self.Cursor.expand = False
+		self.Cursor.absolute = True
 
-	def draw(self, target, states):
+	def normal_draw(self, target, states):
 		#Cursor
 		if not self.Selector.opened and self.active\
 		and not self.parent_states.hovered:
 			self.Cursor.draw(target, states)
+
+	def static_draw(self, target, states):
 		#Selector
 		target.draw(self.Selector, states)
-		_Tool.draw(self, target, states)
+		_Tool.static_draw(self, target, states)
 
 	#
 
@@ -296,10 +312,7 @@ class TileTool(_Tool):
 		#Change WorldMap tiles.
 
 		#fits in map?
-		x = int(self._Mouse.tile_x/self._Camera.zoom)
-		y = int(self._Mouse.tile_y/self._Camera.zoom)
-		x += self._Camera.tile_x
-		y += self._Camera.tile_y
+		x,y = self.Cursor.tile_position
 		w = len(self.Selector.selected_tiles)
 		h = len(self.Selector.selected_tiles[0])
 		if not(0 <= x and x+w <= WorldMap.tile_w): return

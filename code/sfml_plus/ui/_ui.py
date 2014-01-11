@@ -25,7 +25,6 @@ class _UI(Drawable, Rectangle):
 		for child in self.children:
 			target.draw(child)
 
-
 	#################################
 	# PRIVATE
 	# The parent moves and the children then follow.

@@ -14,20 +14,24 @@ class LevelEditor:
 		self.ToolBox.controls(Key, Mouse, Camera)
 		if Key.TAB.pressed(): self.ToolBox.toggle()
 
-		#General
+		#Move (per Room)
 		if Key.LEFT.pressed(): Camera.smooth.room_x -= 1
 		if Key.RIGHT.pressed(): Camera.smooth.room_x += 1
 		if Key.UP.pressed(): Camera.smooth.room_y -= 1
 		if Key.DOWN.pressed(): Camera.smooth.room_y += 1
 
+		#Move (per Tile)
 		amt = 25
 		if Key.A.held(): Camera.smooth.x -= amt
 		if Key.D.held(): Camera.smooth.x += amt
 		if Key.W.held(): Camera.smooth.y -= amt
 		if Key.S.held(): Camera.smooth.y += amt
 
-		if Key.Q.pressed(): Camera.smooth.zoom /= 2
-		if Key.E.pressed(): Camera.smooth.zoom *= 2
+		#Zoom (Toggle)
+		if Key.E.pressed():
+			if   Camera.smooth.zoom == 1: Camera.smooth.zoom = 2
+			elif Camera.smooth.zoom == 2: Camera.smooth.zoom = 1
+
 
 
 	def add_controls(self, WorldMap):
@@ -38,5 +42,6 @@ class LevelEditor:
 
 	def draw_objects(self, Window, Camera):
 		Window.view = Window.default_view
-		Window.draw(self.ToolBox)
+		self.ToolBox.static_draw(Window, None)
 		Window.view = Camera
+		self.ToolBox.normal_draw(Window, None)
