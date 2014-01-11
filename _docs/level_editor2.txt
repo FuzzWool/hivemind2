@@ -204,12 +204,15 @@ LEVEL EDITOR UI
 
 			~ fixed: tile cursor not being absolute
 				~ logic
-=====================================================================
 				~ graphics
 					+ Cursor has a (normal) absolute position and size
 					(is currently statically drawn)
 
-			! speed up Level Editor's Camera
+=====================================================================
+			~ fixed: cursor following nastiness
+				~ fixed: camera being a step behind
+				~ fixed: spazzy cursor while zooming
+				~ fixed: spazzy cursor while following
 
 			! Grid Toggle Button
 

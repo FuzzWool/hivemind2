@@ -9,11 +9,7 @@ class LevelEditor:
 		self.Background = Background(window)
 		self.ToolBox = ToolBox(*window.size)
 
-	def controls(self, Key, Mouse, Camera):
-		#toolbox
-		self.ToolBox.controls(Key, Mouse, Camera)
-		if Key.TAB.pressed(): self.ToolBox.toggle()
-
+	def camera_controls(self, Key, Mouse, Camera):
 		#Move (per Room)
 		if Key.LEFT.pressed(): Camera.smooth.room_x -= 1
 		if Key.RIGHT.pressed(): Camera.smooth.room_x += 1
@@ -32,6 +28,10 @@ class LevelEditor:
 			if   Camera.smooth.zoom == 1: Camera.smooth.zoom = 2
 			elif Camera.smooth.zoom == 2: Camera.smooth.zoom = 1
 
+	def controls(self, Key, Mouse, Camera):
+		#toolbox
+		self.ToolBox.controls(Key, Mouse, Camera)
+		if Key.TAB.pressed(): self.ToolBox.toggle()
 
 
 	def add_controls(self, WorldMap):
