@@ -10,6 +10,7 @@ from code.sfml_plus.ui import Box, Dropdown
 from code.level_editor.ui import TileSelector, Cursor
 import os
 from code.sfml_plus.constants import ROOM_WIDTH, ROOM_HEIGHT
+from code.sfml_plus.constants import SCREEN_WIDTH, SCREEN_HEIGHT
 
 class ToolBox(_UI, TweenRectangle):
 	
@@ -144,9 +145,9 @@ class _Tool(Button):
 	# PUBLIC
 
 	parent_states = None
+	active = False
 
 	w,h = 80,50
-	active = False
 	texture_clip = 0
 
 	class deactive_colors:
@@ -174,6 +175,9 @@ class _Tool(Button):
 		self._Key = Key
 		self._Mouse = Mouse
 		self._Camera = Camera
+
+		self._help_state(Mouse)
+
 
 	def add_controls(self, WorldMap):
 		pass
@@ -229,6 +233,17 @@ class _Tool(Button):
 		self.sprite.y -= self.rise_offset
 		target.draw(self.sprite, states)
 
+	###
+	#Controls
+
+	_help = False
+	
+	def _help_state(self, Mouse):
+		if Mouse.inside(self):
+			self._help = True
+		if not Mouse.inside(self):
+			self._help = False
+
 
 
 class TileTool(_Tool):
@@ -250,12 +265,15 @@ class TileTool(_Tool):
 		_Tool.__init__(self)
 		#Selector
 		self.Selector = self._Selector()
-		self.Selector.position = 300,150
+		self.Selector.center = (SCREEN_WIDTH/2),0
+		self.Selector.y = 150
 		self.Selector.y += 20
 		#Cursor
 		self.Cursor = Cursor()
 		self.Cursor.expand = False
 		self.Cursor.absolute = True
+		#Help
+		self._init_help()
 
 	def normal_draw(self, target, states):
 		#Cursor
@@ -267,6 +285,7 @@ class TileTool(_Tool):
 		#Selector
 		target.draw(self.Selector, states)
 		_Tool.static_draw(self, target, states)
+		self._draw_help(target, states)
 
 	#
 
@@ -276,6 +295,7 @@ class TileTool(_Tool):
 		if not self.parent_states.hovered:
 			self._control_Cursor(Key, Mouse, Camera, WorldMap)
 		self._control_Selector(Key, Mouse, Camera)
+		self._open_help()
 
 
 	def open(self):
@@ -288,6 +308,27 @@ class TileTool(_Tool):
 	#################################
 	# PRIVATE
 
+	###
+	# Help
+
+	_help = False
+	_HelpBox = None
+
+	def _init_help(self): #init
+		self._HelpBox = Box()
+		self._HelpBox.center = SCREEN_WIDTH/2, SCREEN_HEIGHT/2
+
+	def _open_help(self): #controls
+		if self._help == True:
+			self._HelpBox.open()
+		if self._help == False:
+			self._HelpBox.close()
+
+	def _draw_help(self, target, states): #draw
+		target.draw(self._HelpBox, states)
+
+
+	###
 	#Cursor
 	def _control_Cursor(self, Key, Mouse, Camera, WorldMap):
 
@@ -304,7 +345,6 @@ class TileTool(_Tool):
 		h = len(self.Selector.selected_tiles[0])-1
 		self.Cursor.tile_w = w
 		self.Cursor.tile_h = h
-
 
 
 	_old_points = -1,-1,-1,-1
@@ -331,7 +371,7 @@ class TileTool(_Tool):
 				WorldMap.tiles[x+ox][y+oy].texture = texture
 
 
-
+	###
 	#Selector
 	def _control_Selector(self, Key, Mouse, Camera):
 

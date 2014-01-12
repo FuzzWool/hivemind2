@@ -13,7 +13,7 @@ class LevelEditor:
 	_enable_grid = False
 
 	def camera_controls(self, Key, Mouse, Camera):
-		Camera.smooth.speed = 2.5
+		Camera.smooth.speed = 3
 		
 		#Move (per Room)
 		if Key.LEFT.pressed(): Camera.smooth.room_x -= 1
