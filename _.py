@@ -1,7 +1,9 @@
-# class transforms into another class
+#Find the index of every space inside a sentence. (to find each word's gap)
 
-class foo1:
-	foolish = 1
+def find(string, wanted_char):
+	for i, char in enumerate(string):
+		if char == wanted_char:
+			yield i 
 
-class foo2:
-	pass
+sentence = "Hello there, my name is Sam."
+print list(find(sentence, " "))

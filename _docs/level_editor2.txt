@@ -202,16 +202,17 @@ LEVEL EDITOR UI
 					+ Adding new textures from Selector
 
 			
-			+ Grid Toggle Button
-=====================================================================
+			+ Grid Toggle Button (Q)
 
 			! Help Box (hover Tool)
 				+ hovering the tile tool opens a box
-				
+=====================================================================
 				! Box w/ Control Help text
 					! Multiline_Text (Rectangle-bounded Text)
-						! Text exceeds width: move text a line down
+						+ Text exceeds width: move text a line down
 						! "\n" manually moves text a line down
+
+			! Help Box (general)
 
 			! Error Box
 				! (error: 5 textures in to a Room, can't add more)
