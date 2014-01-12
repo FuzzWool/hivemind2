@@ -9,19 +9,22 @@ Mouse = Mouse(Window)
 from code.game import WorldMap
 from code.sfml_plus import SmoothCamera
 from code.level_editor import LevelEditor
-from sfml import Texture
 
-WorldMap = WorldMap(10,5)
+WorldMap = WorldMap(10,10)
 Camera = SmoothCamera(Window)
 LevelEditor = LevelEditor(Window)
 ################################################
 
 while Window.is_open:
 	if Window.is_focused:
+		LevelEditor.camera_controls(Key, Mouse, Camera)
+		Camera.smooth.play()
 		LevelEditor.controls(Key, Mouse, Camera)
 		LevelEditor.add_controls(WorldMap)
 
-	Camera.smooth.play()
+		if Key.ENTER.pressed():
+			pass
+
 
 	Window.clear((255,255,255))
 	Window.view = Camera

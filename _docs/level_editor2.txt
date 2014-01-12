@@ -212,11 +212,19 @@ LEVEL EDITOR UI
 				~ fixed: camera being a step behind
 				~ fixed: spazzy cursor while zooming
 				~ fixed: spazzy cursor while following
-=====================================================================
 			
 			~ Camera sped up
+=====================================================================
 
 			! Grid Toggle Button
+				+ graphics (Grid_Room)
+					+ Grid is (globally) rendered once
+					+ Grid is instantized as a sprite
+				! usage
+					! Grid is rendered within the WorldMap
+				! logic
+					! Grid is togglable
+					! Grid is toggled via a button
 
 			! Help Box (right-click Tool)
 

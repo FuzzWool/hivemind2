@@ -1,3 +1,7 @@
+# class transforms into another class
 
-fruits = ["apple", "orange", "pear"]
-print fruits.index("pear")
+class foo1:
+	foolish = 1
+
+class foo2:
+	pass
