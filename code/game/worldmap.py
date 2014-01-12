@@ -28,6 +28,7 @@ class WorldMap(Rectangle):
 	# PUBLIC
 
 	tiles = []
+	enable_grid = True
 
 	def __init__(self, w,h):
 		self.room_size = w,h
@@ -45,6 +46,8 @@ class WorldMap(Rectangle):
 		for column in self.rooms[x1:x2]:
 			for room in column[y1:y2]:
 				room.draw(window)
+				if self.enable_grid:
+					room.draw_grid(window)
 
 	#################################
 	# PRIVATE
@@ -111,6 +114,8 @@ class Room(Rectangle):
 	def draw(self, window):
 		self._child_listening()
 		self._draw_tiles(window)
+
+	def draw_grid(self, window):
 		self._draw_Grid(window)
 
 
@@ -194,7 +199,7 @@ class Room(Rectangle):
 			self._render_states.append(RenderStates())
 
 		self._texture_slots = [None for i in range(self.TILESHEET_CAP)]
-		self._texture_slots[0] = "_default/0"
+		self._texture_slots[0] = None
 		self.child_tell.texture_slots = self._texture_slots
 
 
@@ -290,7 +295,7 @@ class Tile(Rectangle):
 		self.size = TILE, TILE
 
 		#testing
-		self.texture = "_default/0"
+		self.texture = None
 		self.clip = 0,0
 
 	def render(self): self._create_vertices()

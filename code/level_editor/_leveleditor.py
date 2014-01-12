@@ -9,6 +9,9 @@ class LevelEditor:
 		self.Background = Background(window)
 		self.ToolBox = ToolBox(*window.size)
 
+	#
+	_enable_grid = False
+
 	def camera_controls(self, Key, Mouse, Camera):
 		Camera.smooth.speed = 2.5
 		
@@ -30,14 +33,24 @@ class LevelEditor:
 			if   Camera.smooth.zoom == 1: Camera.smooth.zoom = 2
 			elif Camera.smooth.zoom == 2: Camera.smooth.zoom = 1
 
+
 	def controls(self, Key, Mouse, Camera):
 		#toolbox
 		self.ToolBox.controls(Key, Mouse, Camera)
 		if Key.TAB.pressed(): self.ToolBox.toggle()
 
+		#Grid (Toggle)
+		self._enable_grid = False
+		if Key.Q.pressed():
+			self._enable_grid = True
 
 	def add_controls(self, WorldMap):
 		self.ToolBox.add_controls(WorldMap)
+
+		if self._enable_grid:
+			WorldMap.enable_grid = not WorldMap.enable_grid
+
+	#
 
 	def draw_background(self, Window, Camera):
 		self.Background.draw(Window, Camera)
