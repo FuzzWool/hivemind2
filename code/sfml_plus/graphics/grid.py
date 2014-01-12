@@ -86,7 +86,7 @@ class _Rendered_Grid_Room(Drawable, Rectangle):
 
 	#
 
-	color = Color(255,255,255,100)
+	color = Color(255,255,255,255)
 
 	#################################
 	# PRIVATE
@@ -145,6 +145,7 @@ class Grid_Room(Drawable, Rectangle):
 	# PRIVATE
 
 	_Grid_Room = _Rendered_Grid_Room()
+	_Grid_Room.sprite.color = Color(0,0,0,100)
 
 
 ################################################

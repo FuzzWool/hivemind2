@@ -8,6 +8,9 @@ from sfml import Texture
 from sfml import Vertex
 from sfml import Color
 
+#Room.Grid
+from code.sfml_plus import Grid_Room
+
 
 def Key(x,y): #unused
 #data format for positioning.
@@ -99,14 +102,16 @@ class Room(Rectangle):
 		self.size = ROOM_WIDTH, ROOM_HEIGHT
 		self._init_tiles()
 		self._load_tiles(Tile)
-
 		self._init_render()
 		self._init_textures()
 		self._render_tiles()
 
+		self._create_Grid()
+
 	def draw(self, window):
 		self._child_listening()
 		self._draw_tiles(window)
+		self._draw_Grid(window)
 
 
 	#################################
@@ -254,6 +259,18 @@ class Room(Rectangle):
 	class child_tell:
 		texture_slots = [None,None,None,None,None]
 
+
+	###
+	# Grid
+
+	_Grid = None
+
+	def _create_Grid(self):
+		self._Grid = Grid_Room()
+		self._Grid.position = self.position
+
+	def _draw_Grid(self, Window):
+		Window.draw(self._Grid)
 
 
 class Tile(Rectangle):

@@ -214,14 +214,14 @@ LEVEL EDITOR UI
 				~ fixed: spazzy cursor while following
 			
 			~ Camera sped up
-=====================================================================
 
 			! Grid Toggle Button
 				+ graphics (Grid_Room)
 					+ Grid is (globally) rendered once
 					+ Grid is instantized as a sprite
-				! usage
-					! Grid is rendered within the WorldMap
+=====================================================================
+				+ usage (Room._Grid)
+					+ Grid is rendered within the WorldMap
 				! logic
 					! Grid is togglable
 					! Grid is toggled via a button
