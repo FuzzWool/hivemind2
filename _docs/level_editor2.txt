@@ -201,28 +201,9 @@ LEVEL EDITOR UI
 						
 					+ Adding new textures from Selector
 
-
-			~ fixed: tile cursor not being absolute
-				~ logic
-				~ graphics
-					+ Cursor has a (normal) absolute position and size
-					(is currently statically drawn)
-
-			~ fixed: cursor following nastiness
-				~ fixed: camera being a step behind
-				~ fixed: spazzy cursor while zooming
-				~ fixed: spazzy cursor while following
 			
 			+ Grid Toggle Button
-				+ graphics (Grid_Room)
-					+ Grid is (globally) rendered once
-					+ Grid is instantized as a sprite
-				+ usage (Room._Grid)
-					+ Grid is rendered within the WorldMap
 =====================================================================
-				+ logic
-					+ Grid is togglable
-					+ Grid is toggled via a button (Q)
 
 			! Fix Camera
 
