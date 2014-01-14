@@ -211,8 +211,12 @@ LEVEL EDITOR UI
 						+ Text exceeds width: move text a line down
 						+ "\n" manually moves text a line down
 =====================================================================
+						~ moved to main code
+						! color, positioning
 				~ Tile Tool text
+
 				! add Text to Tool Help
+				! Tool Help is part of _Tool, only changes text
 
 			! Help Box (general)
 

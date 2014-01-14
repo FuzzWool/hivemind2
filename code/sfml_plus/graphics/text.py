@@ -254,3 +254,102 @@ class Text(_Text, Drawable, Rectangle):
 			self.size = 0,0
 			self.letter = letter
 			self.color = Color(255,255,255,255)
+
+
+
+################################
+
+
+
+
+class Multiline_Text(Drawable, Rectangle):
+
+	#################################
+	# PUBLIC
+
+	###
+	#Core
+
+	x,y,w,h = 0,0,0,0
+	Font = None
+	padding = 10
+
+	def __init__(self, Font):
+		self.Font = Font
+
+	def draw(self, target, states):
+		self._draw_Text_rows(target, states)
+
+	###
+	# Writing Styles
+
+	def write(self, text):
+		self._create_Text_rows(text)
+
+	def say(self, text):
+		pass
+
+
+	#################################
+	# PRIVATE
+
+	###
+	# Text Rows
+
+	_Text_rows = []
+
+	def _create_Text_rows(self, t): #write
+
+		def new_row(text):
+			#Create a Text row.
+			new_row = Text(self.Font)
+			new_row.write(text)
+			new_row.position = self.x+self.padding, self.y+self.padding
+			return new_row
+
+		def new_index(text):
+			#Find all the spaces in the string (word indexing).
+			def find(string, wanted_char):
+				for i, char in enumerate(string):
+					if char == wanted_char:
+						yield i
+			return list(find(text, " "))
+
+
+		def add_rows(text):
+			#Create a new row each time the last exceeds the width.
+			row = new_row(text)
+			index = new_index(text)
+			old_i = 0
+			broken = False
+
+			for i in index:
+				w = row.letters[i].x2 - row.letters[0].x1
+				w += row.letters[i].x2 - row.letters[old_i].x1
+				max_w = self.w
+				if w > max_w:
+					row.write(text[:old_i])
+					self._Text_rows.append(row)
+					add_rows(text[old_i+1:])
+					broken = True; break
+				old_i = i
+
+			if not broken:
+				row.write(text)
+				self._Text_rows.append(row)
+
+
+		self._Text_rows = []
+		# add_rows(t)
+		sentences = t.split("\n")
+		for line in sentences:
+			add_rows(line)
+
+		#adjust height
+		for i, row in enumerate(self._Text_rows):
+			row.y += i*row.h
+
+
+	def _draw_Text_rows(self, target, states): #draw
+		for row in self._Text_rows:
+			target.draw(row, states)

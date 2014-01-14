@@ -12,6 +12,10 @@ import os
 from code.sfml_plus.constants import ROOM_WIDTH, ROOM_HEIGHT
 from code.sfml_plus.constants import SCREEN_WIDTH, SCREEN_HEIGHT
 
+#(help)
+from code.sfml_plus import Font, Multiline_Text
+
+
 class ToolBox(_UI, TweenRectangle):
 	
 	#################################
@@ -317,6 +321,12 @@ class TileTool(_Tool):
 	def _init_help(self): #init
 		self._HelpBox = Box()
 		self._HelpBox.center = SCREEN_WIDTH/2, SCREEN_HEIGHT/2
+
+		#Text
+		Text = Multiline_Text(Font("speech"))
+		Text.write("Hello!")
+		self._HelpBox.children.append(Text)
+		#
 
 	def _open_help(self): #controls
 		if self._help == True:
