@@ -210,8 +210,7 @@ LEVEL EDITOR UI
 					+ Multiline_Text (Rectangle-bounded Text)
 						+ Text exceeds width: move text a line down
 =====================================================================
-						! "\n" manually moves text a line down
-							! text breaks through boundaries
+						+ "\n" manually moves text a line down
 
 			! Help Box (general)
 

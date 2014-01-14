@@ -54,10 +54,10 @@ class Multiline_Text(Drawable, Rectangle):
 
 		def new_row(text):
 			#Create a Text row.
-			row = Text(self.Font)
-			row.write(t)
-			row.position = self.x+self.padding, self.y+self.padding
-			return row
+			new_row = Text(self.Font)
+			new_row.write(text)
+			new_row.position = self.x+self.padding, self.y+self.padding
+			return new_row
 
 		def new_index(text):
 			#Find all the spaces in the string (word indexing).
@@ -65,7 +65,7 @@ class Multiline_Text(Drawable, Rectangle):
 				for i, char in enumerate(string):
 					if char == wanted_char:
 						yield i
-			return list(find(text, " "))+[len(text)]
+			return list(find(text, " "))
 
 
 		def add_rows(text):
@@ -74,15 +74,14 @@ class Multiline_Text(Drawable, Rectangle):
 			index = new_index(text)
 			old_i = 0
 			broken = False
-			
+
 			for i in index:
-				# print text[old_i:i]
 				w = row.letters[i].x2 - row.letters[0].x1
-				max_w = self.w
+				max_w = self.w - self.padding
 				if w > max_w:
 					row.write(text[:old_i])
 					self._Text_rows.append(row)
-					add_rows(text[old_i:])
+					add_rows(text[old_i+1:])
 					broken = True; break
 				old_i = i
 
@@ -92,6 +91,7 @@ class Multiline_Text(Drawable, Rectangle):
 
 
 		self._Text_rows = []
+		# add_rows(t)
 		sentences = t.split("\n")
 		for line in sentences:
 			add_rows(line)
@@ -113,7 +113,7 @@ Text1 = Multiline_Text(Font("speech"))
 Text1.position = Box1.position
 Text1.size = Box1.size
 Text1.padding = 5
-Text1.write("Hmm. Sam. Yes, my name is Sam. Hmmm. Not very well optimized, hmm. Hmmm. Yes. HE THREW IT IN THE TRASH. LET'S A GO. WAAA HA HA. HAAAAA.\n\n"*3)
+Text1.write("Hmm. Sam. Yes, my name is Sam. Hmmm. Not very well optimized, hmm. Hmmm. Yes. \n\n HE THREW IT IN THE TRASH. LET'S A GO. WAAA HA HA. HAAAAA.\n\n "*3)
 
 while Window.is_open:
 	if Window.is_focused:
