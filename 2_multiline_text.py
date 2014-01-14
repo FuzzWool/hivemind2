@@ -77,7 +77,8 @@ class Multiline_Text(Drawable, Rectangle):
 
 			for i in index:
 				w = row.letters[i].x2 - row.letters[0].x1
-				max_w = self.w - self.padding
+				w += row.letters[i].x2 - row.letters[old_i].x1
+				max_w = self.w
 				if w > max_w:
 					row.write(text[:old_i])
 					self._Text_rows.append(row)
@@ -113,7 +114,26 @@ Text1 = Multiline_Text(Font("speech"))
 Text1.position = Box1.position
 Text1.size = Box1.size
 Text1.padding = 5
-Text1.write("Hmm. Sam. Yes, my name is Sam. Hmmm. Not very well optimized, hmm. Hmmm. Yes. \n\n HE THREW IT IN THE TRASH. LET'S A GO. WAAA HA HA. HAAAAA.\n\n "*3)
+#
+t = "---------------------------\n"
+t = t+"TILE TOOL\n"
+t = t+"---------------------------\n"
+t = t+"\n"
+t = t+"GENERAL\n"
+t = t+"* Hold Left/Right Mouse - Adds/removes tiles.\n"
+t = t+"* Hold Spacebar - Opens up the Tile Selector.\n"
+t = t+"\n"
+t = t+"TILE SELECTOR\n"
+t = t+"* Hold and Drag Left Mouse - Select tiles.\n"
+t = t+"* Select Dropdown item - Change tilesheet.\n"
+t = t+"\n\n---\n\n"
+t = t+"TIPS\n"
+t = t+"* A single Room cannot use more than 5 different tilesheets.\n"
+t = t+"* A cursor with a lot of tiles can be used as a HUGE eraser.\n"
+
+
+#
+Text1.write(t)
 
 while Window.is_open:
 	if Window.is_focused:
