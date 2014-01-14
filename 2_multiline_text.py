@@ -4,7 +4,7 @@ from code.sfml_plus.ui import Box
 
 Window = Window((1200,600), "Untitled")
 Box1 = Box()
-Box1.size = 200,300
+Box1.size = 300,300
 Box1.open()
 Box1.center = 1200/2, 600/2
 
@@ -65,28 +65,37 @@ class Multiline_Text(Drawable, Rectangle):
 				for i, char in enumerate(string):
 					if char == wanted_char:
 						yield i
-			return list(find(text, " "))
+			return list(find(text, " "))+[len(text)]
 
 
 		def add_rows(text):
+			#Create a new row each time the last exceeds the width.
 			row = new_row(text)
 			index = new_index(text)
-			broken = False
 			old_i = 0
+			broken = False
+			
 			for i in index:
-				if row.letters[i].x2 > row.letters[0].x1 + self.w:
+				# print text[old_i:i]
+				w = row.letters[i].x2 - row.letters[0].x1
+				max_w = self.w
+				if w > max_w:
 					row.write(text[:old_i])
 					self._Text_rows.append(row)
-					add_rows(text[old_i+1:])
+					add_rows(text[old_i:])
 					broken = True; break
 				old_i = i
+
 			if not broken:
-				row.write(text[:old_i])
+				row.write(text)
 				self._Text_rows.append(row)
 
-		#Create a new row each time the last exceeds the width.
+
 		self._Text_rows = []
-		add_rows(t)
+		sentences = t.split("\n")
+		for line in sentences:
+			add_rows(line)
+
 		#adjust height
 		for i, row in enumerate(self._Text_rows):
 			row.y += i*row.h
@@ -104,7 +113,7 @@ Text1 = Multiline_Text(Font("speech"))
 Text1.position = Box1.position
 Text1.size = Box1.size
 Text1.padding = 5
-Text1.write("THIS IS A REALLY LONG SENTENCE TO TEST MULTILINING. ALRIGHT, LET'S DO THIS THING. YEAAAAAH.")
+Text1.write("Hmm. Sam. Yes, my name is Sam. Hmmm. Not very well optimized, hmm. Hmmm. Yes. HE THREW IT IN THE TRASH. LET'S A GO. WAAA HA HA. HAAAAA.\n\n"*3)
 
 while Window.is_open:
 	if Window.is_focused:

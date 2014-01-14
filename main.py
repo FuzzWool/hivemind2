@@ -2,7 +2,7 @@ from code.sfml_plus import Window
 from code.sfml_plus import Key
 from code.sfml_plus import Mouse
 
-Window = Window((1200, 600), "Hivemind - Demo 2")
+Window = Window((1200, 600), "Hivemind - Demo 1")
 Mouse = Mouse(Window)
 
 ################################################
