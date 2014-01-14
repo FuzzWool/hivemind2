@@ -176,16 +176,12 @@ class _Letter:
 
 
 class Text(_Text, Drawable, Rectangle):
-# * loads a Font
-# * batches Letters
-# * Position
-# * Color
+
+	color = None
 
 	def __init__(self, Font):
 		self.Font = Font
 
-
-	#LOOP
 	def draw(self, target, states):
 		self._create_vertex_array()
 		target.draw(self.vertex_array, self.render_states)
@@ -267,11 +263,9 @@ class Multiline_Text(Drawable, Rectangle):
 	#################################
 	# PUBLIC
 
-	###
-	#Core
-
+	color = Color.BLACK
+	alpha = 255
 	x,y,w,h = 0,0,0,0
-	Font = None
 	padding = 10
 
 	def __init__(self, Font):
@@ -280,8 +274,7 @@ class Multiline_Text(Drawable, Rectangle):
 	def draw(self, target, states):
 		self._draw_Text_rows(target, states)
 
-	###
-	# Writing Styles
+	#
 
 	def write(self, text):
 		self._create_Text_rows(text)
@@ -353,3 +346,45 @@ class Multiline_Text(Drawable, Rectangle):
 	def _draw_Text_rows(self, target, states): #draw
 		for row in self._Text_rows:
 			target.draw(row, states)
+
+
+	###
+	# Color
+
+	_color = Color.BLACK
+	@property
+	def color(self): return self._color
+	@color.setter
+	def color(self, color):
+		self._color = color
+		for row in self._Text_rows:
+			row.color = color
+
+	@property
+	def alpha(self): return self._color.a
+	@alpha.setter
+	def alpha(self, a):
+		c = self.color; c.a = a; self.color = c
+
+	###
+	# Position
+
+	_x, _y = 0,0
+
+	@property
+	def x(self): return self._x
+	@x.setter
+	def x(self, x):
+		move = x - self._x
+		self._x = x
+		for row in self._Text_rows:
+			row.x += move
+
+	@property
+	def y(self): return self._y
+	@y.setter
+	def y(self, y):
+		move = y - self._y
+		self._y = y
+		for row in self._Text_rows:
+			row.y += move

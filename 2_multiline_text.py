@@ -13,7 +13,6 @@ from code.sfml_plus import Font, Multiline_Text
 ################################################
 
 Text1 = Multiline_Text(Font("speech"))
-Text1.position = Box1.position
 Text1.size = Box1.size
 Text1.padding = 5
 #
@@ -32,15 +31,17 @@ t=t+"\n\n---\n\n"
 t=t+"TIPS\n"
 t=t+"* A single Room cannot use more than 5 different tilesheets.\n"
 t=t+"* A cursor with a lot of tiles can be used as a HUGE eraser.\n"
-
-
 #
 Text1.write(t)
+Box1.children.append(Text1)
+
 
 while Window.is_open:
 	if Window.is_focused:
 		Box1.controls(None,None,None)
-		if Key.ENTER.pressed(): print 1
+		if Key.ENTER.pressed():
+			if not Box1.opened: Box1.open()
+			else: Box1.close()
 
 	Window.clear((255,220,0))
 	Window.draw(Box1)

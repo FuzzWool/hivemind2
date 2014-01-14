@@ -210,10 +210,12 @@ LEVEL EDITOR UI
 					+ Multiline_Text (Rectangle-bounded Text)
 						+ Text exceeds width: move text a line down
 						+ "\n" manually moves text a line down
-=====================================================================
 						~ moved to main code
-						! color, positioning
-				~ Tile Tool text
+=====================================================================
+						+ color, positioning
+
+				! Tile Tool text
+					! Multiline_Text causes lag
 
 				! add Text to Tool Help
 				! Tool Help is part of _Tool, only changes text

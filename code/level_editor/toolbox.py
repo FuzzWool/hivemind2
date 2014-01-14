@@ -324,7 +324,22 @@ class TileTool(_Tool):
 
 		#Text
 		Text = Multiline_Text(Font("speech"))
-		Text.write("Hello!")
+		t = "---------------------------\n"
+		# t=t+"TILE TOOL\n"
+		# t=t+"---------------------------\n"
+		# t=t+"\n"
+		# t=t+"GENERAL\n"
+		# t=t+"* Hold Left/Right Mouse - Adds/removes tiles.\n"
+		# t=t+"* Hold Spacebar - Opens up the Tile Selector.\n"
+		# t=t+"\n"
+		# t=t+"TILE SELECTOR\n"
+		# t=t+"* Hold and Drag Left Mouse - Select tiles.\n"
+		# t=t+"* Select Dropdown item - Change tilesheet.\n"
+		# t=t+"\n\n---\n\n"
+		# t=t+"TIPS\n"
+		# t=t+"* A single Room cannot use more than 5 different tilesheets.\n"
+		# t=t+"* A cursor with a lot of tiles can be used as a HUGE eraser.\n"
+		Text.write(t)
 		self._HelpBox.children.append(Text)
 		#
 
