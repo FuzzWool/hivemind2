@@ -238,6 +238,16 @@ class Text(_Text, Drawable, Rectangle):
 		for letter in self.letters:
 			letter.color = Color(*color)
 		self._color = Color(*color)
+
+
+	_alpha = 255
+	@property
+	def alpha(self): return self._alpha
+	@alpha.setter
+	def alpha(self,a):
+		for letter in self.letters:
+			c = letter.color; c.a = a; letter.color = c
+		self._alpha = a
 	#
 
 

@@ -13,7 +13,7 @@ from code.sfml_plus.constants import ROOM_WIDTH, ROOM_HEIGHT
 from code.sfml_plus.constants import SCREEN_WIDTH, SCREEN_HEIGHT
 
 #(help)
-from code.sfml_plus import Font, Multiline_Text
+from code.sfml_plus import Font, Text
 
 
 class ToolBox(_UI, TweenRectangle):
@@ -323,24 +323,26 @@ class TileTool(_Tool):
 		self._HelpBox.center = SCREEN_WIDTH/2, SCREEN_HEIGHT/2
 
 		#Text
-		Text = Multiline_Text(Font("speech"))
+		Text1 = Text(Font("speech"))
+		Text1.x += 5; Text1.y += 5
 		t = "---------------------------\n"
-		# t=t+"TILE TOOL\n"
-		# t=t+"---------------------------\n"
-		# t=t+"\n"
-		# t=t+"GENERAL\n"
-		# t=t+"* Hold Left/Right Mouse - Adds/removes tiles.\n"
-		# t=t+"* Hold Spacebar - Opens up the Tile Selector.\n"
-		# t=t+"\n"
-		# t=t+"TILE SELECTOR\n"
-		# t=t+"* Hold and Drag Left Mouse - Select tiles.\n"
-		# t=t+"* Select Dropdown item - Change tilesheet.\n"
-		# t=t+"\n\n---\n\n"
-		# t=t+"TIPS\n"
-		# t=t+"* A single Room cannot use more than 5 different tilesheets.\n"
-		# t=t+"* A cursor with a lot of tiles can be used as a HUGE eraser.\n"
-		Text.write(t)
-		self._HelpBox.children.append(Text)
+		t=t+"TILE TOOL\n"
+		t=t+"---------------------------\n"
+		t=t+"\n"
+		t=t+"GENERAL\n"
+		t=t+"* Hold Left/Right Mouse - Adds/removes tiles.\n"
+		t=t+"* Hold Spacebar - Opens up the Tile Selector.\n"
+		t=t+"\n"
+		t=t+"TILE SELECTOR\n"
+		t=t+"* Hold and Drag Left Mouse - Select tiles.\n"
+		t=t+"* Select Dropdown item - Change tilesheet.\n"
+		t=t+"\n\n---\n\n"
+		t=t+"TIPS\n"
+		t=t+"* A single Room cannot use more than 5 different tilesheets.\n"
+		t=t+"* A cursor with a lot of tiles can be used as a HUGE eraser.\n"
+		Text1.write(t)
+		self._HelpBox.size = Text1.w+20, Text1.h+20
+		self._HelpBox.children.append(Text1)
 		#
 
 	def _open_help(self): #controls
