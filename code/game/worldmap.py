@@ -13,7 +13,7 @@ from code.sfml_plus import Grid_Room
 
 #
 
-TILESHEET_CAP = 3
+TILESHEET_CAP = 1
 
 def Key(x,y): #unused
 #data format for positioning.

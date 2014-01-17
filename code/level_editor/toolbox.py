@@ -149,12 +149,16 @@ class _Tool(Button):
 	#################################
 	# PUBLIC
 
+	texture_clip = 0
+	w,h = 80,50
+
 	help_text = "I'm a work-in-progress tool!"
+	open_error = False
+	error_text = ""
+	
 	parent_states = None
 	active = False
 
-	w,h = 80,50
-	texture_clip = 0
 
 	class deactive_colors:
 		normal_color = Color(240,240,240)
@@ -184,6 +188,7 @@ class _Tool(Button):
 
 		self._help_state(Mouse)
 		self._open_help()
+		self._open_Error()
 
 
 	def add_controls(self, WorldMap):
@@ -197,11 +202,12 @@ class _Tool(Button):
 		Button.draw(self, target, states)
 		self._draw_sprite(target, states)
 		self._draw_help(target, states)
+		self._draw_Error(target, states)
 
 	#
 
 	def open(self):
-	#Create all Windows for the Tool.
+	#Create all windows for the Tool.
 		self.active = True
 
 	def close(self):
@@ -212,7 +218,9 @@ class _Tool(Button):
 	#################################
 	# PRIVATE
 
+	###
 	# Color
+
 	def _init_coloring(self):
 		self.active_colors = self.active_colors()
 		self.deactive_colors = self.deactive_colors()
@@ -229,7 +237,9 @@ class _Tool(Button):
 		if self.selected:
 			self.box_fill = group.selected_color
 
+	###
 	#Sprite
+
 	def _init_sprite(self):
 		texture = Texture.from_file("assets/ui/tools.png")
 		self.sprite = MySprite(texture)
@@ -250,7 +260,7 @@ class _Tool(Button):
 	_HelpBox = None
 
 
-	def _help_state(self, Mouse):
+	def _help_state(self, Mouse): #controls
 		if Mouse.inside(self) and self.active:
 			self._help = True
 		else:
@@ -281,6 +291,39 @@ class _Tool(Button):
 		self._HelpBox.size = Text1.w+20, Text1.h+20
 		self._HelpBox.center = SCREEN_WIDTH/2, SCREEN_HEIGHT/2
 		self._HelpBox.children.append(Text1)
+
+	###
+	# Error
+
+	# open_error = False
+	# error_text = ""
+	_ErrorBox = None
+
+
+	def _open_Error(self): #controls
+		if self.open_error:
+			if self._ErrorBox == None:
+				self._create_Error()
+				self._ErrorBox.open()
+		else:
+			pass
+
+		self.open_error = False
+
+	def _draw_Error(self, target, states): #draw
+		if self._ErrorBox != None:
+			target.draw(self._ErrorBox, states)
+	
+	#
+
+	def _create_Error(self): #_open_Error
+		self._ErrorBox = Box()
+		Text1 = Text(Font("speech"))
+		Text1.write(self.error_text)
+		Text1.x += 5; Text1.y += 5
+		self._ErrorBox.size = Text1.w+10, Text1.h+10
+		self._ErrorBox.center = SCREEN_WIDTH/2, SCREEN_HEIGHT/2
+		self._ErrorBox.children.append(Text1)
 
 
 
@@ -400,6 +443,13 @@ class TileTool(_Tool):
 		if erase: texture = None
 		else: texture = self.Selector.text
 
+		#error text
+		c = str(TILESHEET_CAP)
+		t="Oh no!\n"
+		t=t+"You've tried to add more than "+c+" tilesheets in one room.\n"
+		t=t+"I'm sorry, but that's too many!\n"	
+		error_text = t
+
 		#change multi
 		for ox in range(w):
 			for oy in range(h):
@@ -413,7 +463,8 @@ class TileTool(_Tool):
 					tile.clip = cx,cy
 					tile.texture = texture
 				else:
-					print "No space!"
+					self.open_error = True
+					self.error_text = error_text
 
 
 	###

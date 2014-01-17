@@ -178,6 +178,7 @@ class _Letter:
 class Text(_Text, Drawable, Rectangle):
 
 	color = None
+	x,y,w,h = 0,0,0,0
 
 	def __init__(self, Font):
 		self.Font = Font
@@ -219,8 +220,13 @@ class Text(_Text, Drawable, Rectangle):
 	@property
 	def w(self):
 		try:
-			return self.letters[-1].x2-self.letters[0].x1
-		except: return 0
+			w = 0
+			for letter in self.letters:
+				new_w = letter.x2 - self.letters[0].x1
+				if new_w > w: w = new_w
+			return w
+		except:
+			return 0
 
 	@property
 	def h(self):
