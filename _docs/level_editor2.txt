@@ -228,7 +228,7 @@ LEVEL EDITOR UI
 					+ close Box
 =====================================================================
 
-			! split Toolbox into different files
+			~ split Toolbox into different files
 
 			! Stress Testing
 				! Loading times - Amount of Rooms in a Level. (WorldMap it)
