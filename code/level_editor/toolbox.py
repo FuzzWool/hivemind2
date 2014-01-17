@@ -11,6 +11,7 @@ from code.level_editor.ui import TileSelector, Cursor
 import os
 from code.sfml_plus.constants import ROOM_WIDTH, ROOM_HEIGHT
 from code.sfml_plus.constants import SCREEN_WIDTH, SCREEN_HEIGHT
+from code.game.worldmap import TILESHEET_CAP
 
 #(help)
 from code.sfml_plus import Font, Text
@@ -312,6 +313,7 @@ class TileTool(_Tool):
 		self.Cursor.expand = False
 		self.Cursor.absolute = True
 		#Help
+		c = str(TILESHEET_CAP)
 		t = "---------------------------\n"
 		t=t+"TILE TOOL\n"
 		t=t+"---------------------------\n"
@@ -325,7 +327,9 @@ class TileTool(_Tool):
 		t=t+"* Select Dropdown item - Change tilesheet.\n"
 		t=t+"\n\n---\n\n"
 		t=t+"TIPS\n"
-		t=t+"* A single Room cannot use more than 5 different tilesheets.\n"
+		_="* A single Room cannot use more than %s different tilesheets.\n"\
+		% c
+		t=t+_
 		t=t+"* A cursor with a lot of tiles can be used as a HUGE eraser.\n"
 		self.help_text = t
 
@@ -363,6 +367,7 @@ class TileTool(_Tool):
 
 	###
 	#Cursor
+
 	def _control_Cursor(self, Key, Mouse, Camera, WorldMap):
 
 		#change tiles
@@ -379,8 +384,8 @@ class TileTool(_Tool):
 		self.Cursor.tile_w = w
 		self.Cursor.tile_h = h
 
+	#
 
-	_old_points = -1,-1,-1,-1
 	def _change_tile(self, WorldMap, erase=False):
 		#Change WorldMap tiles.
 
@@ -391,7 +396,7 @@ class TileTool(_Tool):
 		if not(0 <= x and x+w <= WorldMap.tile_w): return
 		if not(0 <= y and y+h <= WorldMap.tile_h): return
 
-		#select or erase
+		#create or erase
 		if erase: texture = None
 		else: texture = self.Selector.text
 
@@ -400,14 +405,21 @@ class TileTool(_Tool):
 			for oy in range(h):
 				data = self.Selector.selected_tiles[ox][oy]
 				cx,cy = int(data[:2]), int(data[2:])
-				WorldMap.tiles[x+ox][y+oy].clip = cx,cy
-				WorldMap.tiles[x+ox][y+oy].texture = texture
+				tile = WorldMap.tiles[x+ox][y+oy]
+
+				#room has texture space
+				if tile.room.has_slot_for_texture(texture)\
+				or erase:
+					tile.clip = cx,cy
+					tile.texture = texture
+				else:
+					print "No space!"
 
 
 	###
 	#Selector
-	def _control_Selector(self, Key, Mouse, Camera):
 
+	def _control_Selector(self, Key, Mouse, Camera):
 		if Key.SPACE.held():
 			self.Selector.open()
 			self.Selector.controls(Key, Mouse, Camera)
@@ -417,7 +429,6 @@ class TileTool(_Tool):
 
 	class _Selector(Box):
 		#A window for editing tiles.
-
 
 		#################################
 		# PUBLIC

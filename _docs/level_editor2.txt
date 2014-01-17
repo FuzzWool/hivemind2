@@ -214,17 +214,19 @@ LEVEL EDITOR UI
 						+ color, positioning
 
 				+ Tile Tool text
-=====================================================================
 
 				+ Created upon being opened, destroyed upon being closed
 				+ generic Tool Help for every Tool
 					+ Tool Help is part of _Tool, only changes text
 
-
-			! Help Box (general)
+=====================================================================
 
 			! Error Box
 				! (error: 5 textures in to a Room, can't add more)
+					+ logic: has_slot_for_texture (via tile.room)
+					+ logic: TILESHEET_CAP now properly used
+					! open an error Textbox
+
 
 			! Stress Testing
 				! Loading times - Amount of Rooms in a Level. (WorldMap it)

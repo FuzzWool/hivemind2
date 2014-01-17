@@ -11,6 +11,9 @@ from sfml import Color
 #Room.Grid
 from code.sfml_plus import Grid_Room
 
+#
+
+TILESHEET_CAP = 3
 
 def Key(x,y): #unused
 #data format for positioning.
@@ -19,7 +22,7 @@ def Key(x,y): #unused
 	if len(y) == 1: y = "0"+y
 	return x+y
 
-
+#
 
 class WorldMap(Rectangle):
 # * contains all of the Rooms, which then contain Tiles.
@@ -29,6 +32,8 @@ class WorldMap(Rectangle):
 
 	tiles = []
 	enable_grid = True
+
+	error = None
 
 	def __init__(self, w,h):
 		self.room_size = w,h
@@ -52,7 +57,9 @@ class WorldMap(Rectangle):
 	#################################
 	# PRIVATE
 
-	#Accessing
+	###
+	# Accessing
+
 	def _tile_access(self):
 		self.tiles = []
 		#Grab every ROOM in a COLUMN.
@@ -69,7 +76,9 @@ class WorldMap(Rectangle):
 				self.tiles.append(column)
 
 
-	#Loading
+	###
+	# Loading
+
 	def _init_rooms(self, w,h):
 		self.rooms = []
 		for x in range(w):
@@ -96,6 +105,7 @@ class Room(Rectangle):
 	# PUBLIC
 
 	tiles = []
+	has_slot_for_texture = None
 
 	def __init__(self, x,y):
 		self.child_listen = self.child_listen()
@@ -122,8 +132,7 @@ class Room(Rectangle):
 	#################################
 	# PRIVATE
 
-
-	TILESHEET_CAP = 5
+	#TILESHEET_CAP
 	_render_states = []
 	_texture_slots = [None, None, None, None, None]
 
@@ -147,7 +156,7 @@ class Room(Rectangle):
 		for x, column in enumerate(self.tiles):
 			for y, _tile in enumerate(column):
 				tile = TileClass(x+ox, y+oy,
-						self.child_tell, self.child_listen)
+						self.child_tell, self.child_listen, self)
 				self.tiles[x][y] = tile
 
 
@@ -160,7 +169,7 @@ class Room(Rectangle):
 
 		self._vertex_arrays = []
 		s = PrimitiveType.QUADS
-		for i in range(self.TILESHEET_CAP):
+		for i in range(TILESHEET_CAP):
 			self._vertex_arrays.append(VertexArray(s))
 
 
@@ -190,15 +199,22 @@ class Room(Rectangle):
 
 	###
 	# Textures
-
 	#! child_tell.texture_slots dependancy
+
+	def has_slot_for_texture(self, checked_texture):
+		for texture in self._texture_slots:
+			if texture == None: return True
+			if texture == checked_texture: return True
+		return False
+
+	#
 
 	def _init_textures(self): #init
 		self._render_states = []
-		for i in range(self.TILESHEET_CAP):
+		for i in range(TILESHEET_CAP):
 			self._render_states.append(RenderStates())
 
-		self._texture_slots = [None for i in range(self.TILESHEET_CAP)]
+		self._texture_slots = [None for i in range(TILESHEET_CAP)]
 		self._texture_slots[0] = None
 		self.child_tell.texture_slots = self._texture_slots
 
@@ -237,7 +253,7 @@ class Room(Rectangle):
 					raise "No space for a new texture!"
 
 		#Update state textures for drawing.
-		for i in range(self.TILESHEET_CAP):
+		for i in range(TILESHEET_CAP):
 			texture = self._texture_slots[i]
 			if texture != None:
 				t = "assets/tilesheets/"+texture+".png"
@@ -287,8 +303,10 @@ class Tile(Rectangle):
 
 	clip = 0,0
 	texture = ""
+	room = None
 
-	def __init__(self, x,y, parent_listen, parent_tell):
+	def __init__(self, x,y, parent_listen, parent_tell, room):
+		self.room = room
 		self.parent_listen = parent_listen
 		self.parent_tell = parent_tell
 		self.tile_position = x,y
