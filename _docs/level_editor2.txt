@@ -213,8 +213,10 @@ LEVEL EDITOR UI
 						~ moved to main code
 						+ color, positioning
 
-=====================================================================
 				+ Tile Tool text
+=====================================================================
+
+				! Created upon being opened, destroyed upon being closed
 
 				! generic Tool Help for every Tool
 					! Tool Help is part of _Tool, only changes text
@@ -238,6 +240,14 @@ LEVEL EDITOR UI
 				! (error: sheet removed) remove old texture, use default texture
 
 
+
+		! General controls
+			! Unique Map saving
+				Save, Save As, Open
+
+			! Zoom scale
+			! Hotkeys for Tools (1,2,3...)
+			! Help Box (for controls, general advice)
 
 
 		! Entity Tool
