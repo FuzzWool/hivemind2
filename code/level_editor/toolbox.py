@@ -148,6 +148,7 @@ class _Tool(Button):
 	#################################
 	# PUBLIC
 
+	help_text = "I'm a work-in-progress tool!"
 	parent_states = None
 	active = False
 
@@ -181,6 +182,7 @@ class _Tool(Button):
 		self._Camera = Camera
 
 		self._help_state(Mouse)
+		self._open_help()
 
 
 	def add_controls(self, WorldMap):
@@ -193,6 +195,7 @@ class _Tool(Button):
 		self._apply_coloring()
 		Button.draw(self, target, states)
 		self._draw_sprite(target, states)
+		self._draw_help(target, states)
 
 	#
 
@@ -237,16 +240,48 @@ class _Tool(Button):
 		self.sprite.y -= self.rise_offset
 		target.draw(self.sprite, states)
 
-	###
-	#Controls
 
+	###
+	# Help
+
+	#help_text
 	_help = False
-	
+	_HelpBox = None
+
+
 	def _help_state(self, Mouse):
-		if Mouse.inside(self):
+		if Mouse.inside(self) and self.active:
 			self._help = True
-		if not Mouse.inside(self):
+		else:
 			self._help = False
+
+	def _open_help(self): #controls
+		if self._help == True:
+			if self._HelpBox == None: self._create_help()
+			self._HelpBox.open()
+		if self._help == False:
+			if self._HelpBox != None:
+				if self._HelpBox.alpha > 0:
+					self._HelpBox.close()
+				else:
+					self._HelpBox = None
+
+	def _draw_help(self, target, states): #draw
+		if self._HelpBox != None:
+			target.draw(self._HelpBox, states)
+
+	#
+
+	def _create_help(self): #_open_help
+		self._HelpBox = Box()
+		Text1 = Text(Font("speech"))
+		Text1.x += 5; Text1.y += 5
+		Text1.write(self.help_text)
+		self._HelpBox.size = Text1.w+20, Text1.h+20
+		self._HelpBox.center = SCREEN_WIDTH/2, SCREEN_HEIGHT/2
+		self._HelpBox.children.append(Text1)
+
+
 
 
 
@@ -277,54 +312,6 @@ class TileTool(_Tool):
 		self.Cursor.expand = False
 		self.Cursor.absolute = True
 		#Help
-		self._init_help()
-
-	def normal_draw(self, target, states):
-		#Cursor
-		if not self.Selector.opened and self.active\
-		and not self.parent_states.hovered:
-			self.Cursor.draw(target, states)
-
-	def static_draw(self, target, states):
-		#Selector
-		target.draw(self.Selector, states)
-		_Tool.static_draw(self, target, states)
-		self._draw_help(target, states)
-
-	#
-
-	def add_controls(self, WorldMap):
-		if not self.active: return
-		Key, Mouse, Camera = self._Key, self._Mouse, self._Camera
-		if not self.parent_states.hovered:
-			self._control_Cursor(Key, Mouse, Camera, WorldMap)
-		self._control_Selector(Key, Mouse, Camera)
-		self._open_help()
-
-
-	def open(self):
-		_Tool.open(self)
-
-	def close(self):
-		_Tool.close(self)
-		self.Selector.close()
-
-	#################################
-	# PRIVATE
-
-	###
-	# Help
-
-	_help = False
-	_HelpBox = None
-
-	def _init_help(self): #init
-		self._HelpBox = Box()
-		self._HelpBox.center = SCREEN_WIDTH/2, SCREEN_HEIGHT/2
-
-		#Text
-		Text1 = Text(Font("speech"))
-		Text1.x += 5; Text1.y += 5
 		t = "---------------------------\n"
 		t=t+"TILE TOOL\n"
 		t=t+"---------------------------\n"
@@ -340,20 +327,39 @@ class TileTool(_Tool):
 		t=t+"TIPS\n"
 		t=t+"* A single Room cannot use more than 5 different tilesheets.\n"
 		t=t+"* A cursor with a lot of tiles can be used as a HUGE eraser.\n"
-		Text1.write(t)
-		self._HelpBox.size = Text1.w+20, Text1.h+20
-		self._HelpBox.children.append(Text1)
-		#
+		self.help_text = t
 
-	def _open_help(self): #controls
-		if self._help == True:
-			self._HelpBox.open()
-		if self._help == False:
-			self._HelpBox.close()
 
-	def _draw_help(self, target, states): #draw
-		target.draw(self._HelpBox, states)
+	def normal_draw(self, target, states):
+		#Cursor
+		if not self.Selector.opened and self.active\
+		and not self.parent_states.hovered:
+			self.Cursor.draw(target, states)
 
+	def static_draw(self, target, states):
+		#Selector
+		target.draw(self.Selector, states)
+		_Tool.static_draw(self, target, states)
+
+	#
+
+	def add_controls(self, WorldMap):
+		if not self.active: return
+		Key, Mouse, Camera = self._Key, self._Mouse, self._Camera
+		if not self.parent_states.hovered:
+			self._control_Cursor(Key, Mouse, Camera, WorldMap)
+		self._control_Selector(Key, Mouse, Camera)
+
+
+	def open(self):
+		_Tool.open(self)
+
+	def close(self):
+		_Tool.close(self)
+		self.Selector.close()
+
+	#################################
+	# PRIVATE
 
 	###
 	#Cursor

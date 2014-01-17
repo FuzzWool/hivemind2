@@ -216,10 +216,9 @@ LEVEL EDITOR UI
 				+ Tile Tool text
 =====================================================================
 
-				! Created upon being opened, destroyed upon being closed
-
-				! generic Tool Help for every Tool
-					! Tool Help is part of _Tool, only changes text
+				+ Created upon being opened, destroyed upon being closed
+				+ generic Tool Help for every Tool
+					+ Tool Help is part of _Tool, only changes text
 
 
 			! Help Box (general)
