@@ -224,9 +224,9 @@ LEVEL EDITOR UI
 				! (error: 5 textures in to a Room, can't add more)
 					+ logic: has_slot_for_texture (via tile.room)
 					+ logic: TILESHEET_CAP now properly used
-=====================================================================
 					+ open an error Textbox
-					! crashes while trying to add tiles to different rooms
+=====================================================================
+					~ fixed crash for tilesheet updating
 
 			! split Toolbox into different files
 

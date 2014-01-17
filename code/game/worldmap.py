@@ -13,7 +13,7 @@ from code.sfml_plus import Grid_Room
 
 #
 
-TILESHEET_CAP = 1
+TILESHEET_CAP = 3
 
 def Key(x,y): #unused
 #data format for positioning.
@@ -248,9 +248,9 @@ class Room(Rectangle):
 						self._texture_slots[slot_i] = texture
 						slot_found = True
 						break
-				#all slots filled
-				if not slot_found:
-					raise "No space for a new texture!"
+				# #all slots filled
+				# if not slot_found:
+				# 	pass
 
 		#Update state textures for drawing.
 		for i in range(TILESHEET_CAP):

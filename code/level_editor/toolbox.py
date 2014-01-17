@@ -447,8 +447,9 @@ class TileTool(_Tool):
 		c = str(TILESHEET_CAP)
 		t="Oh no!\n"
 		t=t+"You've tried to add more than "+c+" tilesheets in one room.\n"
-		t=t+"I'm sorry, but that's too many!\n"	
+		t=t+"I'm sorry, but that's too many!\n"
 		error_text = t
+		del c; del t
 
 		#change multi
 		for ox in range(w):
