@@ -220,13 +220,13 @@ LEVEL EDITOR UI
 					+ Tool Help is part of _Tool, only changes text
 
 
-			! Error Box
-				! (error: 5 textures in to a Room, can't add more)
+			+ Error Box
+				+ (error: 3 textures in to a Room, can't add more)
 					+ logic: has_slot_for_texture (via tile.room)
 					+ logic: TILESHEET_CAP now properly used
 					+ open an error Textbox
+					+ close Box
 =====================================================================
-					~ fixed crash for tilesheet updating
 
 			! split Toolbox into different files
 

@@ -306,7 +306,10 @@ class _Tool(Button):
 				self._create_Error()
 				self._ErrorBox.open()
 		else:
-			pass
+			if self._ErrorBox != None:
+				self._ErrorBox.close()
+				if self._ErrorBox.alpha == 0:
+					del self._ErrorBox
 
 		self.open_error = False
 
