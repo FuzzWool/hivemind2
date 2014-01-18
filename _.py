@@ -1,9 +1,6 @@
-#Find the index of every space inside a sentence. (to find each word's gap)
+#Create a folder.
 
-def find(string, wanted_char):
-	for i, char in enumerate(string):
-		if char == wanted_char:
-			yield i 
-
-sentence = "Hello there, my name is Sam."
-print list(find(sentence, " "))
+import os
+mypath = os.getcwd()
+if not os.path.isdir(mypath+"\maps"):
+	os.makedirs(mypath+"\maps")

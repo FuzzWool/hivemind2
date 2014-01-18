@@ -226,21 +226,31 @@ LEVEL EDITOR UI
 					+ logic: TILESHEET_CAP now properly used
 					+ open an error Textbox
 					+ close Box
-=====================================================================
 
-			~ split Toolbox into different files
+			***
 
 			! Stress Testing
 				! Loading times - Amount of Rooms in a Level. (WorldMap it)
+					! Rooms
 				! Lag (check CPU usage) - Amount of render layers per Room.
+					! Render Layers
 
 			! (Alt) Eyedropper Tool
 				For selecting tiles on the WorldMap.
 				! (Click) selects a single tile
 				! (Click, drag) Selects multiple tiles
 
-			! Tile Saving
+			***
+=====================================================================
+
+			! Map Saving/Loading
 				! (error: sheet removed) remove old texture, use default texture
+
+				! save a map folder
+				! save map files (header: texture, body: tiles)
+
+				! load (different) map folders
+
 
 
 

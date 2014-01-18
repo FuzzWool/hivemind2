@@ -11,6 +11,12 @@ from code.sfml_plus import SmoothCamera
 from code.level_editor import LevelEditor
 
 WorldMap = WorldMap(10,10)
+
+# from random import randrange
+# for column in WorldMap.tiles:
+# 	for tile in column:
+# 		tile.texture = "_default/"+str(randrange(0,4))
+
 Camera = SmoothCamera(Window)
 LevelEditor = LevelEditor(Window)
 ################################################
