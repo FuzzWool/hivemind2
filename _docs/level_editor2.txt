@@ -246,12 +246,15 @@ LEVEL EDITOR UI
 			! Map Saving/Loading
 				! (error: sheet removed) remove old texture, use default texture
 
-				! save a map folder
-				! save map files (header: texture, body: tiles)
+				+ Saving
+					+ save a map folder
+					+ save map files
+					+ save rooms
+					+ save tile data in each room
+						* save "_" texture for empty tiles
 
-				! load (different) map folders
-
-
+				! Loading
+					* read "_" texture for empty tiles
 
 
 		! General controls

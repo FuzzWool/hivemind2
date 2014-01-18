@@ -11,21 +11,34 @@ from sfml import Color
 #Room.Grid
 from code.sfml_plus import Grid_Room
 
+#Saving/Loading
+import os
+
 #
 
 TILESHEET_CAP = 5
 
-def Key(x,y): #unused
-#data format for positioning.
+def Key(x,y):
+#Data format for tile positioning.
 	x,y = str(x),str(y)
 	if len(x) == 1: x = "0"+x
 	if len(y) == 1: y = "0"+y
 	return x+y
 
+def Big_Key(x,y):
+#Triple digits, for potentially huge, huge maps.
+	x,y = str(x),str(y)
+	if len(x) == 1: x = "00"+x
+	if len(y) == 1: y = "00"+y
+	if len(x) == 2: x = "0"+x
+	if len(y) == 2: y = "0"+y
+	return x+y
+
 #
 
 class WorldMap(Rectangle):
-# * contains all of the Rooms, which then contain Tiles.
+# contains all of the Rooms, which then contain Tiles.
+# * saves and loads entire map files.
 
 	#################################
 	# PUBLIC
@@ -54,6 +67,12 @@ class WorldMap(Rectangle):
 				if self.enable_grid:
 					room.draw_grid(window)
 
+	#
+
+	def save(self, map_name):
+		self._save(map_name)
+
+
 	#################################
 	# PRIVATE
 
@@ -75,7 +94,6 @@ class WorldMap(Rectangle):
 				
 				self.tiles.append(column)
 
-
 	###
 	# Loading
 
@@ -89,11 +107,41 @@ class WorldMap(Rectangle):
 	def _load_rooms(self, RoomClass):
 		for x, column in enumerate(self.rooms):
 			for y, _room in enumerate(column):
-				room = RoomClass(x,y)
-				self.rooms[x][y] = room
+				self.rooms[x][y] = RoomClass(x,y)
+
+
+	###
+	# Saving
+
+	def _save(self, map_name):
+
+		# Make Map folder (if needed)
+		mypath = os.getcwd()
+		if not os.path.isdir(mypath+"\maps\\"+map_name):
+			os.makedirs(mypath+"\maps\\"+map_name)
+
+		# Make a .txt file for each room
+		for column in self.rooms:
+			for room in column:
+				_name = Big_Key(*room.room_position)
+				f = open(mypath+"\maps\\"+map_name+"\\"+_name+".txt", "w+")
+				#
+				# Header: texture slots, Footer: texture/clipx/clipy tiles
+				_t = str(room.texture_slots)
+				if room.x == 0 and room.y == 0:
+					for column in room.tiles:
+						_t = _t+"\n"
+						for tile in column:
+							_t = _t+tile.data
+				f.write(_t)
+				#
+				f.close()
 
 
 
+######################################################################
+######################################################################
+######################################################################
 
 
 class Room(Rectangle):
@@ -133,8 +181,8 @@ class Room(Rectangle):
 	# PRIVATE
 
 	#TILESHEET_CAP
+	texture_slots = [None, None, None, None, None]
 	_render_states = []
-	_texture_slots = [None, None, None, None, None]
 
 
 	###
@@ -202,7 +250,7 @@ class Room(Rectangle):
 	#! child_tell.texture_slots dependancy
 
 	def has_slot_for_texture(self, checked_texture):
-		for texture in self._texture_slots:
+		for texture in self.texture_slots:
 			if texture == None: return True
 			if texture == checked_texture: return True
 		return False
@@ -214,9 +262,9 @@ class Room(Rectangle):
 		for i in range(TILESHEET_CAP):
 			self._render_states.append(RenderStates())
 
-		self._texture_slots = [None for i in range(TILESHEET_CAP)]
-		self._texture_slots[0] = None
-		self.child_tell.texture_slots = self._texture_slots
+		self.texture_slots = [None for i in range(TILESHEET_CAP)]
+		self.texture_slots[0] = None
+		self.child_tell.texture_slots = self.texture_slots
 
 
 	def _update_textures(self): #_child_listening
@@ -229,23 +277,23 @@ class Room(Rectangle):
 					textures.append(tile.texture)
 
 		#Remove any old, non-existing textures.
-		for slot_i, slot in enumerate(self._texture_slots):
+		for slot_i, slot in enumerate(self.texture_slots):
 			texture_found = False
 			for texture in textures:
 				if slot == texture:
 					texture_found = True
 			if not texture_found:
-				self._texture_slots[slot_i] = None
+				self.texture_slots[slot_i] = None
 
 		#Add any newly appeared textures.
 		for texture in textures:
 			#new texture found
-			if texture not in self._texture_slots:
+			if texture not in self.texture_slots:
 				slot_found = False
-				for slot_i, slot in enumerate(self._texture_slots):
+				for slot_i, slot in enumerate(self.texture_slots):
 					#free slot
 					if slot == None:
-						self._texture_slots[slot_i] = texture
+						self.texture_slots[slot_i] = texture
 						slot_found = True
 						break
 				# #all slots filled
@@ -254,13 +302,13 @@ class Room(Rectangle):
 
 		#Update state textures for drawing.
 		for i in range(TILESHEET_CAP):
-			texture = self._texture_slots[i]
+			texture = self.texture_slots[i]
 			if texture != None:
 				t = "assets/tilesheets/"+texture+".png"
 				self._render_states[i].texture = Texture.from_file(t)
 
 		#Tell children, for their data, what slot their texture uses.
-		self.child_listen.texture_slots = self._texture_slots
+		self.child_listen.texture_slots = self.texture_slots
 
 
 	###
@@ -294,6 +342,11 @@ class Room(Rectangle):
 		Window.draw(self._Grid)
 
 
+######################################################################
+######################################################################
+######################################################################
+
+
 class Tile(Rectangle):
 # * Graphic - provides the tile to use in the sheet.
 # It does not contain a graphic, rather, the clip to use.
@@ -306,6 +359,7 @@ class Tile(Rectangle):
 	room = None
 
 	def __init__(self, x,y, parent_listen, parent_tell, room):
+
 		self.room = room
 		self.parent_listen = parent_listen
 		self.parent_tell = parent_tell
@@ -347,7 +401,10 @@ class Tile(Rectangle):
 	
 	@property
 	def data(self):
-		t = str(self.parent_listen.texture_slots.index(self._texture))
+		if self.texture == None:
+			t = "_"
+		else:
+			t = str(self.parent_listen.texture_slots.index(self._texture))
 		x,y = str(self.clip[0]),str(self.clip[1])
 		if len(x) == 1: x = "0"+x
 		if len(y) == 1: y = "0"+y

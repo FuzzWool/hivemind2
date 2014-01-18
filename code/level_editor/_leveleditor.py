@@ -5,16 +5,19 @@ class LevelEditor:
 # * Contains a background.
 # * Handles Camera controls.
 
+	#################################
+	# PUBLIC
+
 	def __init__(self, window):
 		self.Background = Background(window)
 		self.ToolBox = ToolBox(*window.size)
 
-	#
-	_enable_grid = False
 
 	def camera_controls(self, Key, Mouse, Camera):
 		Camera.smooth.speed = 3
-		
+
+		if Key.L_CTRL.held(): return
+
 		#Move (per Room)
 		if Key.LEFT.pressed(): Camera.smooth.room_x -= 1
 		if Key.RIGHT.pressed(): Camera.smooth.room_x += 1
@@ -39,16 +42,19 @@ class LevelEditor:
 		self.ToolBox.controls(Key, Mouse, Camera)
 		if Key.TAB.pressed(): self.ToolBox.toggle()
 
-		#Grid (Toggle)
-		self._enable_grid = False
-		if Key.Q.pressed():
-			self._enable_grid = True
+		self.Key, self.Mouse, self.Camera = Key, Mouse, Camera
 
 	def add_controls(self, WorldMap):
 		self.ToolBox.add_controls(WorldMap)
 
-		if self._enable_grid:
+		# Toggle grid.
+		if self.Key.Q.pressed():
 			WorldMap.enable_grid = not WorldMap.enable_grid
+
+		# Save
+		if self.Key.L_CTRL.held() and self.Key.S.pressed():
+			self._save(WorldMap)
+
 
 	#
 
@@ -60,3 +66,13 @@ class LevelEditor:
 		self.ToolBox.static_draw(Window, None)
 		Window.view = Camera
 		self.ToolBox.normal_draw(Window, None)
+
+
+	#################################
+	# PRIVATE
+	# * WorldMap saving/loading.
+
+	_map_name = "map0"
+
+	def _save(self, WorldMap):
+		WorldMap.save(self._map_name)
