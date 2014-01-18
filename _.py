@@ -1,6 +1,11 @@
-#Create a folder.
+#Split a string every four characters.
 
-import os
-mypath = os.getcwd()
-if not os.path.isdir(mypath+"\maps"):
-	os.makedirs(mypath+"\maps")
+t = ""
+for i in range(5):
+	t = t+(str(i)*4)
+
+# >>> line = '1234567890'
+# >>> n = 2
+# >>> [line[i:i+n] for i in range(0, len(line), n)]
+
+t = [t[i:i+4] for i in range(0, len(t), 4)]

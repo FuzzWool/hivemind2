@@ -71,6 +71,8 @@ class WorldMap(Rectangle):
 
 	def save(self, map_name):
 		self._save(map_name)
+	def load(self, map_name):
+		self._load(map_name)
 
 
 	#################################
@@ -111,7 +113,7 @@ class WorldMap(Rectangle):
 
 
 	###
-	# Saving
+	# Saving/Loading
 
 	def _save(self, map_name):
 
@@ -128,14 +130,48 @@ class WorldMap(Rectangle):
 				#
 				# Header: texture slots, Footer: texture/clipx/clipy tiles
 				_t = str(room.texture_slots)
-				if room.x == 0 and room.y == 0:
-					for column in room.tiles:
-						_t = _t+"\n"
-						for tile in column:
-							_t = _t+tile.data
+				for tcolumn in room.tiles:
+					_t = _t+"\n"
+					for tile in tcolumn:
+						_t = _t+tile.data
 				f.write(_t)
+				f.close()
+
+
+	def _load(self, map_name):
+
+		#Load data for every room.
+		for column in self.rooms:
+			for room in column:
+				_k = Big_Key(*room.room_position)
+				f = open("maps/"+map_name+"/"+_k+".txt", "r")
+				#
+				_f = f.read().split("\n")
+				
+				#Grab and seperate header and body
+				_f[0] = _f[0].translate(None, "'")
+				_f[0] = _f[0].translate(None, " ")
+				header = _f[0][1:-1].split(",")
+				body = []
+				for _fl in _f[1:]:
+					body.append([_fl[i:i+5] for i in range(0,len(_fl),5)])
+
+				#Apply data to each tile.
+				for ix, tcolumn in enumerate(room.tiles):
+					for iy, tile in enumerate(tcolumn):
+						_tex = body[ix][iy][0]
+						if _tex == "_":
+							tile.texture = None
+							tile.clip = 0,0
+						else:
+							tile.texture = header[int(_tex)]
+							x = int(body[ix][iy][1:3])
+							y = int(body[ix][iy][3:6])
+							tile.clip = x,y
 				#
 				f.close()
+
+
 
 
 
@@ -181,7 +217,7 @@ class Room(Rectangle):
 	# PRIVATE
 
 	#TILESHEET_CAP
-	texture_slots = [None, None, None, None, None]
+	texture_slots = [None, None, None, None, None] #readonly
 	_render_states = []
 
 

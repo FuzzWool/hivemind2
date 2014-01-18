@@ -51,9 +51,12 @@ class LevelEditor:
 		if self.Key.Q.pressed():
 			WorldMap.enable_grid = not WorldMap.enable_grid
 
-		# Save
-		if self.Key.L_CTRL.held() and self.Key.S.pressed():
-			self._save(WorldMap)
+		# Saving/Loading
+		if self.Key.L_CTRL.held():
+			if self.Key.S.pressed():
+				self._save(WorldMap)
+			if self.Key.O.pressed():
+				self._load(WorldMap)
 
 
 	#
@@ -72,7 +75,10 @@ class LevelEditor:
 	# PRIVATE
 	# * WorldMap saving/loading.
 
-	_map_name = "map0"
+	_map_name = "map1"
 
 	def _save(self, WorldMap):
 		WorldMap.save(self._map_name)
+
+	def _load(self, WorldMap):
+		WorldMap.load(self._map_name)

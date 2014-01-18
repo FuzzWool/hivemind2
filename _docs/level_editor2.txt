@@ -241,19 +241,16 @@ LEVEL EDITOR UI
 				! (Click, drag) Selects multiple tiles
 
 			***
-=====================================================================
 
-			! Map Saving/Loading
-				! (error: sheet removed) remove old texture, use default texture
-
+			+ Map Saving/Loading
 				+ Saving
 					+ save a map folder
 					+ save map files
 					+ save rooms
 					+ save tile data in each room
 						* save "_" texture for empty tiles
-
-				! Loading
+=====================================================================
+				+ Loading
 					* read "_" texture for empty tiles
 
 
