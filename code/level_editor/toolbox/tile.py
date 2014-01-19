@@ -60,7 +60,7 @@ class TileTool(_Tool):
 	def normal_draw(self, target, states):
 		#Cursor
 		if not self.Selector.opened and self.active\
-		and not self.parent_states.hovered:
+		and not self.parent_states.in_use:
 			self.Cursor.draw(target, states)
 
 	def static_draw(self, target, states):
@@ -73,7 +73,7 @@ class TileTool(_Tool):
 	def add_controls(self, WorldMap):
 		if not self.active: return
 		Key, Mouse, Camera = self._Key, self._Mouse, self._Camera
-		if not self.parent_states.hovered:
+		if not self.parent_states.in_use:
 			self._control_Cursor(Key, Mouse, Camera, WorldMap)
 		self._control_Selector(Key, Mouse, Camera)
 

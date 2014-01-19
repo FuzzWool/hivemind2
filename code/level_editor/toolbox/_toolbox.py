@@ -1,6 +1,6 @@
 from tile import TileTool, CameraTool, EntityTool
 #
-from code.sfml_plus.ui import _UI, Box
+from code.sfml_plus.ui import _UI, Box, Button
 from code.sfml_plus import TweenRectangle
 from sfml import Color
 
@@ -53,21 +53,25 @@ class ToolBox(_UI, TweenRectangle):
 	def toggle(self):
 		self.opened = not self.opened
 		if self.opened == True: self.tween.y = 0
-		if self.opened == False: self.tween.y = -80
+		if self.opened == False:
+			self.tween.y = -80
+			self._hide_Menus()
 
 
 
 	#################################
 	# PRIVATE
 
+	Bar = None
 	_Tools = []
 	_Menus = []
 
 	###
-	# STATES
+	# States (shared with the tools)
+	# in_use - The ToolBox is being interacted with.
 
 	class states:
-		hovered = False
+		in_use = False
 
 	def _init_states(self):
 		self.states = self.states()
@@ -75,16 +79,19 @@ class ToolBox(_UI, TweenRectangle):
 			tool.parent_states = self.states
 
 	def _state_handling(self, Key, Mouse, Camera):
-		#hovered
-		self.states.hovered = False
-		for tool in self._Tools:
-			if Mouse.inside(tool):
-				self.states.hovered = True
+		#Check to see if any widgets are in use.
+		self.states.in_use = False
+		for widget in [self.Bar] + self._Tools + self._Menus:
+			_p = [widget.x1, widget.y1, widget.x2, widget.y2+widget.rise]
+			if Mouse.inside(_p):
+				self.states.in_use = True
+			if type(widget) in [Button, Dropdown]:
+				if widget.held:
+					self.states.in_use = True
+
 
 	###
-	# BAR
-
-	Bar = None
+	# Bar
 
 	def _create_Bar(self, w,h): #init
 		self.Bar = Box()
@@ -93,7 +100,7 @@ class ToolBox(_UI, TweenRectangle):
 
 
 	###
-	# TOOLS
+	# Tools
 
 	def _create_Tools(self): #init
 		#create
@@ -105,7 +112,7 @@ class ToolBox(_UI, TweenRectangle):
 		self._Tools[0].x += 400
 		last_tool = None
 		for tool in self._Tools:
-			if last_tool: tool.x = last_tool.x2+1
+			if last_tool: tool.x = last_tool.x2-1
 			last_tool = tool
 
 		#add
@@ -141,3 +148,8 @@ class ToolBox(_UI, TweenRectangle):
 		File.w = 50
 		self.children.append(File)
 		self._Menus.append(File)
+
+
+	def _hide_Menus(self): #toggle close
+		for menu in self._Menus:
+			menu.held = False

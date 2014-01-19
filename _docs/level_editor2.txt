@@ -257,13 +257,14 @@ LEVEL EDITOR UI
 			! Unique Map saving
 				
 				! File option
-=====================================================================
 					* Dropdown may have different size to contained cells
 					(Untested, but appears to work fine)
 
 					! File Widget
 						+ created Dropdown
-						! Hovering any Dropdown cell counts as a Hover
+=====================================================================
+						~ hovered > in_use
+						+ improved "in_use" states for ToolBox
 						! Automatically close upon Tabbing
 
 					! Save
