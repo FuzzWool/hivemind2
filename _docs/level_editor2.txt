@@ -262,10 +262,11 @@ LEVEL EDITOR UI
 
 					! File Widget
 						+ created Dropdown
-=====================================================================
 						~ hovered > in_use
 						+ improved "in_use" states for ToolBox
-						! Automatically close upon Tabbing
+=====================================================================
+						+ Automatically close upon Tabbing
+						! functions for selecting New, Save, Save As, Open
 
 					! Save
 						! Flashes screen, "Saved!" message pops up

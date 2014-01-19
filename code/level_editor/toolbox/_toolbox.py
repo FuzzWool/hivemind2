@@ -153,3 +153,4 @@ class ToolBox(_UI, TweenRectangle):
 	def _hide_Menus(self): #toggle close
 		for menu in self._Menus:
 			menu.held = False
+			menu.rise = menu.old_rise
