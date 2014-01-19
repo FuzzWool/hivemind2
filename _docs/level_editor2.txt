@@ -252,14 +252,19 @@ LEVEL EDITOR UI
 				+ Loading
 					* read "_" texture for empty tiles
 
-=====================================================================
 
 		! General controls
 			! Unique Map saving
 				
 				! File option
+=====================================================================
+					* Dropdown may have different size to contained cells
+					(Untested, but appears to work fine)
 
-					! Dropdown may have different size to contained cells
+					! File Widget
+						+ created Dropdown
+						! Hovering any Dropdown cell counts as a Hover
+						! Automatically close upon Tabbing
 
 					! Save
 						! Flashes screen, "Saved!" message pops up
@@ -269,6 +274,9 @@ LEVEL EDITOR UI
 							! overwrite warnings
 					! Open
 						! Open menu pops up, w/ dropdown menu
+
+					! New
+						(prompts Save As for Save)
 
 			! Zoom scale (E hotkey box)
 			! Hotkeys for Tools (1,2,3...)
@@ -296,32 +304,3 @@ LEVEL EDITOR UI
 					! Up to 50(?) rooms may be in a level.
 
 			! Entity loading/limits
-
-
-
-=================================================
-
-
-! ToolBox
-	! Icons
-
-! Entity Tool
-	! Dropdown
-	+ SliderBox
-
-
-
-! Warning Message (example: an entity has an error)
-! UI Box (Help dialogue for Tile)
-
-
-
-
-
-
-***
-
-Problems with UI
-	Masking is awkward
-	Positioning is awkward
-	Alpha preservation is awkward

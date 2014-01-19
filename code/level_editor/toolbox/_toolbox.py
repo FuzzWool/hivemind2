@@ -4,6 +4,9 @@ from code.sfml_plus.ui import _UI, Box
 from code.sfml_plus import TweenRectangle
 from sfml import Color
 
+#menus
+from code.sfml_plus.ui import Dropdown
+
 
 class ToolBox(_UI, TweenRectangle):
 	
@@ -16,6 +19,7 @@ class ToolBox(_UI, TweenRectangle):
 		#
 		self._create_Bar(w,h)
 		self._create_Tools()
+		self._init_Menus()
 		self._init_states()
 		#
 		self.size = w,h
@@ -57,9 +61,11 @@ class ToolBox(_UI, TweenRectangle):
 	# PRIVATE
 
 	_Tools = []
+	_Menus = []
 
-
+	###
 	# STATES
+
 	class states:
 		hovered = False
 
@@ -75,8 +81,9 @@ class ToolBox(_UI, TweenRectangle):
 			if Mouse.inside(tool):
 				self.states.hovered = True
 
-
+	###
 	# BAR
+
 	Bar = None
 
 	def _create_Bar(self, w,h): #init
@@ -85,7 +92,9 @@ class ToolBox(_UI, TweenRectangle):
 		self.children.append(self.Bar)
 
 
-	# TOOLS	
+	###
+	# TOOLS
+
 	def _create_Tools(self): #init
 		#create
 		self._Tools = [TileTool(), CameraTool(), EntityTool()]
@@ -122,3 +131,13 @@ class ToolBox(_UI, TweenRectangle):
 	def _add_controls(self, WorldMap):
 		for tool in self._Tools:
 			tool.add_controls(WorldMap)
+
+	###
+	# Menus
+
+	def _init_Menus(self):
+		File = Dropdown(["New","Save","Save As","Open"])
+		File.text = "File"
+		File.w = 50
+		self.children.append(File)
+		self._Menus.append(File)
