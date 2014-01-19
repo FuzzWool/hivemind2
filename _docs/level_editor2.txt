@@ -249,22 +249,34 @@ LEVEL EDITOR UI
 					+ save rooms
 					+ save tile data in each room
 						* save "_" texture for empty tiles
-=====================================================================
 				+ Loading
 					* read "_" texture for empty tiles
 
+=====================================================================
 
 		! General controls
 			! Unique Map saving
-				Save, Save As, Open
+				
+				! File option
 
-			! Zoom scale
+					! Dropdown may have different size to contained cells
+
+					! Save
+						! Flashes screen, "Saved!" message pops up
+
+					! Save As
+						! Save As box to type names in
+							! overwrite warnings
+					! Open
+						! Open menu pops up, w/ dropdown menu
+
+			! Zoom scale (E hotkey box)
 			! Hotkeys for Tools (1,2,3...)
 			! Help Box (for controls, general advice)
+			! Grid Toggle (Q hotkey box)
 
 
 		! Entity Tool
-
 
 		! Level Tool
 		A Level is a a collection of Rooms seperated from the WorldMap for loading.
