@@ -6,7 +6,7 @@ from sfml import Color
 
 #menus
 from code.sfml_plus.ui import Dropdown
-
+from code.sfml_plus.constants import SCREEN_WIDTH, SCREEN_HEIGHT
 
 class ToolBox(_UI, TweenRectangle):
 	
@@ -19,15 +19,16 @@ class ToolBox(_UI, TweenRectangle):
 		#
 		self._create_Bar(w,h)
 		self._create_Tools()
-		self._init_Menus()
 		self._init_states()
+		#
+		self.Menus = self._Menus()
 		#
 		self.size = w,h
 
 	def controls(self, Key, Mouse, Camera):
 		_UI.controls(self, Key, Mouse, Camera)
 		self._select_Tool(Key, Mouse, Camera)
-		self._state_handling(Key, Mouse, Camera)
+		self.Menus.controls(Key, Mouse, Camera)
 
 	def add_controls(self, WorldMap):
 		self._add_controls(WorldMap)
@@ -41,8 +42,9 @@ class ToolBox(_UI, TweenRectangle):
 			except: pass
 
 	def static_draw(self, target, states):
-		_UI.draw(self, target, states)
 		TweenRectangle.draw(self)
+		_UI.draw(self, target, states)
+		self.Menus.draw(target, states)
 		for child in self.children:
 			try: child.static_draw(target, states)
 			except: pass
@@ -55,7 +57,7 @@ class ToolBox(_UI, TweenRectangle):
 		if self.opened == True: self.tween.y = 0
 		if self.opened == False:
 			self.tween.y = -80
-			self._hide_Menus()
+			# self._hide_Menus()
 
 
 
@@ -81,13 +83,16 @@ class ToolBox(_UI, TweenRectangle):
 	def _state_handling(self, Key, Mouse, Camera):
 		#Check to see if any widgets are in use.
 		self.states.in_use = False
-		for widget in [self.Bar] + self._Tools + self._Menus:
+		for widget in [self.Bar] + self._Tools + self.Menus.children:
 			_p = [widget.x1, widget.y1, widget.x2, widget.y2+widget.rise]
 			if Mouse.inside(_p):
 				self.states.in_use = True
-			if type(widget) in [Button, Dropdown]:
+			
+			try:
 				if widget.held:
 					self.states.in_use = True
+			except:
+				pass
 
 
 	###
@@ -142,15 +147,95 @@ class ToolBox(_UI, TweenRectangle):
 	###
 	# Menus
 
-	def _init_Menus(self):
-		File = Dropdown(["New","Save","Save As","Open"])
-		File.text = "File"
-		File.w = 50
-		self.children.append(File)
-		self._Menus.append(File)
+	#_Menus
+
+	# old_action = "File"
+	# def _control_Menus(self): #controls
+	# 	#File actions (based on text)
+	# 	action = self.File.text
+	# 	if action != self.old_action:
+	# 		print action
+	# 		# if action == "New":
+	# 		# 	print 0
+	# 		# if action == "Save":
+	# 		# 	print 1
+	# 		# if action == "Save As":
+	# 		# 	print 2
+	# 		# if action == "Open":
+	# 		# 	print 3
+	# 	self.old_action = action
+	# 	self.File.text = "File"
+
+	# #
+
+	# def _hide_Menus(self): #toggle close
+	# 	for menu in self._Menus:
+	# 		menu.held = False
+	# 		menu.rise = menu.old_rise
 
 
-	def _hide_Menus(self): #toggle close
-		for menu in self._Menus:
-			menu.held = False
-			menu.rise = menu.old_rise
+	class _Menus(_UI):
+	# * Contains the Windows to respond to Menu event handling. 
+
+		#################################
+		# PUBLIC
+
+		children = []
+
+		def __init__(self):
+			_UI.__init__(self)
+			self._init_File()
+
+		def controls(self, Key, Mouse, Camera):
+			_UI.controls(self, Key, Mouse, Camera)
+
+		def draw(self, target, states):
+			_UI.draw(self, target, states)
+
+
+		#################################
+		# PRIVATE
+
+		###
+		# File
+
+		_File = None
+
+		def _init_File(self):
+			File = self._File()
+			self._File = self._File()
+			self.children.append(File)
+			self.size = SCREEN_WIDTH, SCREEN_HEIGHT
+
+		class _File(Dropdown):
+		# File-specific Windows.
+
+			#################################
+			# PUBLIC
+
+			def __init__(self):
+				Dropdown.__init__(self, ["New","Save","Save As","Open"])
+				self.text = "File"
+				self.w = 50
+
+			def controls(self, Key, Mouse, Camera):
+				Dropdown.controls(self, Key, Mouse, Camera)
+
+			#################################
+			# PRIVATE
+
+			old_text = "File"
+			def _text_action(self):
+				pass
+
+			class _New:
+				pass
+
+			class _Save:
+				pass
+
+			class _SaveAs:
+				pass
+
+			class _Open:
+				pass
