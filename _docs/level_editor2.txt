@@ -267,8 +267,7 @@ LEVEL EDITOR UI
 						~ rewrote Menu (Menus > File > New, Save, Open...)
 						+ opening Menus puts the ToolBox "in_use"
 =====================================================================
-						+ Automatically close upon Tabbing
-						! functions for selecting New, Save, Save As, Open
+						+ functions for selecting New, Save, Save As, Open
 
 					! Save
 						! Flashes screen, "Saved!" message pops up

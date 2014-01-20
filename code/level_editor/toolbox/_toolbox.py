@@ -216,22 +216,29 @@ class ToolBox(_UI, TweenRectangle):
 
 			def controls(self, Key, Mouse, Camera):
 				Dropdown.controls(self, Key, Mouse, Camera)
+				self._text_action()
 
 			#################################
 			# PRIVATE
 
-			old_text = "File"
+			old_action = "File"
 			def _text_action(self):
+				action = self.text
+				#
+				if action != self.old_action:
+					print action
+				#
+				self.old_action = action
+				self.text = "File"
+
+			class _New(Box):
 				pass
 
-			class _New:
+			class _Save(Box):
 				pass
 
-			class _Save:
+			class _SaveAs(Box):
 				pass
 
-			class _SaveAs:
-				pass
-
-			class _Open:
+			class _Open(Box):
 				pass
