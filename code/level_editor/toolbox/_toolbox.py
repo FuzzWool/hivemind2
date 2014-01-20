@@ -22,13 +22,16 @@ class ToolBox(_UI, TweenRectangle):
 		self._init_states()
 		#
 		self.Menus = self._Menus()
+		self.children.append(self.Menus)
 		#
-		self.size = w,h
+		self.size = SCREEN_WIDTH, SCREEN_HEIGHT
+
+	#
 
 	def controls(self, Key, Mouse, Camera):
 		_UI.controls(self, Key, Mouse, Camera)
 		self._select_Tool(Key, Mouse, Camera)
-		self.Menus.controls(Key, Mouse, Camera)
+		self._state_handling(Key, Mouse, Camera)
 
 	def add_controls(self, WorldMap):
 		self._add_controls(WorldMap)
@@ -44,7 +47,6 @@ class ToolBox(_UI, TweenRectangle):
 	def static_draw(self, target, states):
 		TweenRectangle.draw(self)
 		_UI.draw(self, target, states)
-		self.Menus.draw(target, states)
 		for child in self.children:
 			try: child.static_draw(target, states)
 			except: pass
@@ -57,8 +59,6 @@ class ToolBox(_UI, TweenRectangle):
 		if self.opened == True: self.tween.y = 0
 		if self.opened == False:
 			self.tween.y = -80
-			# self._hide_Menus()
-
 
 
 	#################################
@@ -87,7 +87,6 @@ class ToolBox(_UI, TweenRectangle):
 			_p = [widget.x1, widget.y1, widget.x2, widget.y2+widget.rise]
 			if Mouse.inside(_p):
 				self.states.in_use = True
-			
 			try:
 				if widget.held:
 					self.states.in_use = True
@@ -184,7 +183,8 @@ class ToolBox(_UI, TweenRectangle):
 
 		def __init__(self):
 			_UI.__init__(self)
-			self._init_File()
+			self.size = SCREEN_WIDTH-1, SCREEN_HEIGHT-1
+			self.children.append(self._File())
 
 		def controls(self, Key, Mouse, Camera):
 			_UI.controls(self, Key, Mouse, Camera)
@@ -195,17 +195,6 @@ class ToolBox(_UI, TweenRectangle):
 
 		#################################
 		# PRIVATE
-
-		###
-		# File
-
-		_File = None
-
-		def _init_File(self):
-			File = self._File()
-			self._File = self._File()
-			self.children.append(File)
-			self.size = SCREEN_WIDTH, SCREEN_HEIGHT
 
 		class _File(Dropdown):
 		# File-specific Windows.
