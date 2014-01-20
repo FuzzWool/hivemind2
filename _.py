@@ -1,11 +1,9 @@
-#Split a string every four characters.
+#Remove objects in a list.
 
-t = ""
-for i in range(5):
-	t = t+(str(i)*4)
+lst = [True, True, False]
 
-# >>> line = '1234567890'
-# >>> n = 2
-# >>> [line[i:i+n] for i in range(0, len(line), n)]
+def false_list(arg):
+	for l in arg:
+		if l != True: yield l
 
-t = [t[i:i+4] for i in range(0, len(t), 4)]
+print list(false_list(lst))

@@ -260,21 +260,22 @@ LEVEL EDITOR UI
 					* Dropdown may have different size to contained cells
 					(Untested, but appears to work fine)
 
-					! File Widget
+					+ File Widget
 						+ created Dropdown
 						~ hovered > in_use
 						+ improved "in_use" states for ToolBox
 						~ rewrote Menu (Menus > File > New, Save, Open...)
 						+ opening Menus puts the ToolBox "in_use"
-=====================================================================
 						+ functions for selecting New, Save, Save As, Open
+=====================================================================
+						+ windows childed by dropdown, set not to pos/alpha
+							* needs manual wiping for 0 transparency
+
+						! text for Help has broken
+
 
 					! Save
 						! Flashes screen, "Saved!" message pops up
-
-					! Save As
-						! Save As box to type names in
-							! overwrite warnings
 					! Open
 						! Open menu pops up, w/ dropdown menu
 

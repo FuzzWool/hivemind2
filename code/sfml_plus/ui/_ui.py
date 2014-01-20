@@ -8,9 +8,11 @@ class _UI(Drawable, Rectangle):
 	# PUBLIC
 	# The parent controls the children's controls.
 
+	follow = True
 	children = []
 
 	def __init__(self):
+		self.follow = True
 		self.children = []
 		self.previous = Rectangle()
 
@@ -36,12 +38,14 @@ class _UI(Drawable, Rectangle):
 		x_move = self.x - self.old_pos[0]
 		y_move = self.y - self.old_pos[1]
 		for child in self.children:
-			child.x += x_move
-			child.y += y_move
+			if child.follow:
+				child.x += x_move
+				child.y += y_move
 		self.old_pos = self.position
 		self.old_size = self.size
 
 	alpha = 255
 	def _children_alpha(self):
 		for child in self.children:
-			child.alpha = self.alpha
+			if child.follow:
+				child.alpha = self.alpha

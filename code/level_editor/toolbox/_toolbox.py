@@ -147,33 +147,6 @@ class ToolBox(_UI, TweenRectangle):
 	###
 	# Menus
 
-	#_Menus
-
-	# old_action = "File"
-	# def _control_Menus(self): #controls
-	# 	#File actions (based on text)
-	# 	action = self.File.text
-	# 	if action != self.old_action:
-	# 		print action
-	# 		# if action == "New":
-	# 		# 	print 0
-	# 		# if action == "Save":
-	# 		# 	print 1
-	# 		# if action == "Save As":
-	# 		# 	print 2
-	# 		# if action == "Open":
-	# 		# 	print 3
-	# 	self.old_action = action
-	# 	self.File.text = "File"
-
-	# #
-
-	# def _hide_Menus(self): #toggle close
-	# 	for menu in self._Menus:
-	# 		menu.held = False
-	# 		menu.rise = menu.old_rise
-
-
 	class _Menus(_UI):
 	# * Contains the Windows to respond to Menu event handling. 
 
@@ -216,29 +189,64 @@ class ToolBox(_UI, TweenRectangle):
 
 			def controls(self, Key, Mouse, Camera):
 				Dropdown.controls(self, Key, Mouse, Camera)
+				self._remove_empty()
 				self._text_action()
+
+			def draw(self, target, states):
+				Dropdown.draw(self, target, states)
 
 			#################################
 			# PRIVATE
 
+			###
+			# Boxes
+
 			old_action = "File"
 			def _text_action(self):
 				action = self.text
-				#
 				if action != self.old_action:
-					print action
-				#
+					self._act(action)
 				self.old_action = action
 				self.text = "File"
+
+			def _act(self, action): #
+				#Close old children.
+				for child in self.children:
+					child.close()
+				#Open new ones.
+				if action == "Save As":
+					box = self._SaveAs()
+					box.follow = False
+					box.open()
+					self.children.append(box)
+
+			#
+
+			def _remove_empty(self):
+				#Remove any completely transparent boxes.
+				def removal(arg):
+					for l in arg:
+						if l.alpha != 0: yield l
+				self.children = list(removal(self.children))
+
+			###
 
 			class _New(Box):
 				pass
 
+			###
+
 			class _Save(Box):
 				pass
 
+			###
+
 			class _SaveAs(Box):
-				pass
+				def __init__(self):
+					Box.__init__(self)
+					self.center = SCREEN_WIDTH/2, SCREEN_HEIGHT/2
+
+			###
 
 			class _Open(Box):
 				pass
