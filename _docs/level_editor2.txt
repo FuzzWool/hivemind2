@@ -265,9 +265,9 @@ LEVEL EDITOR UI
 						~ hovered > in_use
 						+ improved "in_use" states for ToolBox
 						~ rewrote Menu (Menus > File > New, Save, Open...)
-=====================================================================
 						+ opening Menus puts the ToolBox "in_use"
-						! Automatically close upon Tabbing
+=====================================================================
+						+ Automatically close upon Tabbing
 						! functions for selecting New, Save, Save As, Open
 
 					! Save

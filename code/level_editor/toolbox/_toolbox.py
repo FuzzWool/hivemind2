@@ -59,6 +59,7 @@ class ToolBox(_UI, TweenRectangle):
 		if self.opened == True: self.tween.y = 0
 		if self.opened == False:
 			self.tween.y = -80
+			self.Menus.close()
 
 
 	#################################
@@ -192,6 +193,12 @@ class ToolBox(_UI, TweenRectangle):
 		def draw(self, target, states):
 			_UI.draw(self, target, states)
 
+		#
+
+		def close(self):
+			for child in self.children:
+				child.held = False
+				child.rise = child.old_rise
 
 		#################################
 		# PRIVATE
