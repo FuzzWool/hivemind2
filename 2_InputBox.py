@@ -1,20 +1,23 @@
 from code.sfml_plus import Window
 from code.sfml_plus import Key
 ################################################
-
 from code.sfml_plus.ui import Box
 
-box1 = Box()
-box1.open()
+class InputBox(Box):
+#Keyboard-typed text is added to this box.
+	w,h = 200,20
 
-box2 = Box()
-box2.follow = False
-box2.position = 100,100
-box2.follow = False
-box1.children.append(box2)
 
 ################################################
-Window = Window((1200,600), "Untitled")
+
+Window = Window((1200,600), "InputBox")
+box1 = Box()
+box1.position = 200,200
+box1.open()
+
+InputBox1 = InputBox()
+InputBox1.position = 5,5
+box1.children.append(InputBox1)
 
 while Window.is_open:
 	if Window.is_focused:

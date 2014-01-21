@@ -270,9 +270,10 @@ LEVEL EDITOR UI
 						+ windows childed by dropdown, set not to pos/alpha
 							* needs manual wiping for 0 transparency
 =====================================================================
-						~ fix for: text for Help has broken
-							_UI.follow is the cause
-							added follow to Text
+					
+					! Save As
+						! InputBox
+						Keyboard-typed text is added to the box.
 
 
 					! Save
