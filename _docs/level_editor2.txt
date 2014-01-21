@@ -269,13 +269,13 @@ LEVEL EDITOR UI
 						+ functions for selecting New, Save, Save As, Open
 						+ windows childed by dropdown, set not to pos/alpha
 							* needs manual wiping for 0 transparency
-=====================================================================
 					
 					! Save As
 						+ InputBox
 						Keyboard-typed text is added to the box.
 							+ typed text
 							+ blinking cursor
+=====================================================================
 
 					! Save
 						! Flashes screen, "Saved!" message pops up
