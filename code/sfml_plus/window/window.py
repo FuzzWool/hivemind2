@@ -61,6 +61,7 @@ class Window(Rectangle):
 		window = self.window
 
 		self.key_pressed = None
+		Key.pressed = None
 
 		#use the buttons
 		for event in window.events:
@@ -71,6 +72,9 @@ class Window(Rectangle):
 					
 					self.key_pressed \
 					= Key.dict_list[event.code].name
+					Key.pressed\
+					= Key.dict_list[event.code].name
+
 
 			#close the window
 			if type(event) is CloseEvent: window.close()

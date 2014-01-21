@@ -3,12 +3,14 @@ from _button import _Button
 
 class Key:
 
+	pressed = None
+
 	def __init__(self):
 		self.create_keys()
 
 	def reset(self): #Window
 		for d in self.__dict__:
-			if d != "dict_list":
+			if d != "dict_list" and d != "pressed":
 				self.__dict__[d].reset()
 
 	#

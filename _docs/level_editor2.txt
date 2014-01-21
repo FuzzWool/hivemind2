@@ -272,9 +272,10 @@ LEVEL EDITOR UI
 =====================================================================
 					
 					! Save As
-						! InputBox
+						+ InputBox
 						Keyboard-typed text is added to the box.
-
+							+ typed text
+							+ blinking cursor
 
 					! Save
 						! Flashes screen, "Saved!" message pops up
