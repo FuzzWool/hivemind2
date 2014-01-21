@@ -267,11 +267,12 @@ LEVEL EDITOR UI
 						~ rewrote Menu (Menus > File > New, Save, Open...)
 						+ opening Menus puts the ToolBox "in_use"
 						+ functions for selecting New, Save, Save As, Open
-=====================================================================
 						+ windows childed by dropdown, set not to pos/alpha
 							* needs manual wiping for 0 transparency
-
-						! text for Help has broken
+=====================================================================
+						~ fix for: text for Help has broken
+							_UI.follow is the cause
+							added follow to Text
 
 
 					! Save

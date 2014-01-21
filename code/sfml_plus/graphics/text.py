@@ -15,7 +15,7 @@ class Ref:
 class Font:
 # * Loads the texture.
 # * Load the boundary data.
-
+	
 	def __init__(self, name):
 		d = "assets/fonts/%s" % name
 		self._load_texture(d)
@@ -179,6 +179,7 @@ class Text(_Text, Drawable, Rectangle):
 
 	color = None
 	x,y,w,h = 0,0,0,0
+	follow = True #for UI
 
 	def __init__(self, Font):
 		self.Font = Font
