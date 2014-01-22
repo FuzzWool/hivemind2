@@ -276,6 +276,9 @@ LEVEL EDITOR UI
 							+ typed text
 							+ blinking cursor
 =====================================================================
+						! Disable ToolBox during it's use
+							~ _Tools are a seperate class
+						! (Overwriting warning)
 
 					! Save
 						! Flashes screen, "Saved!" message pops up

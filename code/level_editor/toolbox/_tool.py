@@ -20,6 +20,7 @@ class _Tool(Button):
 	w,h = 80,50
 
 	help_text = "I'm a work-in-progress tool!"
+
 	open_error = False
 	error_text = ""
 	

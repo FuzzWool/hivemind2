@@ -8,17 +8,21 @@ class _UI(Drawable, Rectangle):
 	# PUBLIC
 	# The parent controls the children's controls.
 
+	size_cap = True
 	follow = True
 	children = []
 
 	def __init__(self):
+		self.size_cap = True
 		self.follow = True
 		self.children = []
 		self.previous = Rectangle()
 
 	def controls(self, Key, Mouse, Camera):
 		for child in self.children:
-			if child.inside(self):
+			if child.inside(self) and self.size_cap:
+				child.controls(Key, Mouse, Camera)
+			if not self.size_cap:
 				child.controls(Key, Mouse, Camera)
 
 	def draw(self, target, states):
