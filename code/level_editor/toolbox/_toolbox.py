@@ -25,13 +25,19 @@ class ToolBox(_UI, TweenRectangle):
 
 	#
 
-	def controls(self, Key, Mouse, Camera):
-		_UI.controls(self, Key, Mouse, Camera)
+	def controls(self, Key, Mouse, Camera, WorldMap):
+		###_UI
+		children = self.children
+		for child in children:
+			if child.inside(self) and self.size_cap:
+				child.controls(Key, Mouse, Camera)
+				child.add_controls(WorldMap)
+			if not self.size_cap:
+				child.controls(Key, Mouse, Camera)
+				child.add_controls(WorldMap)
+		###
 		self._state_handling(Key, Mouse, Camera)
-
-	def add_controls(self, WorldMap):
 		self._add_controls(WorldMap)
-
 
 	#
 
@@ -89,11 +95,6 @@ class ToolBox(_UI, TweenRectangle):
 					self.states.in_use = True
 			except:
 				pass
-			try:
-				if widget.in_use:
-					self.states.in_use = True
-			except:
-				pass
 
 
 	###
@@ -111,9 +112,6 @@ class ToolBox(_UI, TweenRectangle):
 	def _create_Tools(self):
 		self._Tools = self._Tools()
 		self.children.append(self._Tools)
-
-	def _add_controls(self, WorldMap):
-		self._Tools.add_controls(WorldMap)
 
 	class _Tools(_UI):
 

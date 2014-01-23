@@ -275,9 +275,14 @@ LEVEL EDITOR UI
 						Keyboard-typed text is added to the box.
 							+ typed text
 							+ blinking cursor
-=====================================================================
+
+
 						! Disable ToolBox during it's use
 							~ _Tools are a seperate class
+=====================================================================
+							~ merge add_controls with controls
+							! disable Tool controls during Menu usage
+
 						! (Overwriting warning)
 
 					! Save

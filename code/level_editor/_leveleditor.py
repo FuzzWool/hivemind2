@@ -37,25 +37,20 @@ class LevelEditor:
 			elif Camera.smooth.zoom == 2: Camera.smooth.zoom = 1
 
 
-	def controls(self, Key, Mouse, Camera):
+	def controls(self, Key, Mouse, Camera, WorldMap):
 		#toolbox
-		self.ToolBox.controls(Key, Mouse, Camera)
+		self.ToolBox.controls(Key, Mouse, Camera, WorldMap)
 		if Key.TAB.pressed(): self.ToolBox.toggle()
 
-		self.Key, self.Mouse, self.Camera = Key, Mouse, Camera
-
-	def add_controls(self, WorldMap):
-		self.ToolBox.add_controls(WorldMap)
-
 		# Toggle grid.
-		if self.Key.Q.pressed():
+		if Key.Q.pressed():
 			WorldMap.enable_grid = not WorldMap.enable_grid
 
 		# Saving/Loading
-		if self.Key.L_CTRL.held():
-			if self.Key.S.pressed():
+		if Key.L_CTRL.held():
+			if Key.S.pressed():
 				self._save(WorldMap)
-			if self.Key.O.pressed():
+			if Key.O.pressed():
 				self._load(WorldMap)
 
 
