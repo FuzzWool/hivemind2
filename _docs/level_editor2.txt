@@ -279,8 +279,8 @@ LEVEL EDITOR UI
 
 						! Disable ToolBox during it's use
 							~ _Tools are a seperate class
-=====================================================================
 							~ merge add_controls with controls
+=====================================================================
 							! disable Tool controls during Menu usage
 
 						! (Overwriting warning)

@@ -37,7 +37,6 @@ class ToolBox(_UI, TweenRectangle):
 				child.add_controls(WorldMap)
 		###
 		self._state_handling(Key, Mouse, Camera)
-		self._add_controls(WorldMap)
 
 	#
 
@@ -209,6 +208,8 @@ class ToolBox(_UI, TweenRectangle):
 
 		def controls(self, Key, Mouse, Camera):
 			_UI.controls(self, Key, Mouse, Camera)
+
+		def add_controls(self, WorldMap): pass
 
 		#
 
