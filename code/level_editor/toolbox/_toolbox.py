@@ -26,16 +26,7 @@ class ToolBox(_UI, TweenRectangle):
 	#
 
 	def controls(self, Key, Mouse, Camera, WorldMap):
-		###_UI
-		children = self.children
-		for child in children:
-			if child.inside(self) and self.size_cap:
-				child.controls(Key, Mouse, Camera)
-				child.add_controls(WorldMap)
-			if not self.size_cap:
-				child.controls(Key, Mouse, Camera)
-				child.add_controls(WorldMap)
-		###
+		self._state_controls(Key, Mouse, Camera, WorldMap)
 		self._state_handling(Key, Mouse, Camera)
 
 	#
@@ -76,12 +67,16 @@ class ToolBox(_UI, TweenRectangle):
 
 	class states:
 		in_use = False
+		menu_use = False
 
 	def _init_states(self):
 		self.states = self.states()
 		for tool in self._Tools.children:
 			tool.parent_states = self.states
+		for menu in self._Menus.children:
+			menu.parent_states = self.states
 
+	#in_use
 	def _state_handling(self, Key, Mouse, Camera):
 		#Check to see if any widgets are in use.
 		self.states.in_use = False
@@ -94,6 +89,23 @@ class ToolBox(_UI, TweenRectangle):
 					self.states.in_use = True
 			except:
 				pass
+
+	#menu_use
+	def _state_controls(self, Key, Mouse, Camera, WorldMap):
+		#Don't control the Tools if the Menu's being used.
+
+		if self.states.menu_use == False:
+			children = self.children
+		else:
+			children = [self.Bar, self._Menus]
+
+		for child in children:
+			if child.inside(self) and self.size_cap:
+				child.controls(Key, Mouse, Camera)
+				child.add_controls(WorldMap)
+			if not self.size_cap:
+				child.controls(Key, Mouse, Camera)
+				child.add_controls(WorldMap)
 
 
 	###
@@ -209,6 +221,7 @@ class ToolBox(_UI, TweenRectangle):
 		def controls(self, Key, Mouse, Camera):
 			_UI.controls(self, Key, Mouse, Camera)
 
+
 		def add_controls(self, WorldMap): pass
 
 		#
@@ -224,6 +237,7 @@ class ToolBox(_UI, TweenRectangle):
 		def _create_Menus(self):
 			self.children.append(self._File())
 
+
 		class _File(Dropdown):
 		# File-specific Windows.
 
@@ -231,6 +245,7 @@ class ToolBox(_UI, TweenRectangle):
 			# PUBLIC
 
 			in_use = False
+			# parent_states.menu_use = False
 
 			def __init__(self):
 				Dropdown.__init__(self, ["New","Save","Save As","Open"])
@@ -242,6 +257,7 @@ class ToolBox(_UI, TweenRectangle):
 				Dropdown.controls(self, Key, Mouse, Camera)
 				self._remove_empty()
 				self._text_action()
+				self._parent_states()
 
 			def draw(self, target, states):
 				Dropdown.draw(self, target, states)
@@ -279,6 +295,12 @@ class ToolBox(_UI, TweenRectangle):
 					for l in arg:
 						if l.alpha != 0: yield l
 				self.children = list(removal(self.children))
+
+			def _parent_states(self):
+				if len(self.children) >= 1:
+					self.parent_states.menu_use = True
+				else:
+					self.parent_states.menu_use = False
 
 			###
 

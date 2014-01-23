@@ -281,7 +281,14 @@ LEVEL EDITOR UI
 							~ _Tools are a seperate class
 							~ merge add_controls with controls
 =====================================================================
-							! disable Tool controls during Menu usage
+							! Disable all other controls during Menu use
+							(Tools, General)
+								! clean
+								! disabled Tools
+									+ logic
+									! graphics
+								! General
+
 
 						! (Overwriting warning)
 
